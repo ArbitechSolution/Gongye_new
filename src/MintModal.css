@@ -1,0 +1,104 @@
+.mintContain {
+  position: absolute;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.minting {
+  background-image: url("./media/background.png");
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #0f131b;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+}
+.lightImg {
+  position: absolute;
+}
+
+.mintRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.mintCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.congrtsBar {
+  position: relative;
+}
+.textCongrts {
+  position: absolute;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 100%;
+  color: #000000;
+}
+.imgCongrts {
+  border: 2px solid #3bc2cb;
+}
+.heading {
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 34px;
+  color: #ffffff;
+}
+.btnLater,
+.btnStaking {
+  width: 200px;
+  height: 40px;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+.btnStaking {
+  background: #28aa73;
+  border: 1px solid #28aa73;
+}
+.btnLater {
+  background: #3bc2cb;
+  border: 1px solid #3bc2cb;
+}
+.btnConnectInPresale {
+  width: 200px;
+  height: 40px;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+  background: #28aa73;
+  border: 1px solid #28aa73;
+  text-align: center;
+}
+.imgArea {
+  top: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+}
+.imgArea-text {
+  z-index: 999;
+  position: absolute;
+  color: #000;
+  font-weight: 900;
+  font-size: 28px;
+}
+.modal-body {
+  padding: 0px !important;
+  border: 1px solid #28aa73 !important;
+  border-radius: 8px !important;
+}
+.mintImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
