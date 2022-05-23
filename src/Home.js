@@ -138,9 +138,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
 
   console.log("acc", acc);
   const onConnectAccount = () => {
-    isLoadingConnectWallet(true);
     dispatch(connectionAction());
-    isLoadingConnectWallet(false);
   };
 
   const getInitialMintPrice = async () => {
