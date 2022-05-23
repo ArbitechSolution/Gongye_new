@@ -266,5 +266,9 @@
   "nftcard.transfer": "엔피트 카드 이체",
   "nftcard.heading": "#천 크레이지 궁예",
   "nftcard.confirm": "확인하다",
-  "nftCard.to": "에게"
+  "nftCard.to": "에게",
+
+  "transaction.Successfull": "거래 성공",
+  "insufficient.Balance": "잔액 불충분!",
+  "minting.Failed": "주조 실패"
 }

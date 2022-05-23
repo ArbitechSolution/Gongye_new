@@ -349,16 +349,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                   </div>
                   <div>
                     <div className="row  mintRow">
-                      {/* <div className="col-12 mintCol">
-                        <img className="congrtsBar" src={image1} />
-                        <span className="textCongrts">
-                          {t("modal.congratulation")}
-                        </span>
-                      </div> */}
-                      {/* {props?.mintArray.length == 1 ? ( */}
-                      {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
-                      {/* {mintArray.map((index) => {
-                        return ( */}
                       <div>
                         <div className="col-12 mintCol mt-2">
                           <img
@@ -387,7 +377,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           </button>
                         </div>
                       </div>
-                      {/* ); })} */}
                     </div>
                   </div>
                 </div>

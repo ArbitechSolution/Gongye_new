@@ -266,5 +266,9 @@
   "nftcard.transfer": "NFT Card Transfer",
   "nftcard.heading": "#1000 Crazy Goongye",
   "nftcard.confirm": "Confirm",
-  "nftCard.to": "To"
+  "nftCard.to": "To",
+
+  "transaction.Successfull": "Transaction Successfull",
+  "insufficient.Balance": "Insufficient Balance!",
+  "minting.Failed": "Minting Failed"
 }

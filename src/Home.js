@@ -195,14 +195,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const mintAndStake = async () => {
     // let myAccountAddress = await loadWeb3();
     console.log("myAccountAddress", acc);
-    if (acc == t("NoWallet")) {
+    if (acc == "No Wallet") {
       console.log(t("NoWallet"));
-      toast.error(acc);
-    } else if (acc == t("WrongNetwork")) {
+      toast.error(t("NoWallet"));
+    } else if (acc == "Wrong Network") {
       console.log(t("WrongNetwork"));
-      toast.error(acc);
-    } else if (acc == t("Connect")) {
-      toast.error(acc);
+      toast.error(t("WrongNetwork"));
+    } else if (acc == "Connect Wallet") {
+      toast.error(t("Connect"));
     } else {
       try {
         const { klaytn } = window;
@@ -227,17 +227,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             value: totalPrice,
             gas: "5000000",
           });
-          toast.success("Transaction Successfull");
+          toast.success(t("transaction.Successfull"));
           dispalyImage();
         } else {
-          toast.error("insufficient Balance!");
+          toast.error(t("insufficient.Balance!"));
         }
         // } else {
         //   toast.error("Minting Limit Reached (6)");
         // }
       } catch (e) {
         console.log(" Error while minting", e);
-        toast.error("Minting Failed");
+        toast.error(t("minting.Failed"));
       }
     }
   };
@@ -300,7 +300,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     // dispalyImage();
   }, [acc]);
   const [show, setShow] = useState(true);
-  console.log("sssss", mintArray);
+  console.log("Collection Array", mintArray);
   return (
     <div className="home" id="home">
       {/* <div className="divMintMdal">{show && <MintModal />}</div> */}
