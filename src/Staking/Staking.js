@@ -10,17 +10,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { googyeContractAddress, goongyeContractAbi } from "../Utils/Goongye";
 import { toast } from "react-toastify";
 import "./Staking.css";
+import "../MintModal.css";
 import Caver from "caver-js";
 import { connectionAction } from "../Redux/connection/actions";
+import image1 from "../media/Vector3.png";
+import light from "../media/light-from-top-background.png";
+import Modal from "react-bootstrap/Modal";
 export default function Staking({ changeMain, changeStake, changePresale }) {
   let acc = useSelector((state) => state.connect?.connection);
   const caver = new Caver(window.klaytn);
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
+  const [collectionModalShow, setCollectionModalShow] = useState(false);
   let [mintArray, setMintArray] = useState([]);
-
+  const [indexForTransfer, setIndexForTransfer] = useState(null);
   const onConnectAccount = () => {
     dispatch(connectionAction());
+    // setCollectionModalShow(true);
+  };
+  const handleTransfer = (index, item) => {
+    console.log("index", index);
+    console.log("item", item);
+    setCollectionModalShow(true);
+    setIndexForTransfer(item);
   };
   const dispalyImage = async () => {
     console.log("account in displying images", acc);
@@ -72,15 +84,15 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           <div className="row ">
             <div className="col-12 d-flex justify-content-end">
               <button
-                className="btnConnectInPresale  mt-2 mb-1"
+                className="btnConnectInPresale  mt-3 mb-1"
                 onClick={onConnectAccount}
               >
                 {acc === "No Wallet"
-                  ? "Connect Wallet"
+                  ? t("NoWallet")
                   : acc === "Connect Wallet"
-                  ? "Connect Wallet"
+                  ? t("Connect")
                   : acc === "Wrong Network"
-                  ? acc
+                  ? t("WrongNetwork")
                   : acc.substring(0, 4) + "..." + acc.substring(acc.length - 4)}
               </button>
             </div>
@@ -105,7 +117,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           <div className="row ">
             {mintArray.map((item, index) => {
               return (
-                <div className="col col-lg-3  col-md-6 col-sm-12 pt-3">
+                <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
                   <div className="card">
                     <img
                       className="card-img-top"
@@ -134,7 +146,10 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         <button className="btn-changeBio">
                           {t("staking.para11")}
                         </button>
-                        <button className="btn-transfer">
+                        <button
+                          className="btn-transfer"
+                          onClick={() => handleTransfer(index, item)}
+                        >
                           {t("staking.transefer")}
                         </button>
                       </div>
@@ -288,6 +303,101 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           </div> */}
         </div>
       </div>
+      {collectionModalShow ? (
+        <Modal
+          show={collectionModalShow}
+          onHide={() => setCollectionModalShow(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="mintModal"
+        >
+          <Modal.Body
+            className="model-image"
+            style={{ border: "2px solid #FF5043" }}
+          >
+            <div className="minting d-flex justify-content-center" id="mint">
+              <img className="lightImg " src={light} alt="" />
+              <div className="imgArea imageAreaStaking mt-lg-0 mt-md-0 mt-sm-2">
+                <img
+                  className="presalesTop-image stakingImage"
+                  src={containerImage}
+                ></img>
+                <span className="imgArea-text stakingText">
+                  {t("nftcard.transfer")}
+                </span>
+              </div>
+              <div className=" container-presales-outside m-5 m-md-3 m-sm-2 ps-0 m-md-1 m-sm-1">
+                <div className="container-presales m-1 p-lg-5 p-md-3">
+                  <div className="row ">
+                    <div className="connectBtnInPresale d-flex justify-content-end align-items-center ">
+                      <button
+                        className="btnConnectInPresale  mt-2 mb-2 "
+                        onClick={onConnectAccount}
+                      >
+                        {acc === "No Wallet"
+                          ? t("NoWallet")
+                          : acc === "Connect Wallet"
+                          ? t("Connect")
+                          : acc === "Wrong Network"
+                          ? t("WrongNetwork")
+                          : acc.substring(0, 4) +
+                            "..." +
+                            acc.substring(acc.length - 4)}
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="row  mintRow">
+                      {/* <div className="col-12 mintCol">
+                        <img className="congrtsBar" src={image1} />
+                        <span className="textCongrts">
+                          {t("modal.congratulation")}
+                        </span>
+                      </div> */}
+                      {/* {props?.mintArray.length == 1 ? ( */}
+                      {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
+                      {/* {mintArray.map((index) => {
+                        return ( */}
+                      <div>
+                        <div className="col-12 mintCol mt-2">
+                          <img
+                            className=" pt-4 "
+                            width="240px"
+                            src={`${indexForTransfer.imageUrl}`}
+                          />
+                        </div>
+                        <div className="col-12 mintCol mt-0">
+                          <span className="heading">
+                            {t("nftcard.heading")}
+                          </span>
+                        </div>
+                        <div className="col-12 mintcol mt-2">
+                          <h6 className="text-white">{t("nftCard.to")}</h6>
+                        </div>
+                        <div className="col-12 mintcol mt-1">
+                          <input type="text" className="inputBox"></input>
+                        </div>
+                        <div className="col-12 mintCol mt-5 mb-5">
+                          <button
+                            className="btnStaking mt-2 me-2"
+                            onClick={() => setCollectionModalShow(false)}
+                          >
+                            {t("nftcard.confirm")}
+                          </button>
+                        </div>
+                      </div>
+                      {/* ); })} */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

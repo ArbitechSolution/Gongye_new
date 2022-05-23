@@ -42,7 +42,6 @@ import { toast } from "react-toastify";
 import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import MintModal from "./MintModel";
 import useAudio from "./useAudio";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
@@ -131,10 +130,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   let acc = useSelector((state) => state.connect?.connection);
   let [noMints, setNomints] = useState(1);
   let [ttlKlay, setTtlKlay] = useState(0);
-  const [sound, setSound] = useState(true);
   let [mintArray, setMintArray] = useState([]);
   let [mintCollectionArray, setMintCollectionArray] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
+  // const [modalShow, setModalShow] = useState(false);
   const [collectionModalShow, setCollectionModalShow] = useState(false);
 
   console.log("acc", acc);
@@ -197,13 +195,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const mintAndStake = async () => {
     // let myAccountAddress = await loadWeb3();
     console.log("myAccountAddress", acc);
-    if (acc == "No Wallet") {
-      console.log("No wallet");
+    if (acc == t("NoWallet")) {
+      console.log(t("NoWallet"));
       toast.error(acc);
-    } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
+    } else if (acc == t("WrongNetwork")) {
+      console.log(t("WrongNetwork"));
       toast.error(acc);
-    } else if (acc == "Connect Wallet") {
+    } else if (acc == t("Connect")) {
       toast.error(acc);
     } else {
       try {
@@ -323,23 +321,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             >
               KOR
             </span>
-            {/* <a className="Eng">
-              <span
-                className=" green"
-                onClick={() => handleChangeLanguage("en")}
-              >
-                ENG
-              </span>
-            </a>
-            /
-            <a className="Kor pe-4">
-              <span
-                className="languageChnage"
-                onClick={() => handleChangeLanguage("ko")}
-              >
-                KOR
-              </span>
-            </a> */}
             <a
               href="https://twitter.com/crazyapegoongye"
               target="_blank"
@@ -393,7 +374,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             <span class="navbar-toggler-icon"></span>
           </button> */}
 
-          <nav id="navbarID" className="navbar" data-aos="zoom-in">
+          <nav id="navbarID" className="navbar nav" data-aos="zoom-in">
             <ul>
               <li>
                 <a
@@ -681,7 +662,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           </div>
           <div className="row pt-4 text-light desc">
             <p data-aos="fade-up" data-aos-delay="100">
-              <span className="green">{t("tokenomics.manguni")}</span>{" "}
+              <span className="green">{t("tokenomics.manguni")}</span>
               {t("tokenomics.para1")}
               <span className="blue">{t("tokenomics.card1balance")}</span>
               <span className="green">{t("tokenomics.manguni")}</span>
@@ -692,13 +673,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {t("tokenomics.cost")}
               <span className="blue">{t("tokenomics.1000")}</span>
               <span className="green">{"tokenomics.KLAY"}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>{" "}
+              <span className="blue">{t("tokenomics.tokens")}</span>
               {t("tokenomics.para2")}
               <span className="blue">{t("tokenomics.1000")}</span>
               <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span> p{" "}
+              <span className="blue">{t("tokenomics.tokens")}</span> p
               {t("tokenomics.para2h2")}
-              <span className="blue">{t("tokenomics.card1balance")}</span>{" "}
+              <span className="blue">{t("tokenomics.card1balance")}</span>
               {t("tokenomics.king")}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
@@ -710,10 +691,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {t("tokenomics.para4")}
             </p>
             <p data-aos="fade-up" data-aos-delay="500">
-              <span className="green">{t("tokenomics.manguni2")}</span>{" "}
+              <span className="green">{t("tokenomics.manguni2")}</span>
               {t("tokenomics.para5")}
               <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>{" "}
+              <span className="blue">{t("tokenomics.tokens")}</span>
               {t("tokenomics.para5h2")}
             </p>
           </div>
@@ -745,7 +726,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             <p data-aos="fade-up" data-aos-delay="300">
               {t("staking.parah3")}
               <span className="green ps-1 pe-1"> {t("staking.MAGUNI")}</span>
-              <span className="blue pe-1">{t("staking.tokens")}</span>{" "}
+              <span className="blue pe-1">{t("staking.tokens")}</span>
               {t("staking.parah4")}
               <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
               <span className="green pe-1"> {t("staking.MAGUNI")}</span>
@@ -928,11 +909,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       onClick={onConnectAccount}
                     >
                       {acc === "No Wallet"
-                        ? "Connect"
+                        ? t("NoWallet")
                         : acc === "Connect Wallet"
-                        ? "Connect"
+                        ? t("Connect")
                         : acc === "Wrong Network"
-                        ? acc
+                        ? t("WrongNetwork")
                         : acc.substring(0, 4) +
                           "..." +
                           acc.substring(acc.length - 4)}
@@ -989,7 +970,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah2")}{" "}
+                  {t("roadmap.parah2")}
                   <span className="blue">{t("roadmap.presale")}</span>
                 </div>
               </div>
@@ -1006,7 +987,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{t("roadmap.prize")}</span>{" "}
+                  <span className="blue">{t("roadmap.prize")}</span>
                   {t("roadmap.parah3")}
                 </div>
               </div>
@@ -1023,7 +1004,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{"roadmap.Start"}</span>{" "}
+                  <span className="blue">{"roadmap.Start"}</span>
                   {t("roadmap.parah4")}
                 </div>
               </div>
@@ -1057,7 +1038,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{"roadmap.Tokenomics"}</span>{" "}
+                  <span className="blue">{"roadmap.Tokenomics"}</span>
                   {t("roadmap.parah6")}
                 </div>
               </div>
@@ -1092,7 +1073,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Purchase")}{" "}
+                  {t("roadmap.Purchase")}
                   <span className="blue">{t("roadmap.parah9")}</span>
                   {t("roadmap.parah10")}
                 </div>
@@ -1128,7 +1109,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah13")}
-                  <span className="blue">{t("roadmap.GoongyeApe")}</span>{" "}
+                  <span className="blue">{t("roadmap.GoongyeApe")}</span>
                   {t("roadmap.parah14")}
                 </div>
               </div>
@@ -1145,8 +1126,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Add")}{" "}
-                  <span className="blue">{t("roadmap.governance")}</span>{" "}
+                  {t("roadmap.Add")}
+                  <span className="blue">{t("roadmap.governance")}</span>
                   {t("roadmap.parah15")}
                 </div>
               </div>
@@ -1181,7 +1162,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Open")}{" "}
+                  {t("roadmap.Open")}
                   <span className="blue">{t("roadmap.parah18")}</span>
                 </div>
               </div>
@@ -1199,7 +1180,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Issue")}
-                  <span className="blue">{t("roadmap.NFT")}</span>{" "}
+                  <span className="blue">{t("roadmap.NFT")}</span>
                   {t("roadmap.parah19")}
                 </div>
               </div>
@@ -1217,7 +1198,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah20")}
-                  <span className="blue">{t("roadmap.parah21")}</span>{" "}
+                  <span className="blue">{t("roadmap.parah21")}</span>
                   {t("roadmap.parah22")}
                 </div>
               </div>
@@ -1314,7 +1295,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             data-aos="fade-up"
             data-aos-delay="100"
           >
-            <h2 className="text-light">FAQ</h2>
+            <h2 className="text-light">{t("FAQ.1")}</h2>
           </div>
           <div className="row pt-4">
             <div className="accordion accordion-flush text-light" id="faqs">
@@ -1332,8 +1313,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseOne"
                   >
-                    <h3 className="pe-3">Q.</h3>When will the minting site be
-                    announced?
+                    <h3 className="pe-3">{t("faq.Q")}</h3>
+                    {t("faq.parah1")}
                   </button>
                 </span>
                 <div
@@ -1343,8 +1324,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>It will be released on the day of minting.</p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p> {t("faq.parah2")}</p>
                   </div>
                 </div>
               </div>
@@ -1362,8 +1343,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTwo"
                   >
-                    <h3 className="pe-3">Q.</h3>What is the total issuance and
-                    minting quantity?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah3")}
                   </button>
                 </span>
                 <div
@@ -1373,11 +1353,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      The total issuance is 10,000 units, and 9,800 units will
-                      be minted excluding 200 units of the team.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah4")}</p>
                   </div>
                 </div>
               </div>
@@ -1395,8 +1372,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseThree"
                   >
-                    <h3 className="pe-3">Q.</h3> What is the minting price, and
-                    how many mints are available per transaction?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah5")}
                   </button>
                 </span>
                 <div
@@ -1406,13 +1382,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
                     <p>
-                      1st Minting: 110KLAY (3 per transaction)
+                      {t("faq.parah6.1")}
                       <br />
-                      2nd minting: 120KLAY (3 per transaction)
+                      {t("faq.parah6.2")}
                       <br />
-                      3rd minting: 150 KLAY (3 per transaction)
+                      {t("faq.parah6.3")}
                     </p>
                   </div>
                 </div>
@@ -1431,7 +1407,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseFour"
                   >
-                    <h3 className="pe-3">Q.</h3>How can we do minting?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah7")}
                   </button>
                 </span>
                 <div
@@ -1441,11 +1417,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      It supports Kaikas on its own on its website so that you
-                      can mint it.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah8")}</p>
                   </div>
                 </div>
               </div>
@@ -1463,8 +1436,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseFive"
                   >
-                    <h3 className="pe-3">Q.</h3>Do you have NFT secondary
-                    royalty?
+                    <h3 className="pe-3">{t("faq.Q")}</h3>
+                    {t("faq.parah9")}
                   </button>
                 </span>
                 <div
@@ -1474,13 +1447,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      The secondary royalty has been set at 5%. It will be
-                      actively invested to expand the ecosystem and increase the
-                      value of the $MAGUNI token, not just for the team's
-                      benefit.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah10")}</p>
                   </div>
                 </div>
               </div>
@@ -1498,7 +1466,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseSix"
                   >
-                    <h3 className="pe-3">Q.</h3>What are the Crazy Ape Goongye?
+                    <h3 className="pe-3">{t("faq.Q")}</h3>
+                    {t("faq.parah11")}
                   </button>
                 </span>
                 <div
@@ -1508,13 +1477,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
                     <p>
-                      Crazy Ape Goongye is a collection of 10,000 unique NFTs on
-                      the Klaytn Blockchain.
+                      {t("faq.parah12.1")}
+
                       <br />
-                      Each one is individually insane and has their own strange
-                      and weird set of traits.
+                      {t("faq.parah12.2")}
                     </p>
                   </div>
                 </div>
@@ -1533,7 +1501,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseSeven"
                   >
-                    <h3 className="pe-3">Q.</h3>How many NFT’s will be minted?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah13")}
                   </button>
                 </span>
                 <div
@@ -1543,15 +1511,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
                     <p>
-                      There will only be 10,000 Crazy Ape minted in total, with
-                      200 for promotional and management purposes.
+                      {t("faq.parah14.1")}
+
                       <br />
-                      For King Goongye, there will only be 2,000 minted.
+                      {t("faq.parah14.2")}
+
                       <br />
-                      You can only mint an King Goongye by evolving your Crazy
-                      Goongye for 1,000 KLAY tokens
+                      {t("faq.parah14.3")}
                     </p>
                   </div>
                 </div>
@@ -1570,7 +1538,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseEight"
                   >
-                    <h3 className="pe-3">Q.</h3>Is it hosted on IPFS?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah15")}
                   </button>
                 </span>
                 <div
@@ -1580,16 +1548,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      Yes of course, we haven't completely lost our minds. Both
-                      the image & metadata will be stored on IPFS. A major
-                      concern for NFTs is the integrity of the asset. this
-                      includes both the asset itself and any data associated
-                      with it. IPFS protects the integrity of NFT data by using
-                      CIDs to validate that nothing has changed since the link
-                      was created.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah16")}</p>
                   </div>
                 </div>
               </div>
@@ -1607,8 +1567,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseNine"
                   >
-                    <h3 className="pe-3">Q.</h3>Is there a whitelist and
-                    pre-sale for the Crazy Ape Goongye?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah17")}
                   </button>
                 </span>
                 <div
@@ -1618,11 +1577,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      Join our Discord and follow us on Twitter for whitelist
-                      info.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah18")}</p>
                   </div>
                 </div>
               </div>
@@ -1640,8 +1596,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTen"
                   >
-                    <h3 className="pe-3">Q.</h3>Will there be other characters
-                    in the future?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah19")}
                   </button>
                 </span>
                 <div
@@ -1651,13 +1606,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
                     <p>
-                      Yes holders of a Crazy Ape Goongye will be able to mint an
-                      King Goongye, limited to 2,000.
+                      {t("faq.parah20.1")}
+
                       <br />
-                      We will evaluate additional characters and companions with
-                      input from the community for future drops.
+                      {t("faq.parah20.1")}
                     </p>
                   </div>
                 </div>
@@ -1676,8 +1630,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseEleven"
                   >
-                    <h3 className="pe-3">Q.</h3>Are there any plans to develop
-                    Crazy King Goongye Games?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah21")}
                   </button>
                 </span>
                 <div
@@ -1687,15 +1640,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
                     <p>
-                      Yes, to provide additional utility to $MAGUNI token
-                      holders we plan on launching a series of mini games for
-                      rewards.
+                      {t("faq.parah22.1")}
+
                       <br />
-                      However we have no plans to launch a huge MetaVerse game,
-                      as the brains of the Crazy Ape Goongye are almost
-                      impossible to analyze.
+                      {t("faq.parah22.2")}
                     </p>
                   </div>
                 </div>
@@ -1714,8 +1664,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTwelve"
                   >
-                    <h3 className="pe-3">Q.</h3>Why are the team members not
-                    public?
+                    <h3 className="pe-3">{t("faq.Q")}</h3> {t("faq.parah23")}
                   </button>
                 </span>
                 <div
@@ -1725,12 +1674,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   data-bs-parent="#faqs"
                 >
                   <div className="accordion-body d-flex flex-row align-items-baseline">
-                    <h3 className="pe-3">A.</h3>
-                    <p>
-                      We value our privacy as do many in the crypto space
-                      however we will share all the smart contracts addresses
-                      before the sale of any NFTs.
-                    </p>
+                    <h3 className="pe-3">{t("faq.A")}</h3>
+                    <p>{t("faq.parah24")}</p>
                   </div>
                 </div>
               </div>
@@ -1755,7 +1700,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             <div className="col-md-6 py-3 py-md-0 text-center">
               <p className="m-0">
                 <a href="mailto:maguni@crazyapegongyeclub.com">
-                  {t("footer.1")}{" "}
+                  {t("footer.1")}
                 </a>
               </p>
               <p className="m-0">{t("footer.2")}</p>
@@ -1825,7 +1770,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <img className="lightImg" src={light} alt="" />
               <div className="imgArea mt-lg-0 mt-md-0 mt-sm-2">
                 <img className="presalesTop-image" src={containerImage}></img>
-                <span className="imgArea-text">Mint</span>
+                <span className="imgArea-text">{t("mint.1")}</span>
               </div>
               <div className=" container-presales-outside m-5 m-md-3 m-sm-2 ps-0 m-md-1 m-sm-1">
                 <div className="container-presales m-1 p-lg-5 p-md-3">
@@ -1836,11 +1781,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                         onClick={onConnectAccount}
                       >
                         {acc === "No Wallet"
-                          ? "Connect"
+                          ? t("NoWallet")
                           : acc === "Connect Wallet"
-                          ? "Connect"
+                          ? t("Connect")
                           : acc === "Wrong Network"
-                          ? acc
+                          ? t("WrongNetwork")
                           : acc.substring(0, 4) +
                             "..." +
                             acc.substring(acc.length - 4)}
@@ -1851,12 +1796,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     <div className="row  mintRow">
                       <div className="col-12 mintCol">
                         <img className="congrtsBar" src={image1} />
-                        <span className="textCongrts">Congratulations</span>
+                        <span className="textCongrts">
+                          {t("modal.congratulation")}
+                        </span>
                       </div>
                       <div className="col-12 mintCol mt-4">
-                        <span className="heading">
-                          You got a Crazy Goongye card now !
-                        </span>
+                        <span className="heading">{t("modal.heading")}</span>
                       </div>
                       {/* {props?.mintArray.length == 1 ? ( */}
                       {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
@@ -1875,53 +1820,18 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                                 className="btnStaking mt-2 me-2"
                                 onClick={() => setCollectionModalShow(false)}
                               >
-                                Staking
+                                {t("modal.staking")}
                               </button>
                               <button
                                 className="btnLater mt-2"
                                 onClick={() => setCollectionModalShow(false)}
                               >
-                                Do it Later
+                                {t("modal.later")}
                               </button>
                             </div>
                           </div>
                         );
                       })}
-                      {/* </div> */}
-                      {/* ) : (
-                        <div className="row d-flex flex-row justify-content-center justify-content-evenly mt-4 mb-3">
-                          {props?.mintArray.map((item, index) => {
-                            return (
-                              <div>
-                                <div
-                                  className="col-lg-4 col-md-4 col-sm-12 mintCol mt-4"
-                                  key={index}
-                                >
-                                  <img
-                                    className=" pt-4 pb-3"
-                                    width="240px"
-                                    src={`${item.imageUrl}`}
-                                  />
-                                </div>
-                                <div className="col-12 mintCol mt-5 mb-5">
-                                  <button
-                                    className="btnStaking mt-2 me-2"
-                                    onClick={() => setMintModalShow(false)}
-                                  >
-                                    Staking
-                                  </button>
-                                  <button
-                                    className="btnLater mt-2"
-                                    onClick={() => setMintModalShow(false)}
-                                  >
-                                    Do it Later
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div> 
-                      )}*/}
                     </div>
                   </div>
                 </div>

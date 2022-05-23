@@ -6,8 +6,12 @@ export const connectionAction = () => {
     let myAcc;
     if (acc === "No Wallet") {
       myAcc = "No Wallet";
+    } else if (acc == "지갑 없음") {
+      myAcc = "지갑 없음";
     } else if (acc === "Wrong Network") {
       myAcc = "Wrong Network";
+    } else if (acc === "잘못된 네트워크") {
+      myAcc = "잘못된 네트워크";
     } else {
       myAcc = acc;
     }
