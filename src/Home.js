@@ -46,6 +46,7 @@ import useAudio from "./useAudio";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
   const [playing, togglePlaying] = useAudio();
+  const [loading, isLoading] = useState(false);
   const { t, i18n } = useTranslation();
 
   function handleChangeLanguage(lang) {
@@ -137,7 +138,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
 
   console.log("acc", acc);
   const onConnectAccount = () => {
+    isLoadingConnectWallet(true);
     dispatch(connectionAction());
+    isLoadingConnectWallet(false);
   };
 
   const getInitialMintPrice = async () => {
@@ -195,6 +198,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const mintAndStake = async () => {
     // let myAccountAddress = await loadWeb3();
     console.log("myAccountAddress", acc);
+    isLoading(true);
     if (acc == "No Wallet") {
       console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
@@ -227,6 +231,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             value: totalPrice,
             gas: "5000000",
           });
+          isLoading(false);
           toast.success(t("transaction.Successfull"));
           dispalyImage();
         } else {
@@ -238,6 +243,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       } catch (e) {
         console.log(" Error while minting", e);
         toast.error(t("minting.Failed"));
+        isLoading(false);
       }
     }
   };
@@ -923,7 +929,18 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       className="form-control btn-mint mb-3"
                       onClick={() => mintAndStake()}
                     >
-                      {t("mint.Mint")}
+                      {loading ? (
+                        <>
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="laoding ms-1">Loading...</span>
+                        </>
+                      ) : (
+                        t("mint.Mint")
+                      )}
                     </a>
                   </div>
                 </div>

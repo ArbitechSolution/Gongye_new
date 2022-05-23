@@ -158,34 +158,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                 </div>
               );
             })}
-
-            {/* <div className="col col-lg-3  col-md-6 col-sm-12 pt-3">
-              <div className="card">
-                <img
-                  className="card-img-top"
-                  src={"image2"}
-                  alt="Card image cap"
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Crazy Ape Goongye #101</h5>
-                  <h6 className="card-sub-title">Daily Reward:</h6>
-                  <p className="card-text">
-                    The Crazy Ape Goongye Club is an ecosystem on the blockchain
-                    populated by theruthless tyrant. a limited series of 10,000
-                    NFT .. The $MAGUNI token is the utility that powers the CAGC
-                    ecosystem.
-                  </p>
-                  <a href="#" className="card-Link">
-                    https://crazyapegoongyeclub.com/
-                  </a>
-                  <div className="card-buttons mt-2">
-                    <button className="btn-stake">Stake</button>
-                    <button className="btn-changeName">Change Name</button>
-                    <button className="btn-changeBio">Change Bio</button>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
           {/* <div className="mt-5">
             <span className="textMyCrazy">Staked Crazy Ape Goongye</span>
