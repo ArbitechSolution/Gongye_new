@@ -1,5 +1,5 @@
 .staking {
-  background-image: url("../media/background.png");
+  background-image: url("../media/background.png") !important;
   width: 100%;
   background-size: contain;
   background-repeat: no-repeat;
@@ -10,7 +10,14 @@
   align-items: center;
   flex-direction: column;
 }
-
+.stakingTopbar {
+  background: rgba(24, 26, 43, 0.6) !important;
+  font-size: 14px;
+  line-height: 14px;
+  height: 40px;
+  padding: 0;
+  color: #fff;
+}
 .container-staking-outside {
   border: 3px solid #2adeea;
   position: relative !important;
@@ -171,7 +178,7 @@
   text-align: center;
 }
 .inputBox {
-  max-width: 500px;
+  max-width: 700px !important;
   min-width: 290px;
   height: 50px;
   background: #000000;
@@ -195,5 +202,29 @@
   }
   .stakingText {
     font-size: 20px !important;
+  }
+}
+.headerContainerStaking {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  /* background: #1b2532 !important; */
+  background: rgba(24, 26, 43, 0.6);
+  color: #fff !important;
+  z-index: 999;
+  /* position: absolute !important; */
+}
+.navbarContainer {
+  background: #21353b !important;
+  position: relative;
+  height: 0px !important;
+}
+.goongyeLogo {
+  width: 200px;
+}
+@media (max-width: 575.98px) {
+  .goongyeLogo {
+    width: 150px;
   }
 }

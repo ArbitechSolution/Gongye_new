@@ -126,7 +126,34 @@ h6 {
 /**
 * Desktop Navigation 
 */
-
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background: transparent !important; */
+  background: rgba(24, 26, 43, 0.6);
+  height: 60px;
+  /* position: absolute !important; */
+}
+.navbarContainer {
+  background: #21353b !important;
+  position: relative;
+  height: 0px !important;
+}
+.goongyeLogo {
+  width: 200px;
+}
+@media (max-width: 575.98px) {
+  .goongyeLogo {
+    width: 150px;
+  }
+}
+.navbar-toggler-icon {
+  fill: #fff !important;
+}
+.nav-link {
+  padding: 15px !important;
+}
 h1.logo {
   font-family: "Bowlby One", sans-serif;
   font-weight: 800;
@@ -157,7 +184,7 @@ h1.logo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 25px 15px 24px 15px;
+  padding: 10px 15px 24px 15px;
   font-size: 16px;
   font-weight: 400;
   color: #fff;

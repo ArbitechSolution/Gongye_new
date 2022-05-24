@@ -6,9 +6,14 @@ import Kakao from "../media/kakao.png";
 import Discord from "../media/discord.png";
 import Logo from "../media/logo.png";
 import { useTranslation } from "react-i18next";
+import { Navbar, Nav } from "react-bootstrap";
 
 import "./Staking.css";
-export default function Navbar({ changeMain, changeStake, changePresale }) {
+export default function NavbarStaking({
+  changeMain,
+  changeStake,
+  changePresale,
+}) {
   const { t, i18n } = useTranslation();
 
   function handleChangeLanguage(lang) {
@@ -19,7 +24,7 @@ export default function Navbar({ changeMain, changeStake, changePresale }) {
 
   return (
     <>
-      <section id="topbar" className="d-flex align-items-center">
+      <section id="topbar" className=" stakingTopbar d-flex align-items-center">
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
@@ -72,7 +77,85 @@ export default function Navbar({ changeMain, changeStake, changePresale }) {
         </div>
       </section>
 
-      <header id="header" className="d-flex align-items-center">
+      <div className="navbarContainer">
+        <Navbar collapseOnSelect expand="lg" className="headerContainerStaking">
+          {/* <Container className=""> */}
+          <Navbar.Brand href="#home">
+            <a href="/" className="logo ms-5" onClick={() => changeMain()}>
+              <img
+                src={Logo}
+                alt=""
+                data-aos="zoom-in"
+                className=" goongyeLogo"
+              />
+            </a>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="ms-auto me-5">
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#story"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.story")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#tokenomics"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.tokenomics")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#nft"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.NFT")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#mint"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.mint")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#stake"
+                onClick={() => changeStake()}
+              >
+                {t("navbar.stakeBreed")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#roadmap"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.roadmap")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#team"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.team")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#faq"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.FAQ")}
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+          {/* </Container> */}
+        </Navbar>
+      </div>
+
+      {/* <header id="header" className="d-flex align-items-center">
         <div className="container d-flex align-items-center justify-content-between">
           <a href="/" className="logo">
             <img src={Logo} alt="" data-aos="zoom-in" className="img-fluid" />
@@ -162,7 +245,7 @@ export default function Navbar({ changeMain, changeStake, changePresale }) {
             ></i>
           </nav>
         </div>
-      </header>
+      </header> */}
     </>
   );
 }

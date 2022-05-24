@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import containerImage from "../media/Group 48.png";
-import Twitter from "../media/twitter.png";
-import Telegram from "../media/telegram.png";
-import Kakao from "../media/kakao.png";
-import Discord from "../media/discord.png";
-import Logo from "../media/logo.png";
+
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { googyeContractAddress, goongyeContractAbi } from "../Utils/Goongye";
@@ -13,9 +9,9 @@ import "./Staking.css";
 import "../MintModal.css";
 import Caver from "caver-js";
 import { connectionAction } from "../Redux/connection/actions";
-import image1 from "../media/Vector3.png";
 import light from "../media/light-from-top-background.png";
 import Modal from "react-bootstrap/Modal";
+
 export default function Staking({ changeMain, changeStake, changePresale }) {
   let acc = useSelector((state) => state.connect?.connection);
   const caver = new Caver(window.klaytn);
@@ -24,6 +20,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   let [mintArray, setMintArray] = useState([]);
   const [indexForTransfer, setIndexForTransfer] = useState(null);
+  const [inputValue, setInputValue] = useState(null);
   const onConnectAccount = () => {
     dispatch(connectionAction());
     // setCollectionModalShow(true);
@@ -33,6 +30,11 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
     console.log("item", item);
     setCollectionModalShow(true);
     setIndexForTransfer(item);
+  };
+  const handleOnChnage = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    console.log("value", value);
   };
   const dispalyImage = async () => {
     console.log("account in displying images", acc);
@@ -57,9 +59,10 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         totalIDs.forEach(async (ids) => {
           let imageUrl = `/config/images/${ids}.jpg`;
           let imageName = `Common #${ids}`;
+          let nftID = ids;
           // console.log("imageUrl", imageUrl);
           // console.log("iamgeName", imageName);
-          imagesArray = [...imagesArray, { imageName, imageUrl }];
+          imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
           setMintArray(imagesArray);
         });
       }
@@ -69,6 +72,32 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
     }
     // }
   };
+
+  const transferNFT = async () => {
+    try {
+      if (inputValue != null) {
+        let contractOf = new caver.klay.Contract(
+          goongyeContractAbi,
+          googyeContractAddress
+        );
+        await contractOf.methods
+          .transferFrom(acc, inputValue, indexForTransfer.nftID)
+          .send({
+            from: acc,
+            gas: "5000000",
+          });
+        setCollectionModalShow(false);
+        dispalyImage();
+        toast.success("NFT Transfered Successfully");
+        setInputValue(null);
+      } else {
+        toast.info("Seems Like You Forgot To Enter Account");
+      }
+    } catch (e) {
+      toast.error("Transcation Failed");
+    }
+  };
+
   useEffect(() => {
     dispalyImage();
   }, [acc]);
@@ -334,18 +363,28 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                             {t("nftcard.heading")}
                           </span>
                         </div>
-                        <div className="col-12 mintcol mt-2">
+                        <div className="col-12 mintcol mt-2 ms-5">
                           <h6 className="text-white">{t("nftCard.to")}</h6>
                         </div>
-                        <div className="col-12 mintcol mt-1">
-                          <input type="text" className="inputBox"></input>
+                        <div className="col-12 mintcol mt-1 d-flex justify-content-center">
+                          <input
+                            type="text"
+                            className="inputBox"
+                            onChange={handleOnChnage}
+                          ></input>
                         </div>
                         <div className="col-12 mintCol mt-5 mb-5">
                           <button
                             className="btnStaking mt-2 me-2"
-                            onClick={() => setCollectionModalShow(false)}
+                            onClick={() => transferNFT()}
                           >
                             {t("nftcard.confirm")}
+                          </button>
+                          <button
+                            className="btnLater mt-2"
+                            onClick={() => setCollectionModalShow(false)}
+                          >
+                            {t("modal.later")}
                           </button>
                         </div>
                       </div>

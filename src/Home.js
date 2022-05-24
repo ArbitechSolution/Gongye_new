@@ -36,6 +36,7 @@ import image1 from "./media/Vector3.png";
 import containerImage from "./media/Group 48.png";
 import light from "./media/light-from-top-background.png";
 import Modal from "react-bootstrap/Modal";
+import { Navbar, Nav } from "react-bootstrap";
 import Caver from "caver-js";
 import { connectionAction } from "./Redux/connection/actions";
 import { toast } from "react-toastify";
@@ -361,119 +362,84 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         </div>
       </section>
 
-      <header id="header" className="d-flex align-items-center">
-        <div className="container d-flex align-items-center justify-content-between">
-          <a href="/" className="logo" onClick={() => changeMain()}>
-            <img src={Logo} alt="" data-aos="zoom-in" className="img-fluid" />
-          </a>
-          {/* <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button> */}
+      <div className="navbarContainer">
+        <Navbar collapseOnSelect expand="lg" className="headerContainer">
+          {/* <Container className=""> */}
+          <Navbar.Brand href="#home">
+            <a href="/" className="logo ms-5" onClick={() => changeMain()}>
+              <img
+                src={Logo}
+                alt=""
+                data-aos="zoom-in"
+                className=" goongyeLogo"
+              />
+            </a>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="ms-auto me-5">
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#story"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.story")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#tokenomics"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.tokenomics")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#nft"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.NFT")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#mint"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.mint")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#stake"
+                onClick={() => changeStake()}
+              >
+                {t("navbar.stakeBreed")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#roadmap"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.roadmap")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#team"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.team")}
+              </Nav.Link>
+              <Nav.Link
+                className="nav-link scrollto"
+                href="#faq"
+                onClick={() => changeMain()}
+              >
+                {t("navbar.FAQ")}
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+          {/* </Container> */}
+        </Navbar>
+      </div>
 
-          <nav id="navbarID" className="navbar nav" data-aos="zoom-in">
-            <ul>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#story"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.story")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#tokenomics"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.tokenomics")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#nft"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.NFT")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#mint"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.mint")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#stake"
-                  onClick={() => changeStake()}
-                >
-                  {t("navbar.stakeBreed")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#roadmap"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.roadmap")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#team"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.team")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#faq"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.FAQ")}
-                </a>
-              </li>
-            </ul>
-            {/* <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarID"
-              aria-controls="navbarID"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i class="bi bi-list mobile-nav-toggle"></i>
-            </button> */}
-            <i
-              className="bi bi-list mobile-nav-toggle"
-              data-toggle="collapse"
-              data-target="#navbarID"
-              aria-controls="navbarID"
-              aria-expanded="false"
-            ></i>
-          </nav>
-        </div>
-      </header>
       <section
         id="hero"
         className="d-flex align-items-center"

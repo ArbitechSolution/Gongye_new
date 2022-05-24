@@ -2,7 +2,7 @@ import react, { useState } from "react";
 import Appstake from "./Appstake";
 import Home from "./Home";
 import Footer from "./Staking/footer";
-import Navbar from "./Staking/navbar";
+import NavbarStaking from "./Staking/navbar";
 
 const AppHome = () => {
   let [changeRouteis, setChangeRouteIs] = useState("main");
@@ -31,11 +31,11 @@ const AppHome = () => {
   const Stakeing = () => {
     return (
       <div>
-        <Navbar
+        <NavbarStaking
           changeMain={changeMain}
           changeStake={changeStake}
           changePresale={changePresale}
-        ></Navbar>
+        ></NavbarStaking>
         <Appstake />
         <Footer />
       </div>
@@ -68,7 +68,7 @@ const AppHome = () => {
         <Stakeing />
       </div>
     );
-  } 
+  }
   // else if (changeRouteis == "Presale") {
   //   return (
   //     <div className="App">
