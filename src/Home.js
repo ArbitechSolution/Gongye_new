@@ -935,7 +935,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah1")}
-                  <span className="blue">{t("roadmap.Goongye")}</span>
+                  <span className="blue ms-1"> {t("roadmap.Goongye")}</span>
                 </div>
               </div>
             </li>
@@ -952,7 +952,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah2")}
-                  <span className="blue">{t("roadmap.presale")}</span>
+                  <span className="blue ms-1">{t("roadmap.presale")}</span>
                 </div>
               </div>
             </li>
@@ -968,7 +968,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{t("roadmap.prize")}</span>
+                  <span className="blue me-1">{t("roadmap.prize")}</span>
                   {t("roadmap.parah3")}
                 </div>
               </div>
@@ -985,7 +985,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{"roadmap.Start"}</span>
+                  <span className="blue me-1">{t("roadmap.Start")}</span>
                   {t("roadmap.parah4")}
                 </div>
               </div>
