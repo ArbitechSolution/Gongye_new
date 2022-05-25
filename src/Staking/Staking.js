@@ -364,13 +364,16 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             </div>
           </div>
           <div className="row btn-group ">
-            <div className="col-lg-6 col-md-12 me-2">
+            <div className="col-lg-6 col-md-12">
               <button className="btnStake  mt-2" onClick={dispalyImage}>
                 {t("staking.para2")}
               </button>
             </div>
             <div className="col-lg-6 col-md-12 mt-2">
-              <button className="btnAllReward" onClick={() => withdrawReward()}>
+              <button
+                className="btnAllReward ms-2"
+                onClick={() => withdrawReward()}
+              >
                 {t("staking.para3")}
               </button>
             </div>
