@@ -370,10 +370,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
               </button>
             </div>
             <div className="col-lg-6 col-md-12 mt-2">
-              <button
-                className="btnAllReward ms-2"
-                onClick={() => withdrawReward()}
-              >
+              <button className="btnAllReward" onClick={() => withdrawReward()}>
                 {t("staking.para3")}
               </button>
             </div>
