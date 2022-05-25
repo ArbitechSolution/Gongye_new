@@ -105,7 +105,7 @@
   height: 300px;
 }
 .card {
-  width: 300px;
+  width: 290px;
   border: none !important;
   border-radius: 10px !important;
 }
@@ -149,7 +149,7 @@
 .card_btn button {
   margin-top: 5px;
   border-radius: 10px;
-  width: 120px;
+  width: 125px;
   height: 40px;
   color: #fff;
 }
