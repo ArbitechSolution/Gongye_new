@@ -1019,7 +1019,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{"roadmap.Tokenomics"}</span>
+                  <span className="blue ms-1">{t("roadmap.Tokenomics")}</span>
                   {t("roadmap.parah6")}
                 </div>
               </div>
