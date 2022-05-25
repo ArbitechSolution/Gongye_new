@@ -161,7 +161,10 @@
   background: #d5aa1b;
   border: 1px solid #d5aa1b;
 }
-
+.btn-reward {
+  background: #718991;
+  border: 1px solid #718991;
+}
 .btn-transfer {
   background: #3bc2cb !important;
   border: 1px solid #3bc2cb;
@@ -226,5 +229,17 @@
 @media (max-width: 575.98px) {
   .goongyeLogo {
     width: 150px;
+  }
+}
+.collapse.show {
+  background: rgba(24, 26, 43, 0.6);
+  /* background: #000; */
+  z-index: 9999999 !important;
+}
+@media (max-width: 767.98px) {
+  .collapse.show {
+    background-color: #000;
+    margin-top: -40px;
+    z-index: 9999999 !important;
   }
 }

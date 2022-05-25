@@ -366,7 +366,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         <Navbar collapseOnSelect expand="lg" className="headerContainer">
           {/* <Container className=""> */}
           <Navbar.Brand href="#home">
-            <a href="/" className="logo ms-5" onClick={() => changeMain()}>
+            <a href="/" className="logo ms-lg-5" onClick={() => changeMain()}>
               <img
                 src={Logo}
                 alt=""

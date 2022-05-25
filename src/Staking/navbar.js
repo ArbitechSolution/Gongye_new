@@ -81,7 +81,7 @@ export default function NavbarStaking({
         <Navbar collapseOnSelect expand="lg" className="headerContainerStaking">
           {/* <Container className=""> */}
           <Navbar.Brand href="#home">
-            <a href="/" className="logo ms-5" onClick={() => changeMain()}>
+            <a href="/" className="logo " onClick={() => changeMain()}>
               <img
                 src={Logo}
                 alt=""
