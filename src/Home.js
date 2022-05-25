@@ -1003,7 +1003,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah5")}
-                  <span className="blue">{"roadmap.People"}</span>
+                  <span className="blue ms-1">{t("roadmap.People")}</span>
                 </div>
               </div>
             </li>
@@ -1019,7 +1019,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue ms-1">{t("roadmap.Tokenomics")}</span>
+                  <span className="blue me-1">{t("roadmap.Tokenomics")}</span>
                   {t("roadmap.parah6")}
                 </div>
               </div>
@@ -1037,7 +1037,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Open")}
-                  <span className="blue">{t("roadmap.parah7")}</span>
+                  <span className="blue ms-1 me-1">{t("roadmap.parah7")}</span>
                   {t("roadmap.parah8")}
                 </div>
               </div>
@@ -1055,7 +1055,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Purchase")}
-                  <span className="blue">{t("roadmap.parah9")}</span>
+                  <span className="blue ms-1 me-1">{t("roadmap.parah9")}</span>
                   {t("roadmap.parah10")}
                 </div>
               </div>
@@ -1072,7 +1072,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue">{t("roadmap.parah11")}</span>
+                  <span className="blue me-1">{t("roadmap.parah11")}</span>
                   {t("roadmap.parah12")}
                 </div>
               </div>
@@ -1090,7 +1090,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah13")}
-                  <span className="blue">{t("roadmap.GoongyeApe")}</span>
+                  <span className="blue ms-1 me-1">
+                    {t("roadmap.GoongyeApe")}
+                  </span>
                   {t("roadmap.parah14")}
                 </div>
               </div>
@@ -1108,7 +1110,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Add")}
-                  <span className="blue">{t("roadmap.governance")}</span>
+                  <span className="blue ms-1 me-1">
+                    {t("roadmap.governance")}
+                  </span>
                   {t("roadmap.parah15")}
                 </div>
               </div>
@@ -1126,7 +1130,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.conduct")}
-                  <span className="blue">{t("roadmap.parah16")}</span>
+                  <span className="blue me-1 ms-1">{t("roadmap.parah16")}</span>
                   {t("roadmap.parah17")}
                 </div>
               </div>
@@ -1144,7 +1148,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Open")}
-                  <span className="blue">{t("roadmap.parah18")}</span>
+                  <span className="blue ms-1">{t("roadmap.parah18")}</span>
                 </div>
               </div>
             </li>
@@ -1161,7 +1165,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.Issue")}
-                  <span className="blue">{t("roadmap.NFT")}</span>
+                  <span className="blue ms-1 me-1">{t("roadmap.NFT")}</span>
                   {t("roadmap.parah19")}
                 </div>
               </div>
@@ -1179,7 +1183,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="box">
                 <div>
                   {t("roadmap.parah20")}
-                  <span className="blue">{t("roadmap.parah21")}</span>
+                  <span className="blue ms-1 me-1">{t("roadmap.parah21")}</span>
                   {t("roadmap.parah22")}
                 </div>
               </div>
