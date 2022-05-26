@@ -15,6 +15,6 @@ export const connectionAction = () => {
     } else {
       myAcc = acc;
     }
-    dispatch({ type: ActionTypes.CONNECT, payload: myAcc });
+    await dispatch({ type: ActionTypes.CONNECT, payload: myAcc });
   };
 };

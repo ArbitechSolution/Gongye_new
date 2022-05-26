@@ -206,7 +206,11 @@
   "staking.transefer": "Transfer",
   "staking.unstake": "Unstake",
   "staking.claimReward": "Claim Reward",
-
+  "staking.crazyHeading": "Staked Crazy Ape Goongye",
+  "staking.kingHeading": "Staked King Ape Goongye",
+  "staking.claimable": "Claimable",
+  "staking.reward": "Reward",
+  "staking.daily": "Daily",
   "FAQ.1": "FAQ",
   "faq.parah1": "When will the minting site be announced?",
   "faq.parah2": "It will be released on the day of minting.",

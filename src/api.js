@@ -1,13 +1,13 @@
 import Caver from "caver-js";
 let isItConnected = false;
-
+const caver = new Caver(window.klaytn);
 let accounts;
 const getAccounts = async () => {
   const { klaytn } = window;
   try {
-    accounts = await klaytn.selectedAddress;
-    console.log("Acc", accounts);
-    return accounts;
+    // accounts = await klaytn.selectedAddress;
+    accounts = await caver.klay.getAccounts();
+    return accounts[0];
   } catch (error) {
     console.log("Error while fetching acounts: ", error);
     return null;
@@ -18,7 +18,6 @@ export const loadWeb3 = async () => {
   try {
     const { klaytn } = window;
     if (klaytn) {
-      //   caver = new Caver(window.klaytn);
       await klaytn.enable();
       let netId = await klaytn.networkVersion;
       switch (netId.toString()) {
@@ -30,7 +29,6 @@ export const loadWeb3 = async () => {
       }
       if (isItConnected == true) {
         let accounts = await getAccounts();
-        // console.log("acc:,",accounts);
         return accounts;
       } else {
         let res = "Wrong Network";
@@ -38,8 +36,7 @@ export const loadWeb3 = async () => {
       }
     } else {
       let res = "No Wallet";
-      //   return res;
-      console.log("no wallet");
+      return res;
     }
   } catch (error) {
     let res = "No Wallet";

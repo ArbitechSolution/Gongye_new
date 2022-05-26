@@ -44,6 +44,7 @@ import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import useAudio from "./useAudio";
+import { loadWeb3 } from "./api";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
   const [playing, togglePlaying] = useAudio();
@@ -222,7 +223,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
         console.log("ownerList", length);
-        // dispalyImage();
+        dispalyImage();
         // if (length < 7) {
         if (parseFloat(balance) > parseFloat(totalPrice)) {
           await contractOf.methods.mint(noMints).send({
@@ -232,7 +233,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           });
           isLoading(false);
           toast.success(t("transaction.Successfull"));
-          dispalyImage();
+          // dispalyImage();
         } else {
           toast.error(t("insufficient.Balance!"));
         }
@@ -873,10 +874,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <hr className="my-3" />
 
                   <div className="form-btn">
-                    <a
-                      href="#connect"
+                    <button
                       className="form-control btn-connect mb-3"
-                      onClick={onConnectAccount}
+                      onClick={() => onConnectAccount()}
                     >
                       {acc === "No Wallet"
                         ? t("NoWallet")
@@ -887,9 +887,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                         : acc.substring(0, 4) +
                           "..." +
                           acc.substring(acc.length - 4)}
-                    </a>
-                    <a
-                      href="#mint-stake"
+                    </button>
+                    <button
                       className="form-control btn-mint mb-3"
                       onClick={() => mintAndStake()}
                     >
@@ -905,7 +904,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       ) : (
                         t("mint.Mint")
                       )}
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1763,7 +1762,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     <div className="connectBtnInPresale d-flex justify-content-end align-items-center">
                       <button
                         className="btnConnectInPresale  mt-2 mb-4"
-                        onClick={onConnectAccount}
+                        onClick={() => onConnectAccount()}
                       >
                         {acc === "No Wallet"
                           ? t("NoWallet")
@@ -1807,6 +1806,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                               >
                                 {t("modal.staking")}
                               </button>
+                              <button
+                                className="btn-breeding mt-2"
+                                // onClick={() => updgradToKing(item)}
+                                onClick={() => setCollectionModalShow(false)}
+                              >
+                                {t("staking.parabreed")}
+                              </button>
+                            </div>
+                            <div className="col-12 mintCol mt-2 mb-5">
                               <button
                                 className="btnLater mt-2"
                                 onClick={() => setCollectionModalShow(false)}

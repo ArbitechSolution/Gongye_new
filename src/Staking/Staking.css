@@ -244,3 +244,35 @@
     z-index: 9999999 !important;
   }
 }
+.cardRewardBalance {
+  color: #2adeea;
+  text-align: right;
+  padding-bottom: 10px;
+}
+.rewardDiv,
+.kingRewardDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center !important;
+  font-size: 16px;
+}
+.rewardDiv {
+  padding-bottom: 5px;
+}
+
+.rewardTitle {
+  color: #fff;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+.claimableDiv,
+.rewardInner {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}

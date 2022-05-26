@@ -1546,7 +1546,8 @@ top: 8px;
   }
 }
 .btnLater,
-.btnStaking {
+.btnStaking,
+.btn-breeding {
   width: 200px;
   height: 40px;
   font-weight: 800;
@@ -1564,4 +1565,8 @@ top: 8px;
 }
 .divMintMdal {
   position: relative;
+}
+.btn-breeding {
+  background: #d5aa1b !important;
+  border: 1px solid #d5aa1b !important;
 }

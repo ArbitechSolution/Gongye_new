@@ -243,16 +243,15 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           stakingContractAbi,
           stakingContractAddress
         );
-        console.log("res", item);
+        // console.log("res", item);
 
-        let NFtIds = await contractOfStaking.methods
-          .unstake([item.nftID])
-          .send({
-            from: acc,
-            gas: "500000",
-          });
-        console.log("res", NFtIds);
-        // let imagesArray = [];
+        await contractOfStaking.methods.unstake([item.nftID]).send({
+          from: acc,
+          gas: "500000",
+        });
+
+        let imagesArray = [];
+        console.log("stakedArray before", stakedNFTArray.length);
         // NFtIds.forEach(async (ids) => {
         //   let imageUrl = `/config/images/${ids}.jpg`;
         //   let imageName = `Common #${ids}`;
@@ -260,8 +259,14 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         //   imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
         //   setStakedNFT(imagesArray);
         // });
+        stakedNFTArray = stakedNFTArray.filter(function (items) {
+          return items.nftID !== item.nftID;
+        });
+        setStakedNFT(stakedNFTArray);
+        console.log("stakedArray", stakedNFTArray.length);
         dispalyImage();
         toast.success("Unstake Successful");
+        setStakedNFT(stakedNFTArray);
       } catch (e) {
         toast.error("Error while Fetching Staked NFTs");
       }
@@ -287,7 +292,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           from: acc,
           gas: "5000000",
         });
-        console.log(res, "witjdraw");
       } catch (e) {
         toast.error("Error while getting Reward");
         console.log("errr", e);
@@ -326,7 +330,13 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   };
   useEffect(() => {
     dispalyImage();
+    // stakedNFT();
+    // unStakedNFT();
+  }, [stakedNFTArray]);
+  useEffect(() => {
+    dispalyImage();
     stakedNFT();
+    // unStakedNFT();
   }, [acc]);
   useEffect(() => {
     handleGetBalance();
@@ -405,6 +415,16 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{item.imageName}</h5>
+                      {/* <div className="mt-2 rewardDiv">
+                        <h6 className="card-sub-title rewardTitle">
+                          {t("staking.para7")}
+                          &nbsp;: &nbsp;
+                        </h6>
+                        <span className="cardRewardBalance ">
+                          {rewardBalance}
+                        </span>
+                      </div> */}
+
                       <p className="card-text">{t("staking.para8")}</p>
                       <a href="#" className="card-Link">
                         https://crazyapegoongyeclub.com/
@@ -424,12 +444,12 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </button>
                       </div>
                       <div className="card-buttons mt-2">
-                        <button className="btn-changeName">
+                        {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
-                        </button>
+                        </button> */}
                         <button
                           className="btn-transfer"
                           onClick={() => handleTransfer(index, item)}
@@ -446,7 +466,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
 
           {stakedNFTArray.length > 0 && (
             <div className="mt-5">
-              <span className="textMyCrazy">Staked Crazy Ape Goongye</span>
+              <span className="textMyCrazy">{t("staking.crazyHeading")}</span>
             </div>
           )}
           <div className="row ">
@@ -461,6 +481,36 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{item.imageName}</h5>
+
+                      {/* <div className="mt-2 rewardDiv">
+                        <div className="rewardInner">
+                          <h6 className=" rewardTitle">
+                            {t("staking.daily")}
+                            &nbsp;&nbsp;
+                          </h6>
+                          <h6 className=" rewardTitle">
+                            {t("staking.reward")}
+                            &nbsp;: &nbsp;
+                          </h6>
+                        </div>
+                        <div className="claimableDiv">
+                          <span className="rewardTitle ">
+                            {t("staking.claimable")}
+                          </span>
+                          <span className="cardRewardBalance ">
+                            {rewardBalance}
+                          </span>
+                        </div>
+                      </div> */}
+                      {/* <div className="mt-2 rewardDiv">
+                        <h6 className="card-sub-title rewardTitle">
+                          {t("staking.para7")}
+                          &nbsp;: &nbsp;
+                        </h6>
+                        <span className="cardRewardBalance ">
+                          {rewardBalance}
+                        </span>
+                      </div> */}
                       <p className="card-text">{t("staking.para8")}</p>
                       <a href="#" className="card-Link">
                         https://crazyapegoongyeclub.com/
@@ -480,12 +530,12 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </button>
                       </div>
                       <div className="card-buttons mt-2">
-                        <button className="btn-changeName">
+                        {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
-                        </button>
+                        </button> */}
                         <button
                           className="btn-transfer"
                           onClick={() => handleTransfer(index, item)}
@@ -501,7 +551,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           </div>
           {kingMintArray.length > 0 && (
             <div className="mt-5">
-              <span className="textMyCrazy">Staked King Ape Goongye</span>
+              <span className="textMyCrazy">{t("staking.kingHeading")}</span>
             </div>
           )}
           <div className="row mb-3">
@@ -516,6 +566,26 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{item.imageName}</h5>
+                      {/* <div className="mt-2 rewardDiv">
+                        <div className="rewardInner">
+                          <h6 className=" rewardTitle">
+                            {t("staking.daily")}
+                            &nbsp;&nbsp;
+                          </h6>
+                          <h6 className=" rewardTitle">
+                            {t("staking.reward")}
+                            &nbsp;: &nbsp;
+                          </h6>
+                        </div>
+                        <div className="claimableDiv">
+                          <span className="rewardTitle ">
+                            {t("staking.claimable")}
+                          </span>
+                          <span className="cardRewardBalance ">
+                            {rewardBalance}
+                          </span>
+                        </div>
+                      </div> */}
                       <p className="card-text">{t("staking.para8")}</p>
                       <a href="#" className="card-Link">
                         https://crazyapegoongyeclub.com/
@@ -535,12 +605,12 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </button>
                       </div>
                       <div className="card-buttons mt-2">
-                        <button className="btn-changeName">
+                        {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
-                        </button>
+                        </button> */}
                         <button
                           className="btn-transfer"
                           onClick={() => handleTransfer(index, item)}
