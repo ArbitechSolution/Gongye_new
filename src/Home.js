@@ -49,6 +49,7 @@ const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
   const [playing, togglePlaying] = useAudio();
   const [loading, isLoading] = useState(false);
+  const [loadingBreed, isLoadingSecond] = useState(false);
   const { t, i18n } = useTranslation();
 
   function handleChangeLanguage(lang) {
@@ -223,7 +224,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
         console.log("ownerList", length);
-        dispalyImage();
+        // dispalyImage();
         // if (length < 7) {
         if (parseFloat(balance) > parseFloat(totalPrice)) {
           await contractOf.methods.mint(noMints).send({
@@ -233,7 +234,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           });
           isLoading(false);
           toast.success(t("transaction.Successfull"));
-          // dispalyImage();
+          dispalyImage();
         } else {
           toast.error(t("insufficient.Balance!"));
         }
@@ -903,6 +904,23 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                         </>
                       ) : (
                         t("mint.Mint")
+                      )}
+                    </button>
+                    <button
+                      className="form-control btn-breeders mb-3"
+                      // onClick={() => onConnectAccount()}
+                    >
+                      {loadingBreed ? (
+                        <>
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="laoding ms-1">Loading...</span>
+                        </>
+                      ) : (
+                        t("mint.breeding")
                       )}
                     </button>
                   </div>

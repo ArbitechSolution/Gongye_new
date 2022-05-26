@@ -803,6 +803,20 @@ background-color: #000;
   border-radius: 8px;
   transition: 0.5s;
 }
+#mint .form-btn .btn-breeders {
+  font-family: Lato;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #fff;
+  background: #d5aa1b;
+  border: 0px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 8px;
+  transition: 0.5s;
+}
 #mint .form-btn .btn-connect:hover {
   background: #2adeea;
 }

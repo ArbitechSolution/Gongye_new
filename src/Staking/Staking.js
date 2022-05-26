@@ -604,6 +604,20 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           {t("staking.parabreed")}
                         </button>
                       </div>
+                      {/* <div className="card_btn">
+                        <button
+                          className="btn-stake me-2"
+                          // onClick={() => NFTstaking(item)}
+                          onClick={() => {
+                            unStakedNFT(item);
+                          }}
+                        >
+                          {t("staking.unstake")}
+                        </button>
+                        <button className="btn-reward">
+                          {t("staking.claimReward")}
+                        </button>
+                      </div> */}
                       <div className="card-buttons mt-2">
                         {/* <button className="btn-changeName">
                           {t("staking.para10")}
