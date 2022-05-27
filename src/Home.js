@@ -224,7 +224,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
         console.log("ownerList", length);
-        // dispalyImage();
+        dispalyImage();
         // if (length < 7) {
         if (parseFloat(balance) > parseFloat(totalPrice)) {
           await contractOf.methods.mint(noMints).send({
@@ -234,7 +234,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           });
           isLoading(false);
           toast.success(t("transaction.Successfull"));
-          dispalyImage();
+          // dispalyImage();
         } else {
           toast.error(t("insufficient.Balance!"));
         }
@@ -889,40 +889,44 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                           "..." +
                           acc.substring(acc.length - 4)}
                     </button>
-                    <button
-                      className="form-control btn-mint mb-3"
-                      onClick={() => mintAndStake()}
-                    >
-                      {loading ? (
-                        <>
-                          <span
-                            class="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          <span className="laoding ms-1">Loading...</span>
-                        </>
-                      ) : (
-                        t("mint.Mint")
-                      )}
-                    </button>
-                    <button
-                      className="form-control btn-breeders mb-3"
-                      // onClick={() => onConnectAccount()}
-                    >
-                      {loadingBreed ? (
-                        <>
-                          <span
-                            class="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          <span className="laoding ms-1">Loading...</span>
-                        </>
-                      ) : (
-                        t("mint.breeding")
-                      )}
-                    </button>
+                    <div className="mintAndStake">
+                      <button
+                        className="form-control btn-mint mb-3 me-1"
+                        onClick={() => mintAndStake()}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              class="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="laoding ms-1">Loading...</span>
+                          </>
+                        ) : (
+                          t("mint.Mint")
+                        )}
+                      </button>
+                      <button
+                        className="form-control btn-breeders mb-3 ms-1"
+                        // onClick={() => onConnectAccount()}
+                        href="#stake"
+                        onClick={() => changeStake()}
+                      >
+                        {loadingBreed ? (
+                          <>
+                            <span
+                              class="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="laoding ms-1">Loading...</span>
+                          </>
+                        ) : (
+                          t("mint.breeding")
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1825,14 +1829,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                                 {t("modal.staking")}
                               </button>
                               <button
-                                className="btn-breeding mt-2"
+                                className="btnBreeding mt-2 me-2"
                                 // onClick={() => updgradToKing(item)}
                                 onClick={() => setCollectionModalShow(false)}
                               >
                                 {t("staking.parabreed")}
                               </button>
-                            </div>
-                            <div className="col-12 mintCol mt-2 mb-5">
                               <button
                                 className="btnLater mt-2"
                                 onClick={() => setCollectionModalShow(false)}
@@ -1840,6 +1842,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                                 {t("modal.later")}
                               </button>
                             </div>
+                            {/* <div className="col-12 mintCol mt-2 mb-5">
+                              <button
+                                className="btnLater mt-2"
+                                onClick={() => setCollectionModalShow(false)}
+                              >
+                                {t("modal.later")}
+                              </button>
+                            </div> */}
                           </div>
                         );
                       })}

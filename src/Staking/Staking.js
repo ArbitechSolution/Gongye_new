@@ -112,8 +112,10 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       let balance = await contractOfToken.methods.balanceOf(acc).call();
       balance = caver.utils.fromPeb(balance);
       setmaguniBalance(balance);
-      console.log("balance", balance);
     }
+  };
+  const handleTransferInCollection = async () => {
+    toast.info("Please Unstaked First");
   };
   const transferNFT = async () => {
     try {
@@ -157,9 +159,62 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       let res = await contractOfStaking.methods.rewardOfUser(acc).call();
       let totalPrice = caver.utils.fromPeb(res);
       setRewardBalance(totalPrice);
-      console.log("balacne", totalPrice);
     }
   };
+  const stakeAllNFT = async () => {
+    console.log("stakeAll");
+    if (acc == "No Wallet") {
+      console.log(t("NoWallet"));
+      toast.error(t("NoWallet"));
+    } else if (acc == "Wrong Network") {
+      console.log(t("WrongNetwork"));
+      toast.error(t("WrongNetwork"));
+    } else if (acc == "Connect Wallet") {
+      toast.error(t("Connect"));
+    } else {
+      try {
+        let contractOfNft = new caver.klay.Contract(
+          goongyeContractAbi,
+          googyeContractAddress
+        );
+        let appr = true;
+        let isApproved = await contractOfNft.methods
+          .isApprovedForAll(acc, stakingContractAddress)
+          .call();
+
+        if (!isApproved) {
+          await contractOfNft.methods
+            .setApprovalForAll(stakingContractAddress, appr)
+            .send({
+              from: acc,
+              gas: "5000000",
+            });
+        }
+
+        let contractOfStaking = new caver.klay.Contract(
+          stakingContractAbi,
+          stakingContractAddress
+        );
+        let ownerList = await contractOfNft.methods.walletOfOwner(acc).call();
+        const length = ownerList?.length;
+        console.log("ownerList", ownerList);
+        console.log("length", length);
+        await contractOfStaking.methods.Stake(ownerList).send({
+          from: acc,
+          gas: "5000000",
+        });
+        setMintArray(null);
+        setKingMintArray(null);
+        dispalyImage();
+        stakedNFT();
+        toast.success("Transaction Successful");
+      } catch (e) {
+        toast.error("Transaction Failed");
+        console.log("error", e);
+      }
+    }
+  };
+
   const NFTstaking = async (item) => {
     try {
       let contractOfNft = new caver.klay.Contract(
@@ -223,7 +278,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           setStakedNFT(imagesArray);
         });
       } catch (e) {
-        toast.error("Error while Fetching Staked NFTs");
+        toast.error("Transaction Failed");
       }
     }
   };
@@ -251,7 +306,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         });
 
         let imagesArray = [];
-        console.log("stakedArray before", stakedNFTArray.length);
+        console.log("stakedArray before", stakedNFTArray?.length);
         // NFtIds.forEach(async (ids) => {
         //   let imageUrl = `/config/images/${ids}.jpg`;
         //   let imageName = `Common #${ids}`;
@@ -263,25 +318,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           return items.nftID !== item.nftID;
         });
         setStakedNFT(stakedNFTArray);
-        console.log("stakedArray", stakedNFTArray.length);
+        console.log("stakedArray", stakedNFTArray?.length);
         dispalyImage();
         toast.success("Unstake Successful");
         setStakedNFT(stakedNFTArray);
       } catch (e) {
-        toast.error("Error while Fetching Staked NFTs");
+        toast.error("Transaction Failed");
       }
     }
   };
 
   const withdrawReward = async () => {
     if (acc == "No Wallet") {
-      console.log("No wallet");
-      console.log(acc);
+      console.log(t("NoWallet"));
+      toast.error(t("NoWallet"));
     } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
-      console.log(acc);
+      console.log(t("WrongNetwork"));
+      toast.error(t("WrongNetwork"));
     } else if (acc == "Connect Wallet") {
-      console.log(acc);
+      toast.error(t("Connect"));
     } else {
       try {
         let contractOfStaking = new caver.klay.Contract(
@@ -293,7 +348,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           gas: "5000000",
         });
       } catch (e) {
-        toast.error("Error while getting Reward");
+        toast.error("Transaction Failed");
         console.log("errr", e);
       }
     }
@@ -375,7 +430,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           </div>
           <div className="row btn-group ">
             <div className="col-lg-6 col-md-12">
-              <button className="btnStake  mt-2" onClick={dispalyImage}>
+              <button className="btnStake  mt-2" onClick={() => stakeAllNFT()}>
                 {t("staking.para2")}
               </button>
             </div>
@@ -398,24 +453,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             </h6>
           </div>
 
-          {mintArray.length > 0 && (
+          {mintArray && mintArray?.length > 0 && (
             <div className="mt-2">
               <span className="textMyCrazy">{t("staking.para5")}</span>
             </div>
           )}
           <div className="row ">
-            {mintArray.map((item, index) => {
-              return (
-                <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
-                  <div className="card">
-                    <img
-                      className="card-img-top"
-                      src={item.imageUrl}
-                      alt="Card image cap"
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{item.imageName}</h5>
-                      {/* <div className="mt-2 rewardDiv">
+            {mintArray &&
+              mintArray.map((item, index) => {
+                return (
+                  <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
+                    <div className="card">
+                      <img
+                        className="card-img-top"
+                        src={item.imageUrl}
+                        alt="Card image cap"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{item.imageName}</h5>
+                        {/* <div className="mt-2 rewardDiv">
                         <h6 className="card-sub-title rewardTitle">
                           {t("staking.para7")}
                           &nbsp;: &nbsp;
@@ -425,64 +481,65 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </span>
                       </div> */}
 
-                      <p className="card-text">{t("staking.para8")}</p>
-                      <a href="#" className="card-Link">
-                        https://crazyapegoongyeclub.com/
-                      </a>
-                      <div className="card_btn">
-                        <button
-                          className="btn-stake me-2"
-                          onClick={() => NFTstaking(item)}
-                        >
-                          {t("staking.para9")}
-                        </button>
-                        <button
-                          className="btn-breed"
-                          onClick={() => updgradToKing(item)}
-                        >
-                          {t("staking.parabreed")}
-                        </button>
-                      </div>
-                      <div className="card-buttons mt-2">
-                        {/* <button className="btn-changeName">
+                        <p className="card-text">{t("staking.para8")}</p>
+                        <a href="#" className="card-Link">
+                          https://crazyapegoongyeclub.com/
+                        </a>
+                        <div className="card_btn">
+                          <button
+                            className="btn-stake me-2"
+                            onClick={() => NFTstaking(item)}
+                          >
+                            {t("staking.para9")}
+                          </button>
+                          <button
+                            className="btn-breed"
+                            onClick={() => updgradToKing(item)}
+                          >
+                            {t("staking.parabreed")}
+                          </button>
+                        </div>
+                        <div className="card-buttons mt-2">
+                          {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
                         </button> */}
-                        <button
-                          className="btn-transfer"
-                          onClick={() => handleTransfer(index, item)}
-                        >
-                          {t("staking.transefer")}
-                        </button>
+                          <button
+                            className="btn-transfer"
+                            onClick={() => handleTransfer(index, item)}
+                          >
+                            {t("staking.transefer")}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
 
-          {stakedNFTArray.length > 0 && (
+          {stakedNFTArray && stakedNFTArray?.length > 0 && (
             <div className="mt-5">
               <span className="textMyCrazy">{t("staking.crazyHeading")}</span>
             </div>
           )}
           <div className="row ">
-            {stakedNFTArray.map((item, index) => {
-              return (
-                <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
-                  <div className="card">
-                    <img
-                      className="card-img-top"
-                      src={item.imageUrl}
-                      alt="Card image cap"
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{item.imageName}</h5>
+            {stakedNFTArray &&
+              stakedNFTArray.map((item, index) => {
+                return (
+                  <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
+                    <div className="card">
+                      <img
+                        className="card-img-top"
+                        src={item.imageUrl}
+                        alt="Card image cap"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{item.imageName}</h5>
 
-                      {/* <div className="mt-2 rewardDiv">
+                        {/* <div className="mt-2 rewardDiv">
                         <div className="rewardInner">
                           <h6 className=" rewardTitle">
                             {t("staking.daily")}
@@ -502,7 +559,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           </span>
                         </div>
                       </div> */}
-                      {/* <div className="mt-2 rewardDiv">
+                        {/* <div className="mt-2 rewardDiv">
                         <h6 className="card-sub-title rewardTitle">
                           {t("staking.para7")}
                           &nbsp;: &nbsp;
@@ -511,62 +568,65 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           {rewardBalance}
                         </span>
                       </div> */}
-                      <p className="card-text">{t("staking.para8")}</p>
-                      <a href="#" className="card-Link">
-                        https://crazyapegoongyeclub.com/
-                      </a>
-                      <div className="card_btn">
-                        <button
-                          className="btn-stake me-2"
-                          // onClick={() => NFTstaking(item)}
-                          onClick={() => {
-                            unStakedNFT(item);
-                          }}
-                        >
-                          {t("staking.unstake")}
-                        </button>
-                        <button className="btn-reward">
+                        <p className="card-text">{t("staking.para8")}</p>
+                        <a href="#" className="card-Link">
+                          https://crazyapegoongyeclub.com/
+                        </a>
+                        {/* <div className="card_btn"> */}
+                        <div className="card-buttons">
+                          <button
+                            className="btn-stake me-2"
+                            // onClick={() => NFTstaking(item)}
+                            onClick={() => {
+                              unStakedNFT(item);
+                            }}
+                          >
+                            {t("staking.unstake")}
+                          </button>
+                          {/* <button className="btn-reward">
                           {t("staking.claimReward")}
                         </button>
-                      </div>
-                      <div className="card-buttons mt-2">
-                        {/* <button className="btn-changeName">
+                        */}
+                        </div>
+                        <div className="card-buttons mt-2">
+                          {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
                         </button> */}
-                        <button
-                          className="btn-transfer"
-                          onClick={() => handleTransfer(index, item)}
-                        >
-                          {t("staking.transefer")}
-                        </button>
+                          <button
+                            className="btn-transfer"
+                            onClick={() => handleTransferInCollection()}
+                          >
+                            {t("staking.transefer")}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
-          {kingMintArray.length > 0 && (
+          {kingMintArray && kingMintArray?.length > 0 && (
             <div className="mt-5">
               <span className="textMyCrazy">{t("staking.kingHeading")}</span>
             </div>
           )}
           <div className="row mb-3">
-            {kingMintArray.map((item, index) => {
-              return (
-                <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
-                  <div className="card">
-                    <img
-                      className="card-img-top"
-                      src={item.imageUrl}
-                      alt="Card image cap"
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{item.imageName}</h5>
-                      {/* <div className="mt-2 rewardDiv">
+            {kingMintArray &&
+              kingMintArray.map((item, index) => {
+                return (
+                  <div className="col col-lg-3  col-md-6 col-sm-12 pt-3 d-flex justify-content-center align-items-center">
+                    <div className="card">
+                      <img
+                        className="card-img-top"
+                        src={item.imageUrl}
+                        alt="Card image cap"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{item.imageName}</h5>
+                        {/* <div className="mt-2 rewardDiv">
                         <div className="rewardInner">
                           <h6 className=" rewardTitle">
                             {t("staking.daily")}
@@ -586,25 +646,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           </span>
                         </div>
                       </div> */}
-                      <p className="card-text">{t("staking.para8")}</p>
-                      <a href="#" className="card-Link">
-                        https://crazyapegoongyeclub.com/
-                      </a>
-                      <div className="card_btn">
-                        <button
-                          className="btn-stake me-2"
-                          onClick={() => NFTstaking(item)}
-                        >
-                          {t("staking.para9")}
-                        </button>
-                        <button
+                        <p className="card-text">{t("staking.para8")}</p>
+                        <a href="#" className="card-Link">
+                          https://crazyapegoongyeclub.com/
+                        </a>
+                        <div className="card-buttons">
+                          <button
+                            className="btn-stakeing me-2"
+                            onClick={() => NFTstaking(item)}
+                          >
+                            {t("staking.para9")}
+                          </button>
+                          {/* <button
                           className="btn-breed"
                           onClick={() => updgradToKing(item)}
                         >
                           {t("staking.parabreed")}
-                        </button>
-                      </div>
-                      {/* <div className="card_btn">
+                        </button> */}
+                        </div>
+                        {/* <div className="card_btn">
                         <button
                           className="btn-stake me-2"
                           // onClick={() => NFTstaking(item)}
@@ -618,25 +678,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           {t("staking.claimReward")}
                         </button>
                       </div> */}
-                      <div className="card-buttons mt-2">
-                        {/* <button className="btn-changeName">
+                        <div className="card-buttons mt-2">
+                          {/* <button className="btn-changeName">
                           {t("staking.para10")}
                         </button>
                         <button className="btn-changeBio">
                           {t("staking.para11")}
                         </button> */}
-                        <button
-                          className="btn-transfer"
-                          onClick={() => handleTransfer(index, item)}
-                        >
-                          {t("staking.transefer")}
-                        </button>
+                          <button
+                            className="btn-transfer"
+                            onClick={() => unStakedNFT(item)}
+                          >
+                            {t("staking.transefer")}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
