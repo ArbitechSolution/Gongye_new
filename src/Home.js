@@ -1824,14 +1824,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                             <div className="col-12 mintCol mt-5 mb-5">
                               <button
                                 className="btnStaking mt-2 me-2"
-                                onClick={() => setCollectionModalShow(false)}
+                                // href="#stake"
+                                onClick={() => changeStake()}
                               >
                                 {t("modal.staking")}
                               </button>
                               <button
                                 className="btnBreeding mt-2 me-2"
                                 // onClick={() => updgradToKing(item)}
-                                onClick={() => setCollectionModalShow(false)}
+                                // href="#stake"
+                                onClick={() => changeStake()}
                               >
                                 {t("staking.parabreed")}
                               </button>
