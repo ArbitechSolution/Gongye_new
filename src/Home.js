@@ -219,23 +219,23 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         const length = ownerList.length;
         console.log("ownerList", length);
         // dispalyImage();
-        // if (length < 7) {
-        if (parseFloat(balance) > parseFloat(totalPrice)) {
-          await contractOf.methods.mint(noMints).send({
-            from: acc,
-            value: totalPrice,
-            gas: "5000000",
-          });
-          isLoading(false);
-          toast.success(t("transaction.Successfull"));
-          dispalyImage();
+        if (length <= 6) {
+          if (parseFloat(balance) > parseFloat(totalPrice)) {
+            await contractOf.methods.mint(noMints).send({
+              from: acc,
+              value: totalPrice,
+              gas: "5000000",
+            });
+            isLoading(false);
+            toast.success(t("transaction.Successfull"));
+            dispalyImage();
+          } else {
+            toast.error(t("insufficient.Balance!"));
+            isLoading(false);
+          }
         } else {
-          toast.error(t("insufficient.Balance!"));
-          isLoading(false);
+          toast.error("Minting Limit Reached (6)");
         }
-        // } else {
-        //   toast.error("Minting Limit Reached (6)");
-        // }
       } catch (e) {
         console.log(" Error while minting", e);
         toast.error(t("minting.Failed"));
@@ -620,7 +620,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             <p data-aos="fade-up" data-aos-delay="200">
               {t("tokenomics.cost")}
               <span className="blue">{t("tokenomics.1000")}</span>
-              <span className="green">{"tokenomics.KLAY"}</span>
+              <span className="green">{t("tokenomics.klay")}</span>
               <span className="blue">{t("tokenomics.tokens")}</span>
               {t("tokenomics.para2")}
               <span className="blue">{t("tokenomics.1000")}</span>

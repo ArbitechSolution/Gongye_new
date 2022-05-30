@@ -757,7 +757,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </button> */}
                           <button
                             className="btn-transfer"
-                            onClick={() => unStakedNFT(item)}
+                            onClick={() => handleTransferInCollection()}
                           >
                             {t("staking.transefer")}
                           </button>
@@ -821,7 +821,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           <img
                             className=" pt-4 "
                             width="240px"
-                            src={`${indexForTransfer.imageUrl}`}
+                            src={indexForTransfer.imageUrl}
                           />
                         </div>
                         <div className="col-12 mintCol mt-0">
