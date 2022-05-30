@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { connectionAction } from "./Redux/connection/actions";
 
 export default function MintModal(props) {
-  console.log("mintarray in modal", props.mintArray);
   const [modalShow, setMintModalShow] = useState(true);
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();

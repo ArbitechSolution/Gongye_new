@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import containerImage from "../media/Group 48.png";
 import Twitter from "../media/twitter.png";
 import Telegram from "../media/telegram.png";
@@ -15,11 +15,11 @@ export default function NavbarStaking({
   changePresale,
 }) {
   const { t, i18n } = useTranslation();
+  const [green, isGreen] = useState("eng");
 
   function handleChangeLanguage(lang) {
-    console.log("lang", lang);
-    // console.log(2 - 3);
     i18n.changeLanguage(lang);
+    isGreen(lang);
   }
 
   return (
@@ -29,14 +29,22 @@ export default function NavbarStaking({
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
             <span
-              className="Eng green languageChnage"
+              className={
+                green == "eng"
+                  ? "Eng green languageChnage"
+                  : "Eng languageChnage"
+              }
               onClick={() => handleChangeLanguage("eng")}
             >
               ENG
             </span>
             /
             <span
-              className="Kor pe-4 languageChnage"
+              className={
+                green == "ko"
+                  ? "Kor pe-4 green languageChnage"
+                  : "Kor pe-4 languageChnage"
+              }
               onClick={() => handleChangeLanguage("ko")}
             >
               KOR

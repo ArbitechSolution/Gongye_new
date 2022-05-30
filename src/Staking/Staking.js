@@ -28,21 +28,19 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   const [inputValue, setInputValue] = useState(null);
   const [rewardBalance, setRewardBalance] = useState(0.0);
   const [maguniBalance, setmaguniBalance] = useState(0.0);
+
   const onConnectAccount = () => {
     dispatch(connectionAction());
     // setCollectionModalShow(true);
   };
 
   const handleTransfer = (index, item) => {
-    console.log("index", index);
-    console.log("item", item);
     setCollectionModalShow(true);
     setIndexForTransfer(item);
   };
   const handleOnChnage = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    console.log("value", value);
   };
 
   const dispalyImage = async () => {
@@ -63,10 +61,17 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       );
       if (acc) {
         let totalIDs = await contractOf.methods.walletOfOwner(acc).call();
-        console.log("owner", totalIDs);
+        console.log("nft ids before sorting", totalIDs);
+        let cc2 = totalIDs.map((a) => a);
+        let sortedArray = cc2.sort((a, b) => a - b);
+        console.log("real nft ids before sorting", sortedArray);
+
+        // totalIDs = totalIDs.sort();
+        // NFtIds = NFtIds.sort();
+        // console.log(totalIDs);
         let imagesArray = [];
         let KingImagesArray = [];
-        totalIDs.forEach(async (ids) => {
+        sortedArray.forEach(async (ids) => {
           if (ids <= 40) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
@@ -81,11 +86,13 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             let nftID = ids;
             // console.log("imageUrl", imageUrl);
             // console.log("iamgeName", imageName);
-            KingImagesArray = [
-              ...KingImagesArray,
-              { imageName, imageUrl, nftID },
-            ];
-            setKingMintArray(KingImagesArray);
+            // KingImagesArray = [
+            //   ...KingImagesArray,
+            //   { imageName, imageUrl, nftID },
+            // ];
+            // setKingMintArray(KingImagesArray);
+            imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+            setMintArray(imagesArray);
           }
         });
       }
@@ -162,7 +169,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
     }
   };
   const stakeAllNFT = async () => {
-    console.log("stakeAll");
     if (acc == "No Wallet") {
       console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
@@ -197,8 +203,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         );
         let ownerList = await contractOfNft.methods.walletOfOwner(acc).call();
         const length = ownerList?.length;
-        console.log("ownerList", ownerList);
-        console.log("length", length);
         await contractOfStaking.methods.Stake(ownerList).send({
           from: acc,
           gas: "5000000",
@@ -248,7 +252,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       stakedNFT();
       toast.success("Transaction Successful");
     } catch (e) {
-      toast.error("Error while Staking", e);
+      toast.error("Transaction Failed");
       console.log("error", e);
     }
   };
@@ -268,14 +272,58 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           stakingContractAddress
         );
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
-        console.log("res", NFtIds);
+        let cc2 = NFtIds.map((a) => a);
+        let sortedArray = cc2.sort((a, b) => a - b);
+        console.log("sorted staked", sortedArray);
+        // NFtIds = NFtIds.sort();
+        // console.log("nft ids", NFtIds);
+        // let imagesArray = [];
+        // let KingImagesArray = [];
+        // totalIDs.forEach(async (ids) => {
+        //   if (ids <= 40) {
+        //     let imageUrl = `/config/images/${ids}.jpg`;
+        //     let imageName = `Common #${ids}`;
+        //     let nftID = ids;
+        //     // console.log("imageUrl", imageUrl);
+        //     // console.log("iamgeName", imageName);
+        //     imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+        //     setMintArray(imagesArray);
+        //   } else {
+        //     let imageUrl = `/config/images/${ids}.jpg`;
+        //     let imageName = `King #${ids}`;
+        //     let nftID = ids;
+        //     // console.log("imageUrl", imageUrl);
+        //     // console.log("iamgeName", imageName);
+        //     // KingImagesArray = [
+        //     //   ...KingImagesArray,
+        //     //   { imageName, imageUrl, nftID },
+        //     // ];
+        //     // setKingMintArray(KingImagesArray);
+        //     imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+        //     setMintArray(imagesArray);
+        //   }
+
         let imagesArray = [];
-        NFtIds.forEach(async (ids) => {
-          let imageUrl = `/config/images/${ids}.jpg`;
-          let imageName = `Common #${ids}`;
-          let nftID = ids;
-          imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-          setStakedNFT(imagesArray);
+        let KingImagesArray = [];
+        sortedArray.forEach(async (ids) => {
+          if (ids <= 40) {
+            let imageUrl = `/config/images/${ids}.jpg`;
+            let imageName = `Common #${ids}`;
+            let nftID = ids;
+            imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+            setStakedNFT(imagesArray);
+          } else {
+            let imageUrl = `/config/images/${ids}.jpg`;
+            let imageName = `King #${ids}`;
+            let nftID = ids;
+            // console.log("imageUrl", imageUrl);
+            // console.log("iamgeName", imageName);
+            KingImagesArray = [
+              ...KingImagesArray,
+              { imageName, imageUrl, nftID },
+            ];
+            setKingMintArray(KingImagesArray);
+          }
         });
       } catch (e) {
         toast.error("Transaction Failed");
@@ -307,21 +355,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
 
         let imagesArray = [];
         console.log("stakedArray before", stakedNFTArray?.length);
-        // NFtIds.forEach(async (ids) => {
-        //   let imageUrl = `/config/images/${ids}.jpg`;
-        //   let imageName = `Common #${ids}`;
-        //   let nftID = ids;
-        //   imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-        //   setStakedNFT(imagesArray);
-        // });
-        stakedNFTArray = stakedNFTArray.filter(function (items) {
-          return items.nftID !== item.nftID;
-        });
-        setStakedNFT(stakedNFTArray);
-        console.log("stakedArray", stakedNFTArray?.length);
-        dispalyImage();
-        toast.success("Unstake Successful");
-        setStakedNFT(stakedNFTArray);
+        if (item.nftID <= 40) {
+          stakedNFTArray = stakedNFTArray.filter(function (items) {
+            return items.nftID !== item.nftID;
+          });
+          setStakedNFT(stakedNFTArray);
+          console.log("stakedArray", stakedNFTArray?.length);
+          dispalyImage();
+          toast.success("Unstake Successful");
+          setStakedNFT(stakedNFTArray);
+        } else {
+          kingMintArray = kingMintArray.filter(function (items) {
+            return items.nftID !== item.nftID;
+          });
+          setKingMintArray(kingMintArray);
+          console.log("stakedArray", kingMintArray?.length);
+          dispalyImage();
+          toast.success("Unstake Successful");
+          setKingMintArray(kingMintArray);
+        }
       } catch (e) {
         toast.error("Transaction Failed");
       }
@@ -393,6 +445,9 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
     stakedNFT();
     // unStakedNFT();
   }, [acc]);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
   useEffect(() => {
     handleGetBalance();
     getBalanceToken();
@@ -485,20 +540,32 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         <a href="#" className="card-Link">
                           https://crazyapegoongyeclub.com/
                         </a>
-                        <div className="card_btn">
-                          <button
-                            className="btn-stake me-2"
-                            onClick={() => NFTstaking(item)}
-                          >
-                            {t("staking.para9")}
-                          </button>
-                          <button
-                            className="btn-breed"
-                            onClick={() => updgradToKing(item)}
-                          >
-                            {t("staking.parabreed")}
-                          </button>
-                        </div>
+                        {item.nftID <= 40 ? (
+                          <div className="card_btn">
+                            <button
+                              className="btn-stake me-2"
+                              onClick={() => NFTstaking(item)}
+                            >
+                              {t("staking.para9")}
+                            </button>
+                            <button
+                              className="btn-breed"
+                              onClick={() => updgradToKing(item)}
+                            >
+                              {t("staking.parabreed")}
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="card-buttons">
+                            <button
+                              className="btn-stake me-2"
+                              onClick={() => NFTstaking(item)}
+                            >
+                              {t("staking.para9")}
+                            </button>
+                          </div>
+                        )}
+
                         <div className="card-buttons mt-2">
                           {/* <button className="btn-changeName">
                           {t("staking.para10")}
@@ -652,10 +719,13 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </a>
                         <div className="card-buttons">
                           <button
-                            className="btn-stakeing me-2"
-                            onClick={() => NFTstaking(item)}
+                            className="btn-stake me-2"
+                            // onClick={() => NFTstaking(item)}
+                            onClick={() => {
+                              unStakedNFT(item);
+                            }}
                           >
-                            {t("staking.para9")}
+                            {t("staking.unstake")}
                           </button>
                           {/* <button
                           className="btn-breed"
@@ -756,7 +826,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         </div>
                         <div className="col-12 mintCol mt-0">
                           <span className="heading">
-                            {t("nftcard.heading")}
+                            {indexForTransfer.imageName}
                           </span>
                         </div>
                         <div className="col-12 mintcol mt-2 ms-5">

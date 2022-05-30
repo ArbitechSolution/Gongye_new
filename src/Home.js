@@ -44,18 +44,16 @@ import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import useAudio from "./useAudio";
-import { loadWeb3 } from "./api";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
   const [playing, togglePlaying] = useAudio();
   const [loading, isLoading] = useState(false);
   const [loadingBreed, isLoadingSecond] = useState(false);
   const { t, i18n } = useTranslation();
-
+  const [green, isGreen] = useState("eng");
   function handleChangeLanguage(lang) {
-    console.log("lang", lang);
-    // console.log(2 - 3);
     i18n.changeLanguage(lang);
+    isGreen(lang);
   }
   // useEffect(() => {
   //   setTimeout(() => {
@@ -167,47 +165,43 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       );
       let newNum = noMints + 1;
       let totalPrice = await contractOf.methods.gPRice(newNum).call();
-      console.log("totalPrice", totalPrice);
 
       totalPrice = parseFloat(totalPrice) / 1000000000000000000;
       setTtlKlay(totalPrice);
       setNomints(newNum);
-      console.log("Incremetn", totalPrice);
     }
   };
   const decrement = async () => {
     if (noMints > 1) {
-      console.log("decremetn");
       const web3 = window.web3;
       let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
       let newNum = noMints - 1;
-      console.log("newNum", newNum);
 
       let totalPrice = await contractOf.methods.gPRice(newNum).call();
-      console.log("totalPrice", totalPrice);
 
       totalPrice = parseFloat(totalPrice) / 1000000000000000000;
       setTtlKlay(totalPrice);
-      console.log("Incremetn", totalPrice);
       setNomints(newNum);
     }
   };
 
   const mintAndStake = async () => {
-    // let myAccountAddress = await loadWeb3();
     console.log("myAccountAddress", acc);
     isLoading(true);
     if (acc == "No Wallet") {
       console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
+      isLoading(false);
     } else if (acc == "Wrong Network") {
       console.log(t("WrongNetwork"));
       toast.error(t("WrongNetwork"));
+      isLoading(false);
     } else if (acc == "Connect Wallet") {
       toast.error(t("Connect"));
+      isLoading(false);
     } else {
       try {
         const { klaytn } = window;
@@ -237,6 +231,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           dispalyImage();
         } else {
           toast.error(t("insufficient.Balance!"));
+          isLoading(false);
         }
         // } else {
         //   toast.error("Minting Limit Reached (6)");
@@ -246,11 +241,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         toast.error(t("minting.Failed"));
         isLoading(false);
       }
+      isLoading(false);
     }
   };
 
   const dispalyImage = async () => {
-    console.log("account in displying images", acc);
     try {
       let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
@@ -259,13 +254,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       if (acc) {
         let totalIDs = await contractOf.methods.walletOfOwner(acc).call();
         totalIDs = totalIDs.slice(-noMints);
-        console.log("owner", totalIDs);
         let imagesArray = [];
         totalIDs.forEach(async (ids) => {
           let imageUrl = `/config/images/${ids}.jpg`;
           let imageName = `Common #${ids}`;
-          // console.log("imageUrl", imageUrl);
-          // console.log("iamgeName", imageName);
           imagesArray = [...imagesArray, { imageName, imageUrl }];
           setMintArray(imagesArray);
         });
@@ -276,54 +268,38 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       // toast.error("Minting Failed");
     }
   };
-  const handleCollectionOpen = async () => {
-    try {
-      let contractOf = new caver.klay.Contract(
-        goongyeContractAbi,
-        googyeContractAddress
-      );
-      if (acc) {
-        let totalIDs = await contractOf.methods.walletOfOwner(acc).call();
-        console.log("owner", totalIDs);
-        let imagesArray = [];
-        totalIDs.forEach(async (ids) => {
-          let imageUrl = `/config/images/${ids}.jpg`;
-          let imageName = `Common #${ids}`;
-          // console.log("imageUrl", imageUrl);
-          // console.log("iamgeName", imageName);
-          imagesArray = [...imagesArray, { imageName, imageUrl }];
-          setMintCollectionArray(imagesArray);
-        });
-        setCollectionModalShow(true);
-      }
-    } catch (e) {
-      console.log(" Error while displaying images", e);
-      // toast.error("Minting Failed");
-    }
-  };
 
+  const handleCLodemodal = () => {
+    setCollectionModalShow(false);
+    isLoading(false);
+  };
   useEffect(() => {
     getInitialMintPrice();
-    // dispalyImage();
   }, [acc]);
-  const [show, setShow] = useState(true);
-  console.log("Collection Array", mintArray);
+
   return (
     <div className="home" id="home">
-      {/* <div className="divMintMdal">{show && <MintModal />}</div> */}
       <section id="topbar" className="d-flex align-items-center">
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
             <span
-              className="Eng green languageChnage"
+              className={
+                green == "eng"
+                  ? "Eng green languageChnage"
+                  : "Eng languageChnage"
+              }
               onClick={() => handleChangeLanguage("eng")}
             >
               ENG
             </span>
             /
             <span
-              className="Kor pe-4 languageChnage"
+              className={
+                green == "ko"
+                  ? "Kor pe-4 green languageChnage"
+                  : "Kor pe-4 languageChnage"
+              }
               onClick={() => handleChangeLanguage("ko")}
             >
               KOR
@@ -828,10 +804,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       alt="Sound Icon"
                     />
                   )}
-                  {/* <img className="onIcon" src={on} onClick={playingSound} />
-                  {!playing && (
-                    <img className="offIcon" src={off} onClick={playingSound} />
-                  )} */}
                 </div>
 
                 <div className="form pt-3 px-3">
@@ -1818,32 +1790,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                               <img
                                 className=" pt-4 pb-3"
                                 width="240px"
-                                src={`${item.imageUrl}`}
+                                src={item.imageUrl}
                               />
                             </div>
-                            <div className="col-12 mintCol mt-5 mb-5">
-                              <button
-                                className="btnStaking mt-2 me-2"
-                                // href="#stake"
-                                onClick={() => changeStake()}
-                              >
-                                {t("modal.staking")}
-                              </button>
-                              <button
-                                className="btnBreeding mt-2 me-2"
-                                // onClick={() => updgradToKing(item)}
-                                // href="#stake"
-                                onClick={() => changeStake()}
-                              >
-                                {t("staking.parabreed")}
-                              </button>
-                              <button
-                                className="btnLater mt-2"
-                                onClick={() => setCollectionModalShow(false)}
-                              >
-                                {t("modal.later")}
-                              </button>
-                            </div>
+
                             {/* <div className="col-12 mintCol mt-2 mb-5">
                               <button
                                 className="btnLater mt-2"
@@ -1855,6 +1805,29 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                           </div>
                         );
                       })}
+                      <div className="col-12 mintCol mt-5 mb-5">
+                        <button
+                          className="btnStaking mt-2 me-2"
+                          // href="#stake"
+                          onClick={() => changeStake()}
+                        >
+                          {t("modal.staking")}
+                        </button>
+                        <button
+                          className="btnBreeding mt-2 me-2"
+                          // onClick={() => updgradToKing(item)}
+                          // href="#stake"
+                          onClick={() => changeStake()}
+                        >
+                          {t("staking.parabreed")}
+                        </button>
+                        <button
+                          className="btnLater mt-2"
+                          onClick={() => handleCLodemodal()}
+                        >
+                          {t("modal.later")}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -82,10 +82,10 @@
   position: relative;
   display: flex;
   justify-content: center;
-  z-index: 9999;
+  z-index: 99;
 }
 .imgArea-text {
-  z-index: 999;
+  z-index: 99;
   position: absolute;
   color: #000;
   font-weight: 900;

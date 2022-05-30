@@ -27,7 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 99;
   /* margin-top: 74px !important; */
   /* left: 38%; */
   /* top: -1%; */
@@ -57,7 +57,7 @@
 }
 
 .imgArea-text {
-  z-index: 999;
+  z-index: 99;
   position: absolute;
   color: #000;
   font-weight: 900;
@@ -134,7 +134,7 @@
 }
 .card-buttons button {
   margin-top: 5px;
-  width: 260px;
+  width: 250px;
   height: 40px;
   border-radius: 10px;
 
