@@ -186,9 +186,9 @@
   text-align: center;
 }
 .inputBox {
-  max-width: 700px !important;
-  min-width: 290px;
+  width: 450px;
   height: 50px;
+  text-align: center;
   background: #000000;
   border: 1px solid #405c65;
   border-radius: 5px;
@@ -206,11 +206,34 @@
     top: 10px !important;
   }
   .stakingImage {
-    width: 300px;
+    width: 260px;
   }
   .stakingText {
-    font-size: 20px !important;
+    font-size: 16px !important;
   }
+  .connectBtnInPresale {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .confirmAndLaterdiv {
+    display: flex;
+    flex-direction: column;
+  }
+  .inputBox {
+    width: 280px;
+  }
+  .toText {
+    padding-left: 1% !important;
+  }
+}
+.toText {
+  padding-left: 15%;
+}
+.connectBtnInPresale {
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 .headerContainerStaking {
   display: flex;

@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.986d9244.chunk.css",
-    "main.js": "/static/js/main.4d7d96e0.chunk.js",
-    "main.js.map": "/static/js/main.4d7d96e0.chunk.js.map",
+    "main.css": "/static/css/main.68634872.chunk.css",
+    "main.js": "/static/js/main.6eaece18.chunk.js",
+    "main.js.map": "/static/js/main.6eaece18.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.e17cf9a0.js",
     "runtime-main.js.map": "/static/js/runtime-main.e17cf9a0.js.map",
     "static/css/2.17852c1a.chunk.css": "/static/css/2.17852c1a.chunk.css",
@@ -12,7 +12,7 @@
     "static/js/3.66c7f53d.chunk.js.map": "/static/js/3.66c7f53d.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.17852c1a.chunk.css.map": "/static/css/2.17852c1a.chunk.css.map",
-    "static/css/main.986d9244.chunk.css.map": "/static/css/main.986d9244.chunk.css.map",
+    "static/css/main.68634872.chunk.css.map": "/static/css/main.68634872.chunk.css.map",
     "static/js/2.eba8b02c.chunk.js.LICENSE.txt": "/static/js/2.eba8b02c.chunk.js.LICENSE.txt",
     "static/media/Abbey.42c5b9d0.png": "/static/media/Abbey.42c5b9d0.png",
     "static/media/Group 48.0397b4c3.png": "/static/media/Group 48.0397b4c3.png",
@@ -48,7 +48,7 @@
     "static/js/runtime-main.e17cf9a0.js",
     "static/css/2.17852c1a.chunk.css",
     "static/js/2.eba8b02c.chunk.js",
-    "static/css/main.986d9244.chunk.css",
-    "static/js/main.4d7d96e0.chunk.js"
+    "static/css/main.68634872.chunk.css",
+    "static/js/main.6eaece18.chunk.js"
   ]
 }

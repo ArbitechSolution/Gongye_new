@@ -794,10 +794,10 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                   {t("nftcard.transfer")}
                 </span>
               </div>
-              <div className=" container-presales-outside m-5 m-md-3 m-sm-2 ps-0 m-md-1 m-sm-1">
+              <div className="container-fluid container-presales-outside m-5 m-md-3 m-sm-2 ps-0 m-md-1 m-sm-1">
                 <div className="container-presales m-1 p-lg-5 p-md-3">
                   <div className="row ">
-                    <div className="connectBtnInPresale d-flex justify-content-end align-items-center ">
+                    <div className="col-12 connectBtnInPresale  ">
                       <button
                         className="btnConnectInPresale  mt-2 mb-2 "
                         onClick={onConnectAccount}
@@ -829,8 +829,10 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                             {indexForTransfer.imageName}
                           </span>
                         </div>
-                        <div className="col-12 mintcol mt-2 ms-5">
-                          <h6 className="text-white">{t("nftCard.to")}</h6>
+                        <div className="col-12 mintcol mt-2 ">
+                          <h6 className="text-white toText">
+                            {t("nftCard.to")}
+                          </h6>
                         </div>
                         <div className="col-12 mintcol mt-1 d-flex justify-content-center">
                           <input
@@ -839,15 +841,15 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                             onChange={handleOnChnage}
                           ></input>
                         </div>
-                        <div className="col-12 mintCol mt-5 mb-5">
+                        <div className="col-12 mintCol confirmAndLaterdiv mt-5 mb-5">
                           <button
-                            className="btnStaking mt-2 me-2"
+                            className="btnStaking mt-2 me-1"
                             onClick={() => transferNFT()}
                           >
                             {t("nftcard.confirm")}
                           </button>
                           <button
-                            className="btnLater mt-2"
+                            className="btnLater  mt-2"
                             onClick={() => setCollectionModalShow(false)}
                           >
                             {t("modal.later")}
