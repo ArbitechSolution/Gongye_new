@@ -53,6 +53,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const [green, isGreen] = useState("eng");
   function handleChangeLanguage(lang) {
     i18n.changeLanguage(lang);
+    console.log(i18n, ":i18n");
     isGreen(lang);
   }
   // useEffect(() => {
@@ -285,7 +286,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           <div className="social-links" data-aos="fade-down">
             <span
               className={
-                green == "eng"
+                i18n.language == "eng"
                   ? "Eng green languageChnage"
                   : "Eng languageChnage"
               }
@@ -296,7 +297,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             /
             <span
               className={
-                green == "ko"
+                i18n.language == "ko"
                   ? "Kor pe-4 green languageChnage"
                   : "Kor pe-4 languageChnage"
               }
@@ -610,40 +611,66 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           </div>
           <div className="row pt-4 text-light desc">
             <p data-aos="fade-up" data-aos-delay="100">
-              <span className="green">{t("tokenomics.manguni")}</span>
-              {t("tokenomics.para1")}
-              <span className="blue">{t("tokenomics.card1balance")}</span>
-              <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>
-              {t("tokenomics.perday")}
+              { i18n.language  == "eng" ? (
+                <>
+                  <span className="green">{t("tokenomics.manguni")}</span>
+                  {t("tokenomics.para1")}
+                  <span className="blue">{t("tokenomics.card1balance")}</span>
+                  <span className="green">{t("tokenomics.manguni")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span>
+                  {t("tokenomics.perday")}
+                </>
+              ) : (
+                t("tokenomicsNew.para1")
+              )}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              {t("tokenomics.cost")}
-              <span className="blue">{t("tokenomics.1000")}</span>
-              <span className="green">{t("tokenomics.klay")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>
-              {t("tokenomics.para2")}
-              <span className="blue">{t("tokenomics.1000")}</span>
-              <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span> p
-              {t("tokenomics.para2h2")}
-              <span className="blue">{t("tokenomics.card1balance")}</span>
-              {t("tokenomics.king")}
+              { i18n.language  == "eng" ? (
+                <>
+                  {t("tokenomics.cost")}
+                  <span className="blue">{t("tokenomics.1000")}</span>
+                  <span className="green">{t("tokenomics.klay")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span>
+                  {t("tokenomics.para2")}
+                  <span className="blue">{t("tokenomics.1000")}</span>
+                  <span className="green">{t("tokenomics.manguni")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span> p
+                  {t("tokenomics.para2h2")}
+                  <span className="blue">{t("tokenomics.card1balance")}</span>
+                  {t("tokenomics.king")}{" "}
+                </>
+              ) : (
+                t("tokenomicsNew.para2")
+              )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              {t("tokenomics.para3")}
+              { i18n.language  == "eng"
+                ? t("tokenomics.para3")
+                : t("tokenomicsNew.para3")}
             </p>
             <p data-aos="fade-up" data-aos-delay="400">
-              <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>
-              {t("tokenomics.para4")}
+              { i18n.language  == "eng" ? (
+                <>
+                  <span className="green">{t("tokenomics.manguni")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span>
+                  {t("tokenomics.para4")}
+                </>
+              ) : (
+                t("tokenomicsNew.para4")
+              )}
             </p>
             <p data-aos="fade-up" data-aos-delay="500">
-              <span className="green">{t("tokenomics.manguni2")}</span>
-              {t("tokenomics.para5")}
-              <span className="green">{t("tokenomics.manguni")}</span>
-              <span className="blue">{t("tokenomics.tokens")}</span>
-              {t("tokenomics.para5h2")}
+              { i18n.language  == "eng" ? (
+                <>
+                  <span className="green">{t("tokenomics.manguni2")}</span>
+                  {t("tokenomics.para5")}
+                  <span className="green">{t("tokenomics.manguni")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span>
+                  {t("tokenomics.para5h2")}{" "}
+                </>
+              ) : (
+                t("tokenomicsNew.para5")
+              )}
             </p>
           </div>
         </div>
@@ -663,23 +690,38 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {t("staking.parah1")}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              {t("staking.parah2")}
-              <span className="blue pe-1 ps-1">
-                {t("tokenomics.card1balance")}
-              </span>
-              <span className="green pe-1"> {t("staking.MAGUNI")}</span>
-              <span className="blue">{t("staking.tokens")} </span>
-              {t("staking.day")}
+              { i18n.language  == "eng" ? (
+                <>
+                  {t("staking.parah2")}
+                  <span className="blue pe-1 ps-1">
+                    {t("tokenomics.card1balance")}
+                  </span>
+                  <span className="green pe-1"> {t("staking.MAGUNI")}</span>
+                  <span className="blue">{t("staking.tokens")} </span>
+                  {t("staking.day")}
+                </>
+              ) : (
+                t("staking.parah2")
+              )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              {t("staking.parah3")}
-              <span className="green ps-1 pe-1"> {t("staking.MAGUNI")}</span>
-              <span className="blue pe-1">{t("staking.tokens")}</span>
-              {t("staking.parah4")}
-              <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
-              <span className="green pe-1"> {t("staking.MAGUNI")}</span>
-              <span className="blue">{t("staking.tokens")} </span>
-              {t("staking.day")}
+              { i18n.language  == "eng" ? (
+                <>
+                  {t("staking.parah3")}
+                  <span className="green ps-1 pe-1">
+                    {" "}
+                    {t("staking.MAGUNI")}
+                  </span>
+                  <span className="blue pe-1">{t("staking.tokens")}</span>
+                  {t("staking.parah4")}
+                  <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
+                  <span className="green pe-1"> {t("staking.MAGUNI")}</span>
+                  <span className="blue">{t("staking.tokens")} </span>
+                  {t("staking.day")}
+                </>
+              ) : (
+                t("staking.parah3")
+              )}
             </p>
           </div>
         </div>
@@ -927,8 +969,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah1")}
-                  <span className="blue ms-1"> {t("roadmap.Goongye")}</span>
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.parah1")}
+                      <span className="blue ms-1"> {t("roadmap.Goongye")}</span>
+                    </>
+                  ) : (
+                    t("roadmap.para1")
+                  )}
                 </div>
               </div>
             </li>
@@ -944,8 +992,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah2")}
-                  <span className="blue ms-1">{t("roadmap.presale")}</span>
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.parah2")}
+                      <span className="blue ms-1">{t("roadmap.presale")}</span>
+                    </>
+                  ) : (
+                    t("roadmap.para2")
+                  )}
                 </div>
               </div>
             </li>
@@ -961,8 +1015,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue me-1">{t("roadmap.prize")}</span>
-                  {t("roadmap.parah3")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      <span className="blue me-1">{t("roadmap.prize")}</span>
+                      {t("roadmap.parah3")}
+                    </>
+                  ) : (
+                    t("roadmap.para3")
+                  )}
                 </div>
               </div>
             </li>
@@ -978,8 +1038,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue me-1">{t("roadmap.Start")}</span>
-                  {t("roadmap.parah4")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      <span className="blue me-1">{t("roadmap.Start")}</span>
+                      {t("roadmap.parah4")}
+                    </>
+                  ) : (
+                    t("roadmap.para4")
+                  )}
                 </div>
               </div>
             </li>
@@ -995,8 +1061,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah5")}
-                  <span className="blue ms-1">{t("roadmap.People")}</span>
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.parah5")}
+                      <span className="blue ms-1">{t("roadmap.People")}</span>
+                    </>
+                  ) : (
+                    t("roadmap.para5")
+                  )}
                 </div>
               </div>
             </li>
@@ -1012,8 +1084,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue me-1">{t("roadmap.Tokenomics")}</span>
-                  {t("roadmap.parah6")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      <span className="blue me-1">
+                        {t("roadmap.Tokenomics")}
+                      </span>
+                      {t("roadmap.parah6")}
+                    </>
+                  ) : (
+                    t("roadmap.para6")
+                  )}
                 </div>
               </div>
             </li>
@@ -1029,9 +1109,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Open")}
-                  <span className="blue ms-1 me-1">{t("roadmap.parah7")}</span>
-                  {t("roadmap.parah8")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.Open")}
+                      <span className="blue ms-1 me-1">
+                        {t("roadmap.parah7")}
+                      </span>
+                      {t("roadmap.parah8")}
+                    </>
+                  ) : (
+                    t("roadmap.para7")
+                  )}
                 </div>
               </div>
             </li>
@@ -1047,9 +1135,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Purchase")}
-                  <span className="blue ms-1 me-1">{t("roadmap.parah9")}</span>
-                  {t("roadmap.parah10")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.Purchase")}
+                      <span className="blue ms-1 me-1">
+                        {t("roadmap.parah9")}
+                      </span>
+                      {t("roadmap.parah10")}
+                    </>
+                  ) : (
+                    t("roadmap.para8")
+                  )}
                 </div>
               </div>
             </li>
@@ -1065,8 +1161,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  <span className="blue me-1">{t("roadmap.parah11")}</span>
-                  {t("roadmap.parah12")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      <span className="blue me-1">{t("roadmap.parah11")}</span>
+                      {t("roadmap.parah12")}
+                    </>
+                  ) : (
+                    t("roadmap.para9")
+                  )}
                 </div>
               </div>
             </li>
@@ -1082,11 +1184,18 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah13")}
-                  <span className="blue ms-1 me-1">
-                    {t("roadmap.GoongyeApe")}
-                  </span>
-                  {t("roadmap.parah14")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {" "}
+                      {t("roadmap.parah13")}
+                      <span className="blue ms-1 me-1">
+                        {t("roadmap.GoongyeApe")}
+                      </span>
+                      {t("roadmap.parah14")}
+                    </>
+                  ) : (
+                    t("roadmap.para10")
+                  )}
                 </div>
               </div>
             </li>
@@ -1102,11 +1211,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Add")}
-                  <span className="blue ms-1 me-1">
-                    {t("roadmap.governance")}
-                  </span>
-                  {t("roadmap.parah15")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.Add")}
+                      <span className="blue ms-1 me-1">
+                        {t("roadmap.governance")}
+                      </span>
+                      {t("roadmap.parah15")}
+                    </>
+                  ) : (
+                    t("roadmap.para11")
+                  )}
                 </div>
               </div>
             </li>
@@ -1122,9 +1237,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.conduct")}
-                  <span className="blue me-1 ms-1">{t("roadmap.parah16")}</span>
-                  {t("roadmap.parah17")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.conduct")}
+                      <span className="blue me-1 ms-1">
+                        {t("roadmap.parah16")}
+                      </span>
+                      {t("roadmap.parah17")}
+                    </>
+                  ) : (
+                    t("roadmap.para12")
+                  )}
                 </div>
               </div>
             </li>
@@ -1140,8 +1263,14 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Open")}
-                  <span className="blue ms-1">{t("roadmap.parah18")}</span>
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.Open")}
+                      <span className="blue ms-1">{t("roadmap.parah18")}</span>
+                    </>
+                  ) : (
+                    t("roadmap.para13")
+                  )}
                 </div>
               </div>
             </li>
@@ -1157,9 +1286,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.Issue")}
-                  <span className="blue ms-1 me-1">{t("roadmap.NFT")}</span>
-                  {t("roadmap.parah19")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.Issue")}
+                      <span className="blue ms-1 me-1">{t("roadmap.NFT")}</span>
+                      {t("roadmap.parah19")}
+                    </>
+                  ) : (
+                    t("roadmap.para14")
+                  )}
                 </div>
               </div>
             </li>
@@ -1175,9 +1310,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {t("roadmap.parah20")}
-                  <span className="blue ms-1 me-1">{t("roadmap.parah21")}</span>
-                  {t("roadmap.parah22")}
+                  { i18n.language  == "eng" ? (
+                    <>
+                      {t("roadmap.parah20")}
+                      <span className="blue ms-1 me-1">
+                        {t("roadmap.parah21")}
+                      </span>
+                      {t("roadmap.parah22")}
+                    </>
+                  ) : (
+                    t("roadmap.para15")
+                  )}
                 </div>
               </div>
             </li>
@@ -1192,7 +1335,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                 </span>
               </p>
               <div className="box">
-                <div>{t("roadmap.parah23")}</div>
+                <div>
+                  { i18n.language  == "eng" ? (
+                    <>{t("roadmap.parah23")}</>
+                  ) : (
+                    t("roadmap.para16")
+                  )}
+                </div>
               </div>
             </li>
           </ul>

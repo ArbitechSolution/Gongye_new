@@ -81,7 +81,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
             setMintArray(imagesArray);
           } else {
-            let imageUrl = `/config/images/${ids}.jpg`;
+            let imageUrl = `/config/king/${ids - 40}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
             // console.log("imageUrl", imageUrl);
@@ -165,6 +165,8 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       );
       let res = await contractOfStaking.methods.rewardOfUser(acc).call();
       let totalPrice = caver.utils.fromPeb(res);
+      console.log("totalPrice ", totalPrice.toLocaleString());
+
       setRewardBalance(totalPrice);
     }
   };
@@ -313,11 +315,12 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
             setStakedNFT(imagesArray);
           } else {
-            let imageUrl = `/config/images/${ids}.jpg`;
+            let imageUrl = `/config/king/${ids - 40}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
-            // console.log("imageUrl", imageUrl);
-            // console.log("iamgeName", imageName);
+            console.log("imageUrl", imageUrl);
+            console.log("iamgeName", imageName);
+            console.log("nftID", nftID);
             KingImagesArray = [
               ...KingImagesArray,
               { imageName, imageUrl, nftID },
@@ -399,6 +402,8 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           from: acc,
           gas: "5000000",
         });
+        toast.success("Transaction Successful");
+        getBalanceToken();
       } catch (e) {
         toast.error("Transaction Failed");
         console.log("errr", e);
@@ -498,13 +503,15 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
 
           <div className="mt-2">
             <span className="balanceMag">
-              {t("staking.para4")} :{maguniBalance}
+              {t("staking.para4")}&nbsp; : &nbsp;
+              {maguniBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
           <div className="mt-2">
             <h6 className="card-sub-title">
               {t("staking.para7")}
-              &nbsp;: &nbsp;{rewardBalance}
+              &nbsp;: &nbsp;
+              {rewardBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </h6>
           </div>
 

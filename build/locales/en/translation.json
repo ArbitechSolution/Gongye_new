@@ -6,7 +6,7 @@
   "navbar.stakeBreed": "Stake & Breed",
   "navbar.roadmap": "Roadmap",
   "navbar.team": "Team",
-  "navbar.FAQ": "FAQ",
+  "navbar.FAQ": "Q&A",
   "navbar.presale": "Presale",
 
   "landing.title": "WELCOME TO THE",
@@ -18,7 +18,7 @@
   "stroy.background": "BACKGROUND",
   "stroy.paraback1": "When the Goongye was still in his human form, he was a ruthless tyrant that led his people to victory. His country overcame war against various enemies through the use of deadly force and objective decisions. The Goongye showed no mercy to his enemies but was a good ally to his friends. He never abandoned a partner in battle nor let his worst enemies survive a fight. As he gained more knowledge to understand the world and become more powerful, he came upon the forbidden book – The Necronomicon.",
   "stroy.paraback2": "The Goongye was thirsty for knowledge and power which led him to ignore the warnings of his council and read the forbidden book. He spent weeks in his room, reading and analyzing each page and text. When he emerged from his weeks of seclusion, he was not a man anymore. He has become the Ape Goongye; a higher being that values reason and objectivity beyond anything else.",
-  "story.story": "Story",
+  "story.story": "STORY",
   "story.parastory1": "While the Ape Goongye has acquired knowledge beyond the understanding of man, the world has fallen into a war between the Eastern and Western countries. Since the Ape Goongye is from the east, he then prepares to help his allies win the war.",
   "story.parastory2": "However, reading the Necronomicon has made the Ape Goongye less of a tyrant and more of a peace-keeper. While he wants to secure the power of his country, he does not want to destroy the Western countries or harm innocent civilians.",
   "story.parastory3": "Since some of the Goongye’s allies preferred the ruthless tyrant, they are having trouble working with the changed Ape Goongye.",
@@ -91,7 +91,7 @@
   "mint.breeding": "Stake & Breed",
 
   "Roadmap.1": "Roadmap",
-  "roadmap.parah1": "pen the website of the ape,",
+  "roadmap.parah1": "Open the website of the ape,",
   "roadmap.Goongye": "Goongye",
   "roadmap.parah2": "Startfirst to third",
   "roadmap.presale": "pre-sale",
@@ -277,5 +277,10 @@
 
   "transaction.Successfull": "Transaction Successfull",
   "insufficient.Balance": "Insufficient Balance!",
-  "minting.Failed": "Minting Failed"
+  "minting.Failed": "Minting Failed",
+  "tokenomicsNew.para1": "$MAGUNI는 Crazy Ape Goongye 생태계를 유지하는 놀라운 토큰입니다. Ape Goongye의 모든 보유자는 하루에 2,000 $MAGUNI 토큰을 스테이킹하고 보상을 받을 수 있습니다.",
+  "tokenomicsNew.para2": "Crazy Goongye를 King Goongye로 진화시키려면 1,000 KLAY  토큰이 필요합니다.",
+  "tokenomicsNew.para3": "King Goongye의 카드 보유자가 되면 이를 스테이킹할 수 있으며 하루에 $MAGUNI 토큰 10,000개를 보상 받게 됩니다. King Goongye 최대 공급량은 2,000개입니다. 생태계에서  King Goongye를 민팅하면 원래의 Crazy Goongye는 소각이 됩니다.",
+  "tokenomicsNew.para4": "$MAGUNI 토큰을 사용하여 Crazy Goongye 또는 King Goongye의 이름과 프로필을 변경할 수도 있습니다. Maguni와 같은 미니 게임과 같은 미래의 유틸리티가 Rec Room에 제공됩니다. 이 게임에 참여하면 보상을 받을 수 있습니다.",
+  "tokenomicsNew.para5": "** $MAGUNI는 Crazy Ape Goongye에서 제공되는 상품 또는 서비스를 얻기 위한 수단으로만 설계되고 의도된 유틸리티 토큰입니다. $MAGUNI 토큰은 투기적이든 아니든 이익을 창출하기 위한 것이 아니며 투자가 아니며 경제적 가치도 없습니다."
 }

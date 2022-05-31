@@ -30,7 +30,7 @@ export default function NavbarStaking({
           <div className="social-links" data-aos="fade-down">
             <span
               className={
-                green == "eng"
+                i18n.language == "eng"
                   ? "Eng green languageChnage"
                   : "Eng languageChnage"
               }
@@ -41,7 +41,7 @@ export default function NavbarStaking({
             /
             <span
               className={
-                green == "ko"
+                i18n.language == "ko"
                   ? "Kor pe-4 green languageChnage"
                   : "Kor pe-4 languageChnage"
               }
