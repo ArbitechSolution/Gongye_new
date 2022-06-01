@@ -44,7 +44,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   };
 
   const dispalyImage = async () => {
-    console.log("account in displying images", acc);
+    console.log("account in displying images from staked", acc);
     // if (acc == "No Wallet") {
     //   console.log("No wallet");
     //   toast.error(acc);
@@ -61,40 +61,41 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       );
       if (acc) {
         let totalIDs = await contractOf.methods.walletOfOwner(acc).call();
-        console.log("nft ids before sorting", totalIDs);
         let cc2 = totalIDs.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
-        console.log("real nft ids before sorting", sortedArray);
-
         // totalIDs = totalIDs.sort();
         // NFtIds = NFtIds.sort();
         // console.log(totalIDs);
         let imagesArray = [];
         let KingImagesArray = [];
-        sortedArray.forEach(async (ids) => {
-          if (ids <= 40) {
-            let imageUrl = `/config/images/${ids}.jpg`;
-            let imageName = `Common #${ids}`;
-            let nftID = ids;
-            // console.log("imageUrl", imageUrl);
-            // console.log("iamgeName", imageName);
-            imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-            setMintArray(imagesArray);
-          } else {
-            let imageUrl = `/config/king/${ids - 40}.jpg`;
-            let imageName = `King #${ids}`;
-            let nftID = ids;
-            // console.log("imageUrl", imageUrl);
-            // console.log("iamgeName", imageName);
-            // KingImagesArray = [
-            //   ...KingImagesArray,
-            //   { imageName, imageUrl, nftID },
-            // ];
-            // setKingMintArray(KingImagesArray);
-            imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-            setMintArray(imagesArray);
-          }
-        });
+        if (totalIDs.length == 0) {
+          setMintArray(null);
+        } else {
+          sortedArray.forEach(async (ids) => {
+            if (ids <= 40) {
+              let imageUrl = `/config/images/${ids}.jpg`;
+              let imageName = `Common #${ids}`;
+              let nftID = ids;
+              console.log("imageUrl", imageUrl);
+              console.log("iamgeName", imageName);
+              imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+              setMintArray(imagesArray);
+            } else {
+              let imageUrl = `/config/king/${ids - 40}.jpg`;
+              let imageName = `King #${ids}`;
+              let nftID = ids;
+              // console.log("imageUrl", imageUrl);
+              // console.log("iamgeName", imageName);
+              // KingImagesArray = [
+              //   ...KingImagesArray,
+              //   { imageName, imageUrl, nftID },
+              // ];
+              // setKingMintArray(KingImagesArray);
+              imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+              setMintArray(imagesArray);
+            }
+          });
+        }
       }
     } catch (e) {
       console.log(" Error while displaying images", e);
@@ -319,9 +320,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             let imageUrl = `/config/king/${ids - 40}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
-            console.log("imageUrl", imageUrl);
-            console.log("iamgeName", imageName);
-            console.log("nftID", nftID);
             KingImagesArray = [
               ...KingImagesArray,
               { imageName, imageUrl, nftID },
