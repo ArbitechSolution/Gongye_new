@@ -448,7 +448,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   }, [stakedNFTArray]);
   useEffect(() => {
     dispalyImage();
-    // stakedNFT();
+    stakedNFT();
     // unStakedNFT();
   }, [acc]);
   useEffect(() => {
