@@ -273,6 +273,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           stakingContractAbi,
           stakingContractAddress
         );
+        console.log("before userStakeNFT");
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
         let cc2 = NFtIds.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
@@ -329,7 +330,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           }
         });
       } catch (e) {
-        toast.error("Transaction Failed");
+        console.log("Error while showing stakedNFT", e);
       }
     }
   };
@@ -447,7 +448,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   }, [stakedNFTArray]);
   useEffect(() => {
     dispalyImage();
-    stakedNFT();
+    // stakedNFT();
     // unStakedNFT();
   }, [acc]);
   useEffect(() => {
