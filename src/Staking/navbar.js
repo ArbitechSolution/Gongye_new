@@ -58,7 +58,7 @@ export default function NavbarStaking({
               <img src={Twitter} alt="" />
             </a>
             <a
-              href="https://t.me/+5VvQvVvtYIA2OTc9"
+              href="https://t.me/goongyeglobal"
               target="_blank"
               rel="noreferrer"
               className="telegram pe-1"
@@ -136,6 +136,13 @@ export default function NavbarStaking({
               >
                 {t("navbar.stakeBreed")}
               </Nav.Link>
+              {/* <Nav.Link
+                className="nav-link scrollto"
+                href="#roadmap"
+                onClick={() => changePresale()}
+              >
+                {t("navbar.presale")}
+              </Nav.Link> */}
               <Nav.Link
                 className="nav-link scrollto"
                 href="#roadmap"

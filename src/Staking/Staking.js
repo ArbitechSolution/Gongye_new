@@ -26,7 +26,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   let [stakedNFTArray, setStakedNFT] = useState([]);
   const [indexForTransfer, setIndexForTransfer] = useState(null);
   const [inputValue, setInputValue] = useState(null);
-  const [rewardBalance, setRewardBalance] = useState(0.0);
+  const [rewardBalance, setRewardBalance] = useState([]);
   const [maguniBalance, setmaguniBalance] = useState(0.0);
 
   const onConnectAccount = () => {
@@ -44,7 +44,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   };
 
   const dispalyImage = async () => {
-    console.log("account in displying images from staked", acc);
     // if (acc == "No Wallet") {
     //   console.log("No wallet");
     //   toast.error(acc);
@@ -65,7 +64,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         let sortedArray = cc2.sort((a, b) => a - b);
         // totalIDs = totalIDs.sort();
         // NFtIds = NFtIds.sort();
-        // console.log(totalIDs);
+        console.log("totalIDs", totalIDs);
         let imagesArray = [];
         let KingImagesArray = [];
         if (totalIDs.length == 0) {
@@ -150,7 +149,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       toast.error("Transcation Failed");
     }
   };
-  const handleGetBalance = async () => {
+  const handleGetBalance = async (item) => {
     if (acc == "No Wallet") {
       console.log("No wallet");
       console.log(acc);
@@ -165,9 +164,9 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         stakingContractAddress
       );
       let res = await contractOfStaking.methods.rewardOfUser(acc).call();
+      console.log(res, "reward of single item");
       let totalPrice = caver.utils.fromPeb(res);
       console.log("totalPrice ", totalPrice.toLocaleString());
-
       setRewardBalance(totalPrice);
     }
   };
@@ -246,7 +245,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         stakingContractAbi,
         stakingContractAddress
       );
-      console.log("item.nftID", item.nftID);
+      console.log("item.nftID", item?.nftID);
       await contractOfStaking.methods.Stake([item.nftID]).send({
         from: acc,
         gas: "5000000",
@@ -274,7 +273,6 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           stakingContractAbi,
           stakingContractAddress
         );
-        console.log("before userStakeNFT");
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
         let cc2 = NFtIds.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
@@ -309,20 +307,41 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
 
         let imagesArray = [];
         let KingImagesArray = [];
+        let rewardsArray = [];
         sortedArray.forEach(async (ids) => {
           if (ids <= 40) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
             let nftID = ids;
-            imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
+            let nftBalance;
+            let res = await contractOfStaking.methods
+              .rewardOfUser(acc, ids)
+              .call();
+            nftBalance = caver.utils.fromPeb(res);
+            rewardsArray = [...rewardsArray, { nftID, nftBalance }];
+            setRewardBalance(rewardsArray);
+
+            imagesArray = [
+              ...imagesArray,
+              { imageName, imageUrl, nftID, nftBalance },
+            ];
             setStakedNFT(imagesArray);
           } else {
             let imageUrl = `/config/king/${ids - 40}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
+            let nftBalance;
+            let res = await contractOfStaking.methods
+              .rewardOfUser(acc, ids)
+              .call();
+
+            nftBalance = caver.utils.fromPeb(res);
+            rewardsArray = [...rewardsArray, { nftID, nftBalance }];
+            setRewardBalance(rewardsArray);
+
             KingImagesArray = [
               ...KingImagesArray,
-              { imageName, imageUrl, nftID },
+              { imageName, imageUrl, nftID, nftBalance },
             ];
             setKingMintArray(KingImagesArray);
           }
@@ -348,9 +367,9 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           stakingContractAbi,
           stakingContractAddress
         );
-        // console.log("res", item);
+        console.log("item in unststake", item.nftID);
 
-        await contractOfStaking.methods.unstake([item.nftID]).send({
+        await contractOfStaking.methods.UnStake(item.nftID).send({
           from: acc,
           gas: "500000",
         });
@@ -362,6 +381,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             return items.nftID !== item.nftID;
           });
           setStakedNFT(stakedNFTArray);
+          getBalanceToken();
           console.log("stakedArray", stakedNFTArray?.length);
           dispalyImage();
           toast.success("Unstake Successful");
@@ -371,6 +391,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             return items.nftID !== item.nftID;
           });
           setKingMintArray(kingMintArray);
+          getBalanceToken();
           console.log("stakedArray", kingMintArray?.length);
           dispalyImage();
           toast.success("Unstake Successful");
@@ -378,11 +399,12 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         }
       } catch (e) {
         toast.error("Transaction Failed");
+        console.log("error", e);
       }
     }
   };
 
-  const withdrawReward = async () => {
+  const withdrawReward = async (item) => {
     if (acc == "No Wallet") {
       console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
@@ -393,14 +415,25 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       toast.error(t("Connect"));
     } else {
       try {
+        let nftBalance;
         let contractOfStaking = new caver.klay.Contract(
           stakingContractAbi,
           stakingContractAddress
         );
-        let res = await contractOfStaking.methods.WithdrawReward().send({
-          from: acc,
-          gas: "5000000",
-        });
+        // let res = await contractOfStaking.methods
+        //   .rewardOfUser(acc, item.nftID)
+        //   .call();
+        // nftBalance = caver.utils.fromPeb(res);
+        // console.log("nftBalance", nftBalance);
+        let result = await contractOfStaking.methods
+          .WithdrawReward(item.nftID)
+          .send({
+            from: acc,
+            gas: "500000",
+          });
+        console.log("result of withdraw reward", result);
+        // rewardsArray = [...rewardsArray, { nftID, nftBalance }];
+        // setRewardBalance(rewardsArray);
         toast.success("Transaction Successful");
         getBalanceToken();
       } catch (e) {
@@ -439,6 +472,69 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
       }
     }
   };
+  const balanceForAllItems = async () => {
+    if (acc == "No Wallet") {
+      console.log("No wallet");
+      console.log(acc);
+    } else if (acc == "Wrong Network") {
+      console.log("Wrong Network");
+      console.log(acc);
+    } else if (acc == "Connect Wallet") {
+      console.log(acc);
+    } else {
+      try {
+        let contractOfStaking = new caver.klay.Contract(
+          stakingContractAbi,
+          stakingContractAddress
+        );
+
+        let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
+        let cc2 = NFtIds.map((a) => a);
+        let sortedArray = cc2.sort((a, b) => a - b);
+        // console.log("sorted staked", sortedArray);
+
+        sortedArray.forEach(async (ids) => {
+          if (ids <= 40) {
+            let res = await contractOfStaking.methods
+              .rewardOfUser(acc, ids)
+              .call();
+            let eachItemBalance = caver.utils.fromPeb(res);
+            console.log("totalPrice ", eachItemBalance.toLocaleString());
+            {
+              rewardBalance &&
+                rewardBalance.map((item, index) => {
+                  if (item.nftID == ids) {
+                    item.nftBalance = eachItemBalance;
+                    // console.log(item.nftBalance, "reward of single item");
+                  }
+                });
+            }
+            console.log("rewardBalance in <40", rewardBalance);
+            setRewardBalance([...rewardBalance]);
+          } else {
+            let res = await contractOfStaking.methods
+              .rewardOfUser(acc, ids)
+              .call();
+            let eachItemBalance = caver.utils.fromPeb(res);
+            {
+              rewardBalance &&
+                rewardBalance.map((item, index) => {
+                  if (item.nftID == ids) {
+                    item.nftBalance = eachItemBalance;
+                    // console.log(item.nftBalance, "reward of single item");
+                  }
+                });
+            }
+            console.log("rewardBalance", rewardBalance);
+
+            setRewardBalance([...rewardBalance]);
+          }
+        });
+      } catch (e) {
+        console.log("Error while showing stakedNFT", e);
+      }
+    }
+  };
   useEffect(() => {
     dispalyImage();
     // stakedNFT();
@@ -447,21 +543,31 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
   useEffect(() => {
     dispalyImage();
     stakedNFT();
+    getBalanceToken();
+
     // unStakedNFT();
   }, [acc]);
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
   useEffect(() => {
-    handleGetBalance();
-    getBalanceToken();
+    // handleGetBalance();
   }, [acc]);
+  let interv = null;
   useEffect(() => {
-    setInterval(() => {
-      handleGetBalance();
+    interv = setInterval(() => {
+      // handleGetBalance();
       // getBalanceToken();
-    }, 2000);
+      balanceForAllItems();
+    }, 3000);
+
+    return () => clearInterval(interv);
   }, [rewardBalance]);
+
+  // useEffect(() => {
+  //   balanceForAllItems();
+  //   // stakedNFT();
+  // }, [rewardBalance]);
   return (
     <div className="staking d-flex justify-content-center " id="staking">
       <div className="imgArea ">
@@ -493,11 +599,11 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                 {t("staking.para2")}
               </button>
             </div>
-            <div className="col-lg-6 col-md-12 mt-2">
+            {/* <div className="col-lg-6 col-md-12 mt-2">
               <button className="btnAllReward" onClick={() => withdrawReward()}>
                 {t("staking.para3")}
               </button>
-            </div>
+            </div> */}
           </div>
 
           <div className="mt-2">
@@ -506,13 +612,13 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
               {maguniBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <h6 className="card-sub-title">
               {t("staking.para7")}
               &nbsp;: &nbsp;
               {rewardBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </h6>
-          </div>
+          </div> */}
 
           {mintArray && mintArray?.length > 0 && (
             <div className="mt-2">
@@ -533,14 +639,14 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                       <div className="card-body">
                         <h5 className="card-title">{item.imageName}</h5>
                         {/* <div className="mt-2 rewardDiv">
-                        <h6 className="card-sub-title rewardTitle">
-                          {t("staking.para7")}
-                          &nbsp;: &nbsp;
-                        </h6>
-                        <span className="cardRewardBalance ">
-                          {rewardBalance}
-                        </span>
-                      </div> */}
+                          <h6 className="card-sub-title rewardTitle">
+                            {t("staking.claimable")}
+                            &nbsp;: &nbsp;
+                          </h6>
+                          <span className="cardRewardBalance">
+                            {rewardBalance}
+                          </span>
+                        </div> */}
 
                         <p className="card-text">{t("staking.para8")}</p>
                         <a href="#" className="card-Link">
@@ -641,12 +747,28 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           {rewardBalance}
                         </span>
                       </div> */}
+                        <div className="mt-2 rewardDiv">
+                          <h6 className="card-sub-title rewardTitle">
+                            {t("staking.claimable")}
+                            &nbsp;: &nbsp;
+                          </h6>
+                          {rewardBalance &&
+                            rewardBalance.map((items) => {
+                              if (items.nftID == item.nftID) {
+                                return (
+                                  <span className="cardRewardBalance">
+                                    {items.nftBalance}
+                                  </span>
+                                );
+                              }
+                            })}
+                        </div>
                         <p className="card-text">{t("staking.para8")}</p>
                         <a href="#" className="card-Link">
                           https://crazyapegoongyeclub.com/
                         </a>
-                        {/* <div className="card_btn"> */}
-                        <div className="card-buttons">
+                        <div className="card_btn">
+                          {/* <div className="card-buttons"> */}
                           <button
                             className="btn-stake me-2"
                             // onClick={() => NFTstaking(item)}
@@ -656,10 +778,14 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           >
                             {t("staking.unstake")}
                           </button>
-                          {/* <button className="btn-reward">
-                          {t("staking.claimReward")}
-                        </button>
-                        */}
+                          <button
+                            className="btn-reward"
+                            onClick={() => {
+                              withdrawReward(item);
+                            }}
+                          >
+                            {t("staking.claimReward")}
+                          </button>
                         </div>
                         <div className="card-buttons mt-2">
                           {/* <button className="btn-changeName">
@@ -719,11 +845,28 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           </span>
                         </div>
                       </div> */}
+                        <div className="mt-2 rewardDiv">
+                          <h6 className="card-sub-title rewardTitle">
+                            {t("staking.claimable")}
+                            &nbsp;: &nbsp;
+                          </h6>
+                          {rewardBalance &&
+                            rewardBalance.map((items) => {
+                              if (items.nftID == item.nftID) {
+                                return (
+                                  <span className="cardRewardBalance">
+                                    {items.nftBalance}
+                                  </span>
+                                );
+                              }
+                            })}
+                        </div>
                         <p className="card-text">{t("staking.para8")}</p>
                         <a href="#" className="card-Link">
                           https://crazyapegoongyeclub.com/
                         </a>
-                        <div className="card-buttons">
+                        <div className="card_btn">
+                          {/* <div className="card-buttons"> */}
                           <button
                             className="btn-stake me-2"
                             // onClick={() => NFTstaking(item)}
@@ -733,12 +876,14 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                           >
                             {t("staking.unstake")}
                           </button>
-                          {/* <button
-                          className="btn-breed"
-                          onClick={() => updgradToKing(item)}
-                        >
-                          {t("staking.parabreed")}
-                        </button> */}
+                          <button
+                            className="btn-reward"
+                            onClick={() => {
+                              withdrawReward(item);
+                            }}
+                          >
+                            {t("staking.claimReward")}
+                          </button>
                         </div>
                         {/* <div className="card_btn">
                         <button

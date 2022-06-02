@@ -1,5 +1,5 @@
 export const googyeContractAddress =
-  "0x47d848E3471414193B5b8F3FC6D0Ef6Fa3fE0201";
+  "0x36E99e885e612f2e506fC6F601557f75dd96e63D";
 export const goongyeContractAbi = [
   {
     inputs: [],

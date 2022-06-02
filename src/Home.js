@@ -314,7 +314,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <img src={Twitter} alt="" />
             </a>
             <a
-              href="https://t.me/+5VvQvVvtYIA2OTc9"
+              href="https://t.me/goongyeglobal"
               target="_blank"
               rel="noreferrer"
               className="telegram pe-1"
@@ -392,6 +392,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               >
                 {t("navbar.stakeBreed")}
               </Nav.Link>
+
               <Nav.Link
                 className="nav-link scrollto"
                 href="#roadmap"
@@ -611,11 +612,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           </div>
           <div className="row pt-4 text-light desc">
             <p data-aos="fade-up" data-aos-delay="100">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
                   <span className="green">{t("tokenomics.manguni")}</span>
                   {t("tokenomics.para1")}
-                  <span className="blue">{t("tokenomics.card1balance")}</span>
+                  <span className="blue ms-1">
+                    {t("tokenomics.card1balance")}
+                  </span>
                   <span className="green">{t("tokenomics.manguni")}</span>
                   <span className="blue">{t("tokenomics.tokens")}</span>
                   {t("tokenomics.perday")}
@@ -625,7 +628,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
                   {t("tokenomics.cost")}
                   <span className="blue">{t("tokenomics.1000")}</span>
@@ -636,7 +639,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <span className="green">{t("tokenomics.manguni")}</span>
                   <span className="blue">{t("tokenomics.tokens")}</span> p
                   {t("tokenomics.para2h2")}
-                  <span className="blue">{t("tokenomics.card1balance")}</span>
+                  <span className="blue ms-1">
+                    {t("tokenomics.card1balance")}
+                  </span>
                   {t("tokenomics.king")}{" "}
                 </>
               ) : (
@@ -644,15 +649,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              { i18n.language  == "eng"
+              {i18n.language == "eng"
                 ? t("tokenomics.para3")
                 : t("tokenomicsNew.para3")}
             </p>
             <p data-aos="fade-up" data-aos-delay="400">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
-                  <span className="green">{t("tokenomics.manguni")}</span>
-                  <span className="blue">{t("tokenomics.tokens")}</span>
+                  {/* <span className="green">{t("tokenomics.manguni")}</span>
+                  <span className="blue">{t("tokenomics.tokens")}</span> */}
                   {t("tokenomics.para4")}
                 </>
               ) : (
@@ -660,7 +665,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="500">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
                   <span className="green">{t("tokenomics.manguni2")}</span>
                   {t("tokenomics.para5")}
@@ -690,7 +695,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {t("staking.parah1")}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
                   {t("staking.parah2")}
                   <span className="blue pe-1 ps-1">
@@ -705,7 +710,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              { i18n.language  == "eng" ? (
+              {i18n.language == "eng" ? (
                 <>
                   {t("staking.parah3")}
                   <span className="green ps-1 pe-1">
@@ -714,10 +719,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   </span>
                   <span className="blue pe-1">{t("staking.tokens")}</span>
                   {t("staking.parah4")}
-                  <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
+                  {/* <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
                   <span className="green pe-1"> {t("staking.MAGUNI")}</span>
-                  <span className="blue">{t("staking.tokens")} </span>
-                  {t("staking.day")}
+                  <span className="blue">{t("staking.tokens")} </span> */}
+                  {/* {t("staking.day")} */}
                 </>
               ) : (
                 t("staking.parah3")
@@ -969,7 +974,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.parah1")}
                       <span className="blue ms-1"> {t("roadmap.Goongye")}</span>
@@ -992,7 +997,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.parah2")}
                       <span className="blue ms-1">{t("roadmap.presale")}</span>
@@ -1015,7 +1020,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.prize")}</span>
                       {t("roadmap.parah3")}
@@ -1038,7 +1043,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.Start")}</span>
                       {t("roadmap.parah4")}
@@ -1061,7 +1066,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.parah5")}
                       <span className="blue ms-1">{t("roadmap.People")}</span>
@@ -1084,11 +1089,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
-                      <span className="blue me-1">
+                      {/* <span className="blue me-1">
                         {t("roadmap.Tokenomics")}
-                      </span>
+                      </span> */}
                       {t("roadmap.parah6")}
                     </>
                   ) : (
@@ -1109,12 +1114,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
-                      {t("roadmap.Open")}
+                      {/* {t("roadmap.Open")}
                       <span className="blue ms-1 me-1">
                         {t("roadmap.parah7")}
-                      </span>
+                      </span> */}
                       {t("roadmap.parah8")}
                     </>
                   ) : (
@@ -1135,7 +1140,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.Purchase")}
                       <span className="blue ms-1 me-1">
@@ -1161,7 +1166,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.parah11")}</span>
                       {t("roadmap.parah12")}
@@ -1184,7 +1189,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {" "}
                       {t("roadmap.parah13")}
@@ -1211,7 +1216,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.Add")}
                       <span className="blue ms-1 me-1">
@@ -1237,7 +1242,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.conduct")}
                       <span className="blue me-1 ms-1">
@@ -1263,7 +1268,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.Open")}
                       <span className="blue ms-1">{t("roadmap.parah18")}</span>
@@ -1286,7 +1291,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.Issue")}
                       <span className="blue ms-1 me-1">{t("roadmap.NFT")}</span>
@@ -1310,7 +1315,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>
                       {t("roadmap.parah20")}
                       <span className="blue ms-1 me-1">
@@ -1336,7 +1341,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  { i18n.language  == "eng" ? (
+                  {i18n.language == "eng" ? (
                     <>{t("roadmap.parah23")}</>
                   ) : (
                     t("roadmap.para16")
@@ -1709,7 +1714,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 className="accordion-item"
                 data-aos="fade-up"
                 data-aos-delay="200"
@@ -1742,7 +1747,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div
                 className="accordion-item"
                 data-aos="fade-up"
