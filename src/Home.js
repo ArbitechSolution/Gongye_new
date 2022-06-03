@@ -385,6 +385,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               >
                 {t("navbar.mint")}
               </Nav.Link>
+              {/* <Nav.Link
+                className="nav-link scrollto"
+                href="#presale"
+                onClick={() => changePresale()}
+              >
+                {t("navbar.presale")}
+              </Nav.Link> */}
               <Nav.Link
                 className="nav-link scrollto"
                 href="#stake"
@@ -1121,9 +1128,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                         {t("roadmap.parah7")}
                       </span> */}
                       {t("roadmap.parah8")}
+                      {t("roadmap.parah8.1")}
                     </>
                   ) : (
-                    t("roadmap.para7")
+                    <>
+                      {t("roadmap.para7")}
+
+                      <br />
+
+                      {t("roadmap.para7.1")}
+                    </>
                   )}
                 </div>
               </div>

@@ -44,7 +44,13 @@ const AppHome = () => {
   // const Presale = () => {
   //   return (
   //     <div>
+  //       <NavbarStaking
+  //         changeMain={changeMain}
+  //         changeStake={changeStake}
+  //         changePresale={changePresale}
+  //       ></NavbarStaking>
   //       <AppPresale />
+  //       <Footer />
   //     </div>
   //   );
   // };
