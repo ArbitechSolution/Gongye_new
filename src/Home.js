@@ -51,6 +51,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const [loadingBreed, isLoadingSecond] = useState(false);
   const { t, i18n } = useTranslation();
   const [green, isGreen] = useState("eng");
+  const [salePrice, setSalePrice] = useState(0.0);
   function handleChangeLanguage(lang) {
     i18n.changeLanguage(lang);
     console.log(i18n, ":i18n");
@@ -149,9 +150,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         goongyeContractAbi,
         googyeContractAddress
       );
-      let totalPrice = await contractOf.methods.gPRice(1).call();
-      totalPrice = caver.utils.fromPeb(totalPrice);
-      setTtlKlay(totalPrice);
+      let publicSale = await contractOf.methods.publicprice().call();
+      publicSale = caver.utils.fromPeb(publicSale);
+      setTtlKlay(publicSale);
     } catch (e) {
       console.log("Error while getting minting price", e);
     }
@@ -165,10 +166,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         googyeContractAddress
       );
       let newNum = noMints + 1;
-      let totalPrice = await contractOf.methods.gPRice(newNum).call();
 
-      totalPrice = parseFloat(totalPrice) / 1000000000000000000;
-      setTtlKlay(totalPrice);
+      let publicSale = await contractOf.methods.publicprice().call();
+      publicSale = caver.utils.fromPeb(publicSale);
+      publicSale = publicSale * newNum;
+      console.log("publicSale", publicSale);
+      setTtlKlay(publicSale);
       setNomints(newNum);
     }
   };
@@ -181,10 +184,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       );
       let newNum = noMints - 1;
 
-      let totalPrice = await contractOf.methods.gPRice(newNum).call();
+      let publicSale = await contractOf.methods.publicprice(newNum).call();
+      publicSale = caver.utils.fromPeb(publicSale);
+      publicSale = publicSale * newNum;
 
-      totalPrice = parseFloat(totalPrice) / 1000000000000000000;
-      setTtlKlay(totalPrice);
+      console.log("publicSale", publicSale);
+      setTtlKlay(publicSale);
       setNomints(newNum);
     }
   };
@@ -220,22 +225,29 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         const length = ownerList.length;
         console.log("ownerList", length);
         // dispalyImage();
-        if (length <= 6) {
-          if (parseFloat(balance) > parseFloat(totalPrice)) {
-            await contractOf.methods.mint(noMints).send({
-              from: acc,
-              value: totalPrice,
-              gas: "5000000",
-            });
-            isLoading(false);
-            toast.success(t("transaction.Successfull"));
-            dispalyImage();
+        let publicSaleBool = await contractOf.methods.publicSale().call();
+        console.log("publicSaleBool", publicSaleBool);
+
+        if (publicSaleBool == true) {
+          if (length <= 6) {
+            if (parseFloat(balance) > parseFloat(totalPrice)) {
+              await contractOf.methods.publicMint(noMints).send({
+                from: acc,
+                value: totalPrice,
+                gas: "5000000",
+              });
+              isLoading(false);
+              toast.success(t("transaction.Successfull"));
+              dispalyImage();
+            } else {
+              toast.error(t("insufficient.Balance!"));
+              isLoading(false);
+            }
           } else {
-            toast.error(t("insufficient.Balance!"));
-            isLoading(false);
+            toast.error("Minting Limit Reached (6)");
           }
         } else {
-          toast.error("Minting Limit Reached (6)");
+          toast.info("Public sale is not started yet!");
         }
       } catch (e) {
         console.log(" Error while minting", e);
@@ -257,10 +269,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         totalIDs = totalIDs.slice(-noMints);
         let imagesArray = [];
         totalIDs.forEach(async (ids) => {
-          let imageUrl = `/config/images/${ids}.jpg`;
-          let imageName = `Common #${ids}`;
-          imagesArray = [...imagesArray, { imageName, imageUrl }];
-          setMintArray(imagesArray);
+          if (ids <= 500) {
+            let imageUrl = `/config/images/${ids}.jpg`;
+            let imageName = `Common #${ids}`;
+            imagesArray = [...imagesArray, { imageName, imageUrl }];
+            setMintArray(imagesArray);
+          } else {
+            let imageUrl = `/config/king/${ids - 500}.jpg`;
+            let imageName = `King #${ids}`;
+            imagesArray = [...imagesArray, { imageName, imageUrl }];
+            setMintArray(imagesArray);
+          }
         });
         setCollectionModalShow(true);
       }
@@ -269,7 +288,17 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       // toast.error("Minting Failed");
     }
   };
+  const salePrices = async () => {
+    let contractOf = new caver.klay.Contract(
+      goongyeContractAbi,
+      googyeContractAddress
+    );
+    let publicSale = await contractOf.methods.publicprice().call();
+    publicSale = caver.utils.fromPeb(publicSale);
+    console.log("publicSale", publicSale);
 
+    setSalePrice(publicSale);
+  };
   const handleCLodemodal = () => {
     setCollectionModalShow(false);
     isLoading(false);
@@ -277,7 +306,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   useEffect(() => {
     getInitialMintPrice();
   }, [acc]);
-
+  useEffect(() => {
+    salePrices();
+  }, []);
   return (
     <div className="home" id="home">
       <section id="topbar" className="d-flex align-items-center">
@@ -385,13 +416,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               >
                 {t("navbar.mint")}
               </Nav.Link>
-              {/* <Nav.Link
+              <Nav.Link
                 className="nav-link scrollto"
                 href="#presale"
                 onClick={() => changePresale()}
               >
                 {t("navbar.presale")}
-              </Nav.Link> */}
+              </Nav.Link>
               <Nav.Link
                 className="nav-link scrollto"
                 href="#stake"
@@ -836,7 +867,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <p className="m-0">{t("mint.price")}</p>
                   <div className="d-flex  justify-content-between">
                     <p className="m-0">
-                      <span className="green">0.00</span> {t("mint.Each")}
+                      <span className="green">{salePrice}</span>
+                      {t("mint.Each")}
                     </p>
                     <p className="m-0">
                       <span className="blue">{t("tokenomics.1000")}</span>

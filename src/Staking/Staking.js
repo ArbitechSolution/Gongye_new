@@ -14,7 +14,7 @@ import { connectionAction } from "../Redux/connection/actions";
 import light from "../media/light-from-top-background.png";
 import Modal from "react-bootstrap/Modal";
 
-export default function Staking({ changeMain, changeStake, changePresale }) {
+export default function Staking() {
   let acc = useSelector((state) => state.connect?.connection);
   const caver = new Caver(window.klaytn);
   const { t, i18n } = useTranslation();
@@ -71,7 +71,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
           setMintArray(null);
         } else {
           sortedArray.forEach(async (ids) => {
-            if (ids <= 40) {
+            if (ids <= 500) {
               let imageUrl = `/config/images/${ids}.jpg`;
               let imageName = `Common #${ids}`;
               let nftID = ids;
@@ -80,7 +80,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
               imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
               setMintArray(imagesArray);
             } else {
-              let imageUrl = `/config/king/${ids - 40}.jpg`;
+              let imageUrl = `/config/king/${ids - 500}.jpg`;
               let imageName = `King #${ids}`;
               let nftID = ids;
               // console.log("imageUrl", imageUrl);
@@ -309,7 +309,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         let KingImagesArray = [];
         let rewardsArray = [];
         sortedArray.forEach(async (ids) => {
-          if (ids <= 40) {
+          if (ids <= 500) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
             let nftID = ids;
@@ -327,7 +327,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
             ];
             setStakedNFT(imagesArray);
           } else {
-            let imageUrl = `/config/king/${ids - 40}.jpg`;
+            let imageUrl = `/config/king/${ids - 500}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
             let nftBalance;
@@ -376,7 +376,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
 
         let imagesArray = [];
         console.log("stakedArray before", stakedNFTArray?.length);
-        if (item.nftID <= 40) {
+        if (item.nftID <= 500) {
           stakedNFTArray = stakedNFTArray.filter(function (items) {
             return items.nftID !== item.nftID;
           });
@@ -494,7 +494,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
         // console.log("sorted staked", sortedArray);
 
         sortedArray.forEach(async (ids) => {
-          if (ids <= 40) {
+          if (ids <= 500) {
             let res = await contractOfStaking.methods
               .rewardOfUser(acc, ids)
               .call();
@@ -652,7 +652,7 @@ export default function Staking({ changeMain, changeStake, changePresale }) {
                         <a href="#" className="card-Link">
                           https://crazyapegoongyeclub.com/
                         </a>
-                        {item.nftID <= 40 ? (
+                        {item.nftID <= 500 ? (
                           <div className="card_btn">
                             <button
                               className="btn-stake me-2"

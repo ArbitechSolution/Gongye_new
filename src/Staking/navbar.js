@@ -129,13 +129,13 @@ export default function NavbarStaking({
               >
                 {t("navbar.mint")}
               </Nav.Link>
-              {/* <Nav.Link
+              <Nav.Link
                 className="nav-link scrollto"
                 href="#presale"
                 onClick={() => changePresale()}
               >
                 {t("navbar.presale")}
-              </Nav.Link> */}
+              </Nav.Link>
               <Nav.Link
                 className="nav-link scrollto"
                 href="#stake"

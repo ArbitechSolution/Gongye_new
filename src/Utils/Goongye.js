@@ -1,5 +1,5 @@
 export const googyeContractAddress =
-  "0x36E99e885e612f2e506fC6F601557f75dd96e63D";
+  "0xcab7117C2cED969392de6B1c30F211FD5B8cFD06";
 export const goongyeContractAbi = [
   {
     inputs: [],
@@ -279,6 +279,19 @@ export const goongyeContractAbi = [
   },
   {
     inputs: [],
+    name: "kingprice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "lock",
     outputs: [
       {
@@ -295,19 +308,6 @@ export const goongyeContractAbi = [
     name: "lockBaseURI",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_count",
-        type: "uint256",
-      },
-    ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "payable",
     type: "function",
   },
   {
@@ -412,13 +412,6 @@ export const goongyeContractAbi = [
   },
   {
     inputs: [],
-    name: "pause",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "paused",
     outputs: [
       {
@@ -438,6 +431,97 @@ export const goongyeContractAbi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_count",
+        type: "uint256",
+      },
+    ],
+    name: "preSalemint",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "preSaleprice1",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "preSaleprice2",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "preSaleprice3",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_count",
+        type: "uint256",
+      },
+    ],
+    name: "publicMint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "publicSale",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "publicprice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -535,19 +619,6 @@ export const goongyeContractAbi = [
   {
     inputs: [
       {
-        internalType: "bool",
-        name: "_hasStarted",
-        type: "bool",
-      },
-    ],
-    name: "setPreSaleStarted",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "string",
         name: "_uri",
         type: "string",
@@ -559,6 +630,32 @@ export const goongyeContractAbi = [
       },
     ],
     name: "setTokenURI",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "_hasStarted",
+        type: "bool",
+      },
+    ],
+    name: "startPublicsale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "_hasStarted",
+        type: "bool",
+      },
+    ],
+    name: "start_stop",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -766,13 +863,6 @@ export const goongyeContractAbi = [
       },
     ],
     name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "unpause",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

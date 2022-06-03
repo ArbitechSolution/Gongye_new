@@ -1,6 +1,7 @@
 import react, { useState } from "react";
 import Appstake from "./Appstake";
 import Home from "./Home";
+import AppPresale from "./Presales/Presales";
 import Footer from "./Staking/footer";
 import NavbarStaking from "./Staking/navbar";
 
@@ -41,19 +42,19 @@ const AppHome = () => {
       </div>
     );
   };
-  // const Presale = () => {
-  //   return (
-  //     <div>
-  //       <NavbarStaking
-  //         changeMain={changeMain}
-  //         changeStake={changeStake}
-  //         changePresale={changePresale}
-  //       ></NavbarStaking>
-  //       <AppPresale />
-  //       <Footer />
-  //     </div>
-  //   );
-  // };
+  const Presale = () => {
+    return (
+      <div>
+        <NavbarStaking
+          changeMain={changeMain}
+          changeStake={changeStake}
+          changePresale={changePresale}
+        ></NavbarStaking>
+        <AppPresale changeStake={changeStake} />
+        <Footer />
+      </div>
+    );
+  };
   // const Minting = () => {
   //   return (
   //     <div>
@@ -74,14 +75,13 @@ const AppHome = () => {
         <Stakeing />
       </div>
     );
+  } else if (changeRouteis == "Presale") {
+    return (
+      <div className="App">
+        <Presale />
+      </div>
+    );
   }
-  // else if (changeRouteis == "Presale") {
-  //   return (
-  //     <div className="App">
-  //       <Presale />
-  //     </div>
-  //   );
-  // }
   // else if (changeRouteis == "Minting") {
   //   return (
   //     <div className="App">

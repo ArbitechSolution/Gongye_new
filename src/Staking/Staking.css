@@ -1,7 +1,7 @@
 .staking {
   background-image: url("../media/background.png") !important;
   width: 100%;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-color: #0f131b;
   padding-top: 50px !important;

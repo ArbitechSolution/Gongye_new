@@ -1,0 +1,479 @@
+/* .presales {
+  background-image: url("../media/background.png");
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #0f131b;
+  padding-top: 100px;
+} */
+/* .container-presales-outside {
+  border: 3px solid #2adeea;
+  position: relative;
+} */
+/* .imgArea {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.stakingTop-image {
+  width: 400px;
+  height: 50px;
+} */
+/* @media (max-width: 575.98px) {
+  .imgArea {
+    padding-top: 10px;
+    top: 60px !important;
+  }
+}
+@media (min-width: 576px) {
+  .imgArea {
+    padding-top: 0px;
+  }
+}
+@media (max-width: 575.98px) {
+  .presalesTop-image {
+    width: 200px;
+    height: 30px;
+  
+  }
+} */
+
+.imgArea-text {
+  z-index: 99;
+  position: absolute;
+  color: #000;
+  font-weight: 900;
+  font-size: 28px;
+}
+.container-presales {
+  border: 3px double #2adeea;
+  border-style: dashed;
+}
+.btnAllReward,
+.btnStake {
+  width: 200px;
+  height: 40px;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+.btnStake {
+  background: #28aa73;
+  border: 1px solid #28aa73;
+  margin-right: 5px;
+}
+.btnAllReward {
+  background: #3bc2cb;
+  border: 1px solid #3bc2cb;
+}
+.balanceMag {
+  color: #2adeea;
+}
+.textMyCrazy {
+  font-size: 32px;
+  color: #fff;
+  font-family: "Bowlby One";
+  font-style: normal;
+  font-weight: 600;
+}
+@media (max-width: 676.98px) {
+  .textMyCrazy {
+    font-size: 22px;
+  }
+}
+.card-img-top {
+  width: 300px;
+  height: 300px;
+}
+.card-img-top {
+  width: 290px;
+  height: 300px;
+}
+.card {
+  width: 290px;
+  border: none !important;
+  border-radius: 10px !important;
+}
+.card-body {
+  background: #21353b;
+  border-bottom-left-radius: 7px !important;
+  border-bottom-right-radius: 7px !important;
+}
+.card-title {
+  color: #4ffcb3;
+}
+.card-text,
+.card-sub-title,
+.card-Link {
+  color: #fff;
+}
+.card-Link {
+  text-decoration: none;
+}
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.card-buttons button {
+  margin-top: 5px;
+  width: 260px;
+  height: 40px;
+  background: #28aa73;
+  border-radius: 10px;
+  border: 1px solid #28aa73;
+  color: #fff;
+}
+.preslaesAdditionSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  --bs-gutter-x: 0px !important;
+}
+.preslaesAdditionSection {
+  background: #000000;
+  border: 1px solid #405c65;
+  border-radius: 5px;
+  height: 50px;
+}
+@media (max-width: 320px) {
+  .preslaesAdditionSection {
+    width: 270px;
+  }
+}
+
+.navItems,
+.navItems a {
+  height: 70px;
+  background: #405c65;
+  padding: 2px;
+}
+.navItems .active {
+  background-color: #2adeea !important;
+  border: 2px solid #2adeea !important;
+}
+.presaleCard {
+  border-radius: 10px 0px 10px 0px !important;
+}
+.presaleCard {
+  background: #051f28;
+}
+.presaleCard {
+  width: 480px;
+  border-radius: 10px;
+  position: relative;
+}
+@media (max-width: 320px) {
+  .mintAdditionSection {
+    width: 270px;
+  }
+}
+@media (min-width: 576px) {
+  .presaleCard {
+    width: 480px;
+  }
+}
+.presaleCardHeader {
+  color: #fff;
+  background: #608a97;
+  border-radius: 10px 10px 0px 0px;
+}
+.presaleCardHeaderh3 {
+  font-size: 24px;
+  font-weight: 700;
+}
+.presaleCardSubHeader {
+  background: #405c65;
+  color: #fff;
+  position: relative;
+}
+.presaleCard2SubHeader {
+  background: #405c65;
+  color: #fff;
+  position: relative;
+}
+.presaleCardBody {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.navTabs {
+  width: 33.33%;
+  height: 50px;
+  background: #405c65 !important;
+  border: 1px solid #28aa73;
+}
+.navTabs {
+  color: #7d9ea9;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border: 1px solid #28aa73;
+  padding: 5px !important;
+}
+.nav-tabs .nav-link {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border: 1px solid #28aa73;
+}
+.tabText {
+  color: #000;
+  font-size: 20px;
+}
+.nav-tabs .nav-link.active {
+  background: #2adeea !important;
+  border: 1px solid #28aa73;
+}
+.tab1 {
+  border-top-left-radius: 10px !important;
+}
+.tab3 {
+  border-top-right-radius: 10px !important;
+}
+.preSaleCardBody {
+  padding: 0px 20px;
+}
+.progress {
+  background: #405c65 !important;
+}
+.progress-bar {
+  background: #4ffcb3;
+  border-radius: 5px;
+  color: #000;
+}
+.progressValue {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  margin-top: 10px;
+}
+.btnMinusPresale {
+  padding: 0px 15px;
+  font-size: 30px;
+}
+.btnPlusPresale {
+  padding: 0px 30px !important;
+  font-size: 30px;
+}
+.btnMintPresale {
+  background: #28aa73;
+  border: 1px solid #28aa73;
+  border-radius: 10px;
+  width: 200px;
+  height: 50px;
+  color: #fff;
+}
+.textColor {
+  color: #4ffcb3;
+}
+.connectBtnInPresale {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.btnConnectInPresale {
+  width: 200px;
+  height: 40px;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #fff;
+  background: #28aa73;
+  border: 1px solid #28aa73;
+}
+
+.mintText {
+  font-size: 50px;
+  line-height: 100%;
+  color: #4ffcb3;
+}
+.imageRightSidediv {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+.balanceRemaining {
+  color: #4ffcb3;
+  text-align: right;
+  font-size: 12px;
+}
+.imageRightSide {
+  width: 90px;
+  height: 90px;
+}
+@media (max-width: 575.98px) {
+  .imageRightSidediv {
+    right: 5px !important;
+    top: 20px !important;
+  }
+  .imageRightSide {
+    width: 90px;
+  }
+  .balanceRemaining {
+    font-size: 10px !important;
+  }
+  .mintHeaderh3 {
+    font-size: 14px !important;
+  }
+  .mintHeaderSpan {
+    font-size: 9px !important;
+  }
+  .onIcon,
+  .offIcon {
+    right: 120px !important;
+    width: 17px !important;
+  }
+}
+.mintCardBody li {
+  list-style-type: none;
+  position: relative;
+  padding-left: 15px;
+  font-size: 15px;
+  color: #fff;
+  padding-top: 20px;
+  /* top: 5px; */
+}
+
+.mintCardBody,
+.mintCard2 {
+  background: #051f28;
+}
+.mintCard {
+  max-width: 420px;
+  border-radius: 10px;
+}
+.mintCard2 {
+  width: 420px;
+  border-radius: 10px;
+  position: relative;
+}
+.mintImage {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 420px;
+}
+.mintCardBody {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+@media (max-width: 575.98px) {
+  .mintImage,
+  .mintCard,
+  .mintCard2 {
+    width: 300px;
+  }
+}
+@media (max-width: 320px) {
+  .mintAdditionSection {
+    width: 270px;
+  }
+}
+@media (min-width: 576px) {
+  .mintImage,
+  .mintCard,
+  .mintCard2 {
+    width: 420px;
+  }
+}
+.mintCard2Header {
+  color: #fff;
+  background: #608a97;
+  border-radius: 10px 10px 0px 0px;
+}
+.mintHeaderh3 {
+  font-size: 24px;
+  font-weight: 700;
+}
+.mintCard2SubHeader {
+  background: #405c65;
+  color: #fff;
+  position: relative;
+}
+.onIcon,
+.offIcon {
+  position: absolute;
+  top: 10px;
+  right: 140px;
+}
+.spanBalance {
+  color: #4ffcb3;
+}
+.mintAdditionSection,
+.mintTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mintAdditionSection {
+  background-color: #000;
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 50px;
+}
+.btnMinus,
+.btnPlus,
+.spanCount,
+.btnMax {
+  background: transparent;
+  border: none;
+  padding: 5px 10px;
+}
+.btnMinus,
+.btnPlus,
+.spanCount {
+  font-size: 20px;
+  width: 3px;
+  color: #fff;
+}
+.btnMax {
+  font-size: 15px;
+  color: #767c88;
+}
+.divider,
+.hori {
+  margin: 20px 0px;
+  border-top: 2px solid #405c65;
+}
+
+.totalSpan,
+.KLAYspan {
+  color: #fff;
+}
+.btnWalletStakeArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.btnConnectWallet,
+.btnMint {
+  color: #fff;
+  width: 290px;
+  margin: 5px;
+  padding: 5px 20px;
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.btnConnectWallet {
+  background: #28aa73;
+  border: 1px solid #28aa73;
+  border-radius: 10px;
+}
+.btnMint {
+  background: #3bc2cb;
+  border: 1px solid #3bc2cb;
+  border-radius: 10px;
+}
+.mintHeaderSpan {
+  font-size: 14px;
+}
