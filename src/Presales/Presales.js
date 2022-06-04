@@ -47,15 +47,15 @@ export default function AppPresale({ changeStake }) {
       );
       let supply = await contractOf.methods.totalSupply().call();
       console.log("supply tabsLight ", supply);
-      if (supply <= 1200) {
+      if (supply <= 250) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (supply <= 2200) {
+      } else if (supply <= 300) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (supply <= 3200) {
+      } else if (supply <= 5000) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
@@ -93,17 +93,17 @@ export default function AppPresale({ changeStake }) {
           let supply = await contractOf.methods.totalSupply().call();
           console.log("supply tabsLight ", supply);
           let publicSale;
-          if (supply <= 1200) {
+          if (supply <= 250) {
             publicSale = await contractOf.methods.preSaleprice1().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 1", publicSale);
-          } else if (supply <= 2200) {
+          } else if (supply <= 300) {
             publicSale = await contractOf.methods.preSaleprice2().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 2", publicSale);
-          } else if (supply <= 3200) {
+          } else if (supply <= 500) {
             publicSale = await contractOf.methods.preSaleprice3().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);

@@ -160,38 +160,46 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   };
 
   const increment = async () => {
-    if (noMints < 3) {
-      const web3 = window.web3;
-      let contractOf = new caver.klay.Contract(
-        goongyeContractAbi,
-        googyeContractAddress
-      );
-      let newNum = noMints + 1;
+    try {
+      if (noMints < 3) {
+        const web3 = window.web3;
+        let contractOf = new caver.klay.Contract(
+          goongyeContractAbi,
+          googyeContractAddress
+        );
+        let newNum = noMints + 1;
 
-      let publicSale = await contractOf.methods.publicprice().call();
-      publicSale = caver.utils.fromPeb(publicSale);
-      publicSale = publicSale * newNum;
-      console.log("publicSale", publicSale);
-      setTtlKlay(publicSale);
-      setNomints(newNum);
+        let publicSale = await contractOf.methods.publicprice().call();
+        publicSale = caver.utils.fromPeb(publicSale);
+        publicSale = publicSale * newNum;
+        console.log("publicSale", publicSale);
+        setTtlKlay(publicSale);
+        setNomints(newNum);
+      }
+    } catch (e) {
+      console.log("error", e);
     }
   };
   const decrement = async () => {
     if (noMints > 1) {
-      const web3 = window.web3;
-      let contractOf = new caver.klay.Contract(
-        goongyeContractAbi,
-        googyeContractAddress
-      );
-      let newNum = noMints - 1;
+      try {
+        const web3 = window.web3;
+        let contractOf = new caver.klay.Contract(
+          goongyeContractAbi,
+          googyeContractAddress
+        );
+        let newNum = noMints - 1;
 
-      let publicSale = await contractOf.methods.publicprice(newNum).call();
-      publicSale = caver.utils.fromPeb(publicSale);
-      publicSale = publicSale * newNum;
+        let publicSale = await contractOf.methods.publicprice(newNum).call();
+        publicSale = caver.utils.fromPeb(publicSale);
+        publicSale = publicSale * newNum;
 
-      console.log("publicSale", publicSale);
-      setTtlKlay(publicSale);
-      setNomints(newNum);
+        console.log("publicSale", publicSale);
+        setTtlKlay(publicSale);
+        setNomints(newNum);
+      } catch (e) {
+        console.log("error", e);
+      }
     }
   };
 
@@ -291,15 +299,19 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     }
   };
   const salePrices = async () => {
-    let contractOf = new caver.klay.Contract(
-      goongyeContractAbi,
-      googyeContractAddress
-    );
-    let publicSale = await contractOf.methods.publicprice().call();
-    publicSale = caver.utils.fromPeb(publicSale);
-    console.log("publicSale", publicSale);
+    try {
+      let contractOf = new caver.klay.Contract(
+        goongyeContractAbi,
+        googyeContractAddress
+      );
+      let publicSale = await contractOf.methods.publicprice().call();
+      publicSale = caver.utils.fromPeb(publicSale);
+      console.log("publicSale", publicSale);
 
-    setSalePrice(publicSale);
+      setSalePrice(publicSale);
+    } catch (e) {
+      console.log("error", e);
+    }
   };
   const handleCLodemodal = () => {
     setCollectionModalShow(false);
@@ -324,6 +336,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   useEffect(() => {
     salePrices();
     getTotalSupply();
+  }, []);
+  useEffect(() => {
+    i18n.changeLanguage("eng");
   }, []);
   return (
     <div className="home" id="home">

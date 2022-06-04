@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import containerImage from "../media/Group 48.png";
 import Twitter from "../media/twitter.png";
 import Telegram from "../media/telegram.png";
@@ -21,7 +21,9 @@ export default function NavbarStaking({
     i18n.changeLanguage(lang);
     isGreen(lang);
   }
-
+  useEffect(() => {
+    i18n.changeLanguage("eng");
+  }, []);
   return (
     <>
       <section id="topbar" className=" stakingTopbar d-flex align-items-center">
