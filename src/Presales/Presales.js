@@ -45,18 +45,17 @@ export default function AppPresale({ changeStake }) {
         goongyeContractAbi,
         googyeContractAddress
       );
-      let res = await contractOf.methods.totalSupply().call();
-      console.log("res tabsLight ", res);
-      const value = 201;
-      if (res <= 1200) {
+      let supply = await contractOf.methods.totalSupply().call();
+      console.log("supply tabsLight ", supply);
+      if (supply <= 1200) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (res <= 2200) {
+      } else if (supply <= 2200) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (res <= 3200) {
+      } else if (supply <= 3200) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
@@ -91,9 +90,27 @@ export default function AppPresale({ changeStake }) {
         let presaleBool = await contractOf.methods.preSaleStarted().call();
         console.log("psspsp", presaleBool);
         if (presaleBool) {
-          let publicSale = await contractOf.methods.preSaleprice1().call();
-          console.log("publicSale", publicSale);
-          let totalPrice = await contractOf.methods.gPRice(count).call();
+          let supply = await contractOf.methods.totalSupply().call();
+          console.log("supply tabsLight ", supply);
+          let publicSale;
+          if (supply <= 1200) {
+            publicSale = await contractOf.methods.preSaleprice1().call();
+            publicSale = publicSale * count;
+            publicSale = caver.utils.fromPeb(publicSale);
+            console.log("publicSale 1", publicSale);
+          } else if (supply <= 2200) {
+            publicSale = await contractOf.methods.preSaleprice2().call();
+            publicSale = publicSale * count;
+            publicSale = caver.utils.fromPeb(publicSale);
+            console.log("publicSale 2", publicSale);
+          } else if (supply <= 3200) {
+            publicSale = await contractOf.methods.preSaleprice3().call();
+            publicSale = publicSale * count;
+            publicSale = caver.utils.fromPeb(publicSale);
+            console.log("publicSale 3", publicSale);
+          }
+          console.log("publicSale all", publicSale);
+          // let totalPrice = await contractOf.methods.gPRice(count).call();
           // console.log("totalPrice", totalPrice);
           let balance = await caver.klay.getBalance(acc);
           // balance = caver.utils.fromPeb(balance);
@@ -102,10 +119,10 @@ export default function AppPresale({ changeStake }) {
           const length = ownerList.length;
           console.log("ownerList", length);
           if (length <= 6) {
-            if (parseFloat(balance) > parseFloat(totalPrice)) {
+            if (parseFloat(balance) > parseFloat(publicSale)) {
               await contractOf.methods.preSalemint(count).send({
                 from: acc,
-                value: totalPrice,
+                value: publicSale,
                 gas: "5000000",
               });
               isLoading(false);

@@ -52,6 +52,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const { t, i18n } = useTranslation();
   const [green, isGreen] = useState("eng");
   const [salePrice, setSalePrice] = useState(0.0);
+  const dispatch = useDispatch();
+  let acc = useSelector((state) => state.connect?.connection);
+  let [noMints, setNomints] = useState(1);
+  let [ttlKlay, setTtlKlay] = useState(0);
+  let [mintArray, setMintArray] = useState([]);
+  let [mintCollectionArray, setMintCollectionArray] = useState([]);
+  // const [modalShow, setModalShow] = useState(false);
+  const [collectionModalShow, setCollectionModalShow] = useState(false);
+  const [totalSupply, setTotalSupply] = useState(0);
   function handleChangeLanguage(lang) {
     i18n.changeLanguage(lang);
     console.log(i18n, ":i18n");
@@ -130,14 +139,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       },
     },
   };
-  const dispatch = useDispatch();
-  let acc = useSelector((state) => state.connect?.connection);
-  let [noMints, setNomints] = useState(1);
-  let [ttlKlay, setTtlKlay] = useState(0);
-  let [mintArray, setMintArray] = useState([]);
-  let [mintCollectionArray, setMintCollectionArray] = useState([]);
-  // const [modalShow, setModalShow] = useState(false);
-  const [collectionModalShow, setCollectionModalShow] = useState(false);
 
   console.log("acc", acc);
   const onConnectAccount = () => {
@@ -216,8 +217,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           googyeContractAddress
         );
 
-        let totalPrice = await contractOf.methods.gPRice(noMints).call();
-        console.log("totalPrice", totalPrice);
+        // let totalPrice = await contractOf.methods.gPRice(noMints).call();
+        console.log("ttlKlay in mint and stake", ttlKlay);
         let balance = await caver.klay.getBalance(acc);
         // balance = caver.utils.fromPeb(balance);
         console.log("Balance", balance);
@@ -230,15 +231,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
 
         if (publicSaleBool == true) {
           if (length <= 6) {
-            if (parseFloat(balance) > parseFloat(totalPrice)) {
+            if (parseFloat(balance) > parseFloat(ttlKlay)) {
               await contractOf.methods.publicMint(noMints).send({
                 from: acc,
-                value: totalPrice,
+                value: ttlKlay,
                 gas: "5000000",
               });
               isLoading(false);
               toast.success(t("transaction.Successfull"));
               dispalyImage();
+              getTotalSupply();
             } else {
               toast.error(t("insufficient.Balance!"));
               isLoading(false);
@@ -303,11 +305,25 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     setCollectionModalShow(false);
     isLoading(false);
   };
+  const getTotalSupply = async () => {
+    try {
+      let contractOf = new caver.klay.Contract(
+        goongyeContractAbi,
+        googyeContractAddress
+      );
+      let res = await contractOf.methods.totalSupply().call();
+      res = 10000 - res;
+      setTotalSupply(res);
+    } catch (e) {
+      console.log("error in getting supply", e);
+    }
+  };
   useEffect(() => {
     getInitialMintPrice();
   }, [acc]);
   useEffect(() => {
     salePrices();
+    getTotalSupply();
   }, []);
   return (
     <div className="home" id="home">
@@ -867,11 +883,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <p className="m-0">{t("mint.price")}</p>
                   <div className="d-flex  justify-content-between">
                     <p className="m-0">
-                      <span className="green">{salePrice}</span>
+                      <span className="green me-1">{salePrice}</span>
                       {t("mint.Each")}
                     </p>
                     <p className="m-0">
-                      <span className="blue">{t("tokenomics.1000")}</span>
+                      <span className="blue me-1">{totalSupply}</span>
                       {t("mint.Remaining")}
                     </p>
                   </div>
