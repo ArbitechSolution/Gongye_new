@@ -242,7 +242,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             if (parseFloat(balance) > parseFloat(ttlKlay)) {
               await contractOf.methods.publicMint(noMints).send({
                 from: acc,
-                value: ttlKlay,
+                // value: ttlKlay,
                 gas: "5000000",
               });
               isLoading(false);

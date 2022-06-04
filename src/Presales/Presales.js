@@ -86,7 +86,8 @@ export default function AppPresale({ changeStake }) {
           goongyeContractAbi,
           googyeContractAddress
         );
-
+        // function mint ka call howa es me ye check kr k
+        //  yeh public
         let presaleBool = await contractOf.methods.preSaleStarted().call();
         console.log("psspsp", presaleBool);
         if (presaleBool) {
@@ -110,8 +111,11 @@ export default function AppPresale({ changeStake }) {
             console.log("publicSale 3", publicSale);
           }
           console.log("publicSale all", publicSale);
-          // let totalPrice = await contractOf.methods.gPRice(count).call();
-          // console.log("totalPrice", totalPrice);
+          let totalPrice = await contractOf.methods.gPRice(count).call();
+          console.log("totalPrice", totalPrice);
+          // totalPrice = caver.utils.fromPeb(totalPrice);
+          console.log("totalPrice", totalPrice);
+
           let balance = await caver.klay.getBalance(acc);
           // balance = caver.utils.fromPeb(balance);
           console.log("Balance", balance);
@@ -122,7 +126,7 @@ export default function AppPresale({ changeStake }) {
             if (parseFloat(balance) > parseFloat(publicSale)) {
               await contractOf.methods.preSalemint(count).send({
                 from: acc,
-                value: publicSale,
+                value: totalPrice,
                 gas: "5000000",
               });
               isLoading(false);
