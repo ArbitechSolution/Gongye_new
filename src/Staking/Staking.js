@@ -71,7 +71,7 @@ export default function Staking() {
           setMintArray(null);
         } else {
           sortedArray.forEach(async (ids) => {
-            if (ids <= 500) {
+            if (ids <= 8000) {
               let imageUrl = `/config/images/${ids}.jpg`;
               let imageName = `Common #${ids}`;
               let nftID = ids;
@@ -80,7 +80,7 @@ export default function Staking() {
               imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
               setMintArray(imagesArray);
             } else {
-              let imageUrl = `/config/king/${ids - 500}.jpg`;
+              let imageUrl = `/config/images/${ids}.jpg`;
               let imageName = `King #${ids}`;
               let nftID = ids;
               // console.log("imageUrl", imageUrl);
@@ -309,7 +309,7 @@ export default function Staking() {
         let KingImagesArray = [];
         let rewardsArray = [];
         sortedArray.forEach(async (ids) => {
-          if (ids <= 500) {
+          if (ids <= 8000) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
             let nftID = ids;
@@ -327,7 +327,7 @@ export default function Staking() {
             ];
             setStakedNFT(imagesArray);
           } else {
-            let imageUrl = `/config/king/${ids - 500}.jpg`;
+            let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `King #${ids}`;
             let nftID = ids;
             let nftBalance;
@@ -376,7 +376,7 @@ export default function Staking() {
 
         let imagesArray = [];
         console.log("stakedArray before", stakedNFTArray?.length);
-        if (item.nftID <= 500) {
+        if (item.nftID <= 8000) {
           stakedNFTArray = stakedNFTArray.filter(function (items) {
             return items.nftID !== item.nftID;
           });
@@ -457,15 +457,27 @@ export default function Staking() {
           goongyeContractAbi,
           googyeContractAddress
         );
-        let val = 0.01;
-        let totalPrice = caver.utils.toPeb(val.toString());
+        let balance = await caver.klay.getBalance(acc);
+        // balance = caver.utils.fromPeb(balance);
+        console.log("Balance", balance);
+        let kingPrice = await contractOf.methods.kingprice().call();
+        console.log("kingPrice", kingPrice);
+        // let totalPrice = caver.utils.fromPeb(kingPrice.toString());
+        let totalPrice = kingPrice;
+        console.log("totalPrice", totalPrice);
+
         let id = item.nftID;
-        await contractOf.methods.UpgradeKing(id).send({
-          from: acc,
-          value: totalPrice,
-          gas: "500000",
-        });
-        dispalyImage();
+
+        if (parseFloat(balance) > parseFloat(totalPrice)) {
+          await contractOf.methods.UpgradeKing(id).send({
+            from: acc,
+            value: totalPrice,
+            gas: "500000",
+          });
+          dispalyImage();
+        } else {
+          toast.info("Insufficient Balance");
+        }
       } catch (e) {
         toast.error("Breeding Failed");
         console.log("e", e);
@@ -494,7 +506,7 @@ export default function Staking() {
         // console.log("sorted staked", sortedArray);
 
         sortedArray.forEach(async (ids) => {
-          if (ids <= 500) {
+          if (ids <= 8000) {
             let res = await contractOfStaking.methods
               .rewardOfUser(acc, ids)
               .call();
@@ -509,7 +521,7 @@ export default function Staking() {
                   }
                 });
             }
-            console.log("rewardBalance in <40", rewardBalance);
+            console.log("rewardBalance in <8000", rewardBalance);
             setRewardBalance([...rewardBalance]);
           } else {
             let res = await contractOfStaking.methods
@@ -652,7 +664,7 @@ export default function Staking() {
                         <a href="#" className="card-Link">
                           https://crazyapegoongyeclub.com/
                         </a>
-                        {item.nftID <= 500 ? (
+                        {item.nftID <= 8000 ? (
                           <div className="card_btn">
                             <button
                               className="btn-stake me-2"
@@ -757,7 +769,9 @@ export default function Staking() {
                               if (items.nftID == item.nftID) {
                                 return (
                                   <span className="cardRewardBalance">
-                                    {items.nftBalance}
+                                    {items.nftBalance
+                                      .toString()
+                                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                   </span>
                                 );
                               }
@@ -855,7 +869,9 @@ export default function Staking() {
                               if (items.nftID == item.nftID) {
                                 return (
                                   <span className="cardRewardBalance">
-                                    {items.nftBalance}
+                                    {items.nftBalance
+                                      .toString()
+                                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                   </span>
                                 );
                               }

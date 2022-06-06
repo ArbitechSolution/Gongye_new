@@ -17,13 +17,15 @@ export default function NavbarStaking({
   const { t, i18n } = useTranslation();
   const [green, isGreen] = useState("eng");
 
-  function handleChangeLanguage(lang) {
-    i18n.changeLanguage(lang);
+  const handleChangeLanguage = async (lang) => {
+    await i18n.changeLanguage(lang);
+    console.log(i18n, ":i18n");
     isGreen(lang);
-  }
-  useEffect(() => {
-    i18n.changeLanguage("eng");
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   i18n.changeLanguage("eng");
+  // }, []);
   return (
     <>
       <section id="topbar" className=" stakingTopbar d-flex align-items-center">

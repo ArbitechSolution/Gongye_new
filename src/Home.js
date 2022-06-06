@@ -44,6 +44,7 @@ import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import useAudio from "./useAudio";
+import { changeLanguage } from "i18next";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
   const [playing, togglePlaying] = useAudio();
@@ -61,11 +62,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   // const [modalShow, setModalShow] = useState(false);
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   const [totalSupply, setTotalSupply] = useState(0);
-  function handleChangeLanguage(lang) {
-    i18n.changeLanguage(lang);
+  const handleChangeLanguage = async (lang) => {
+    // changeLanguageDouble(lang);
+    await i18n.changeLanguage(lang);
     console.log(i18n, ":i18n");
     isGreen(lang);
-  }
+  };
+  const changeLanguageDouble = (lang) => {
+    console.log("langgggg", lang);
+    i18n.changeLanguage(lang);
+  };
   // useEffect(() => {
   //   setTimeout(() => {
   //     playingSound();
@@ -77,6 +83,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   };
   const options1 = {
     autoplay: true,
+    rtl: true,
     autoplayhoverpause: true,
     autoplaytimeout: 100,
     items: 1,
@@ -93,6 +100,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     nav: false,
     dots: true,
     loop: true,
+    rtl: true,
     responsive: {
       0: {
         items: 2,
@@ -189,8 +197,8 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           googyeContractAddress
         );
         let newNum = noMints - 1;
-
-        let publicSale = await contractOf.methods.publicprice(newNum).call();
+        console.log("newNum", newNum);
+        let publicSale = await contractOf.methods.publicprice().call();
         publicSale = caver.utils.fromPeb(publicSale);
         publicSale = publicSale * newNum;
 
@@ -238,23 +246,19 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         console.log("publicSaleBool", publicSaleBool);
 
         if (publicSaleBool == true) {
-          if (length <= 6) {
-            if (parseFloat(balance) > parseFloat(ttlKlay)) {
-              await contractOf.methods.publicMint(noMints).send({
-                from: acc,
-                // value: ttlKlay,
-                gas: "5000000",
-              });
-              isLoading(false);
-              toast.success(t("transaction.Successfull"));
-              dispalyImage();
-              getTotalSupply();
-            } else {
-              toast.error(t("insufficient.Balance!"));
-              isLoading(false);
-            }
+          if (parseFloat(balance) > parseFloat(ttlKlay)) {
+            await contractOf.methods.publicMint(noMints).send({
+              from: acc,
+              value: ttlKlay,
+              gas: "5000000",
+            });
+            isLoading(false);
+            toast.success(t("transaction.Successfull"));
+            dispalyImage();
+            getTotalSupply();
           } else {
-            toast.error("Minting Limit Reached (6)");
+            toast.error(t("insufficient.Balance!"));
+            isLoading(false);
           }
         } else {
           toast.info("Public sale is not started yet!");
@@ -279,13 +283,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         totalIDs = totalIDs.slice(-noMints);
         let imagesArray = [];
         totalIDs.forEach(async (ids) => {
-          if (ids <= 500) {
+          if (ids <= 8000) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
             imagesArray = [...imagesArray, { imageName, imageUrl }];
             setMintArray(imagesArray);
           } else {
-            let imageUrl = `/config/king/${ids - 500}.jpg`;
+            let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `King #${ids}`;
             imagesArray = [...imagesArray, { imageName, imageUrl }];
             setMintArray(imagesArray);
@@ -324,8 +328,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         googyeContractAddress
       );
       let res = await contractOf.methods.totalSupply().call();
-      res = 10000 - res;
-      setTotalSupply(res);
+      let publicSaleBool = await contractOf.methods.publicSale().call();
+      console.log("publicSaleBool", publicSaleBool);
+
+      if (publicSaleBool == true) {
+        res = 8000 - res;
+        setTotalSupply(res);
+      } else {
+        res = 8000 - 3200;
+        setTotalSupply(res);
+      }
     } catch (e) {
       console.log("error in getting supply", e);
     }
@@ -337,9 +349,32 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     salePrices();
     getTotalSupply();
   }, []);
+
+  const array = [
+    {
+      image: Scene1,
+      heading: t("storyCarousel.scene1"),
+      para: t("storyCarousel.para1"),
+    },
+    {
+      image: Scene2,
+      heading: t("storyCarousel.scene2"),
+      para: t("storyCarousel.para2"),
+    },
+    {
+      image: Scene3,
+      heading: t("storyCarousel.scene3"),
+      para: t("storyCarousel.para3"),
+    },
+    {
+      image: Scene4,
+      heading: t("storyCarousel.scene4"),
+      para: t("storyCarousel.para4"),
+    },
+  ];
   useEffect(() => {
-    i18n.changeLanguage("eng");
-  }, []);
+    console.log("sss", i18n.language);
+  }, [array]);
   return (
     <div className="home" id="home">
       <section id="topbar" className="d-flex align-items-center">
@@ -593,28 +628,36 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       <section id="scene">
         <div className="container">
           <OwlCarousel className="owl-theme" {...options1}>
-            <div className="col text-center text-light">
-              <div className="d-flex justify-content-center">
-                <img src={Scene1} className="img" alt="" />
-              </div>
-              <div className="scene-text mt-4 d-flex justify-content-space-between">
-                <h4> {t("storyCarousel.scene1")}</h4>
-                <p>{t("storyCarousel.para1")}</p>
-              </div>
-            </div>
-            <div className="col text-center text-light">
+            {array.map((item) => {
+              return (
+                <div className="col text-center text-light">
+                  <div className="d-flex justify-content-center">
+                    <img src={item.image} className="img" alt="scenc1" />
+                  </div>
+
+                  <div className="scene-text mt-4 d-flex justify-content-space-between">
+                    <h4> {item.heading}</h4>
+                    <p>{item.para}</p>
+                  </div>
+                </div>
+              );
+            })}
+            {/* <div className="col text-center text-light">
               <div className="d-flex justify-content-center">
                 <img src={Scene2} className="img" alt="" />
               </div>
+
               <div className="scene-text mt-4 d-flex justify-content-space-between">
                 <h4> {t("storyCarousel.scene2")}</h4>
                 <p>{t("storyCarousel.para2")}</p>
               </div>
             </div>
+
             <div className="col text-center text-light">
               <div className="d-flex justify-content-center">
                 <img src={Scene3} className="img" alt="" />
               </div>
+
               <div className="scene-text mt-4 d-flex justify-content-space-between">
                 <h4> {t("storyCarousel.scene3")}</h4>
                 <p>{t("storyCarousel.para3")}</p>
@@ -624,11 +667,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <div className="d-flex justify-content-center">
                 <img src={Scene4} className="img" alt="" />
               </div>
+
               <div className="scene-text mt-4 d-flex justify-content-space-between">
                 <h4> {t("storyCarousel.scene4")}</h4>
                 <p>{t("storyCarousel.para4")}</p>
               </div>
-            </div>
+            </div> */}
           </OwlCarousel>
         </div>
       </section>
@@ -674,7 +718,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               <p> {t("tokenomics.card2subTitle")}</p>
               <p>
                 <span className="blue">{t("tokenomics.number2")}</span>
-                <span className="green">{t("tokenomics.manguni")}</span>
+                <span className="green ms-1">{t("tokenomics.manguni")}</span>
                 {t("tokenomics.perday")}
               </p>
             </div>
@@ -782,10 +826,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {i18n.language == "eng" ? (
                 <>
                   {t("staking.parah3")}
-                  <span className="green ps-1 pe-1">
-                    {" "}
-                    {t("staking.MAGUNI")}
-                  </span>
+                  <span className="green ps-1 pe-1">{t("staking.MAGUNI")}</span>
                   <span className="blue pe-1">{t("staking.tokens")}</span>
                   {t("staking.parah4")}
                   {/* <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
@@ -902,7 +943,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       {t("mint.Each")}
                     </p>
                     <p className="m-0">
-                      <span className="blue me-1">{totalSupply}</span>
+                      <span className="blue me-1">
+                        {totalSupply
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </span>
                       {t("mint.Remaining")}
                     </p>
                   </div>

@@ -1,5 +1,5 @@
 export const stakingContractAddress =
-  "0x46F0bAcef2B3b92759330873AFcdf5574037eCb7";
+  "0x9ddaAAb1076173Db389012820fab21b44125d84D";
 export const stakingContractAbi = [
   {
     inputs: [
@@ -53,13 +53,24 @@ export const stakingContractAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "newOwner",
+        name: "",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
+    name: "Tokenid",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -73,6 +84,40 @@ export const stakingContractAbi = [
     name: "UnStake",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "User",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "totlaWithdrawn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "withdrawable",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalStaked",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "availableToWithdraw",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -264,30 +309,6 @@ export const stakingContractAbi = [
         name: "",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "Tokenid",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
     ],
     name: "totalStakedNft",
     outputs: [
@@ -304,34 +325,13 @@ export const stakingContractAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "newOwner",
         type: "address",
       },
     ],
-    name: "User",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "totlaWithdrawn",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "withdrawable",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalStaked",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "availableToWithdraw",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

@@ -25,6 +25,9 @@ export default function AppPresale({ changeStake }) {
   const [loading, isLoading] = useState(false);
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   let [mintArray, setMintArray] = useState([]);
+  let [publicSale, setPublicSale] = useState();
+  const [balance, setBalance] = useState(0);
+  const [remainingPresale, setRemainingPresale] = useState(0);
   const dispatch = useDispatch();
   const handlePlus = () => {
     setCount(count + 1);
@@ -45,17 +48,61 @@ export default function AppPresale({ changeStake }) {
         goongyeContractAbi,
         googyeContractAddress
       );
+      let presaleBool = await contractOf.methods.preSaleStarted().call();
+      console.log("psspsp", presaleBool);
+      if (presaleBool) {
+        let supply = await contractOf.methods.totalSupply().call();
+        console.log("supply tabsLight ", supply);
+        let publicSale;
+        if (supply <= 1200) {
+          publicSale = await contractOf.methods.preSaleprice1().call();
+          publicSale = publicSale * count;
+          publicSale = caver.utils.fromPeb(publicSale);
+          console.log("publicSale 1", publicSale);
+          let rem = 1200 - supply;
+          console.log(rem, "rem");
+
+          rem = 1000 - rem;
+          console.log(rem, "rem");
+          setRemainingPresale(rem);
+        } else if (supply <= 2200) {
+          publicSale = await contractOf.methods.preSaleprice2().call();
+          publicSale = publicSale * count;
+          publicSale = caver.utils.fromPeb(publicSale);
+          console.log("publicSale 2", publicSale);
+
+          let rem = 2200 - supply;
+          console.log(rem, "rem");
+          rem = 1000 - rem;
+          console.log(rem, "rem");
+          setRemainingPresale(rem);
+        } else if (supply <= 3200) {
+          publicSale = await contractOf.methods.preSaleprice3().call();
+          publicSale = publicSale * count;
+          publicSale = caver.utils.fromPeb(publicSale);
+          console.log("publicSale 3", publicSale);
+          let rem = 3200 - supply;
+          console.log(rem, "rem");
+          rem = 1000 - rem;
+          console.log(rem, "rem");
+          setRemainingPresale(rem);
+        }
+        setPublicSale(publicSale);
+        console.log("publicSale all", publicSale);
+      } else {
+        console.log("Presale is not started yet!");
+      }
       let supply = await contractOf.methods.totalSupply().call();
       console.log("supply tabsLight ", supply);
-      if (supply <= 250) {
+      if (supply <= 1200) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (supply <= 300) {
+      } else if (supply <= 2200) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (supply <= 5000) {
+      } else if (supply <= 3200) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
@@ -94,17 +141,17 @@ export default function AppPresale({ changeStake }) {
           let supply = await contractOf.methods.totalSupply().call();
           console.log("supply tabsLight ", supply);
           let publicSale;
-          if (supply <= 250) {
+          if (supply <= 1200) {
             publicSale = await contractOf.methods.preSaleprice1().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 1", publicSale);
-          } else if (supply <= 300) {
+          } else if (supply <= 2200) {
             publicSale = await contractOf.methods.preSaleprice2().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 2", publicSale);
-          } else if (supply <= 500) {
+          } else if (supply <= 3200) {
             publicSale = await contractOf.methods.preSaleprice3().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
@@ -117,12 +164,12 @@ export default function AppPresale({ changeStake }) {
           console.log("totalPrice", totalPrice);
 
           let balance = await caver.klay.getBalance(acc);
-          // balance = caver.utils.fromPeb(balance);
+          balance = caver.utils.fromPeb(balance);
           console.log("Balance", balance);
           let ownerList = await contractOf.methods.walletOfOwner(acc).call();
           const length = ownerList.length;
           console.log("ownerList", length);
-          if (length <= 6) {
+          if (length <= 7) {
             if (parseFloat(balance) > parseFloat(publicSale)) {
               await contractOf.methods.preSalemint(count).send({
                 from: acc,
@@ -133,11 +180,11 @@ export default function AppPresale({ changeStake }) {
               toast.success(t("transaction.Successfull"));
               dispalyImage();
             } else {
-              toast.error(t("insufficient.Balance!"));
+              toast.error(t("insufficient.Balance"));
               isLoading(false);
             }
           } else {
-            toast.error("Minting Limit Reached (6)");
+            toast.error("Minting Limit Reached (7)");
           }
         } else {
           toast.info("Presale is not started yet!");
@@ -205,14 +252,30 @@ export default function AppPresale({ changeStake }) {
       // toast.error("Minting Failed");
     }
   };
+  const getBalance = async () => {
+    if (acc) {
+      try {
+        let balance = await caver.klay.getBalance(acc);
+        balance = caver.utils.fromPeb(balance);
+        balance = parseFloat(balance).toFixed(2);
+        console.log("Balance", balance);
+        setBalance(balance);
+      } catch (e) {
+        console.log("error", e);
+      }
+    }
+  };
   const handleCLodemodal = () => {
     setCollectionModalShow(false);
     isLoading(false);
   };
   useEffect(() => {
     tabsLight();
+    getBalance();
   }, []);
-
+  useEffect(() => {
+    getBalance();
+  }, [acc]);
   return (
     <div className="staking d-flex justify-content-center " id="presale">
       <div className="imgArea ">
@@ -302,16 +365,22 @@ export default function AppPresale({ changeStake }) {
                     aria-labelledby="nav-home-tab"
                   >
                     <div class="mintCardBody preSaleCardBody m-3">
-                      <div class="progress mt-5">
+                      <div className="text-white">
+                        <span className="text-white me-1">Balance :</span>
+                        {balance
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </div>
+                      <div class="progress mt-2">
                         <div
                           class="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
                           aria-valuenow="0"
                           aria-valuemin="0"
                           aria-valuemax="100"
-                          style={{ width: "0%" }}
+                          style={{ width: `{remainingPresale}%}` }}
                         >
-                          0%
+                          {remainingPresale}%
                         </div>
                       </div>
                       <div className="progressValue">
@@ -330,7 +399,7 @@ export default function AppPresale({ changeStake }) {
                         <div>
                           <span className="KLAYspan pe-2">
                             <img src={klytn} className="me-2" />
-                            <span className="textColor me-1">100</span>
+                            <span className="textColor me-1">{publicSale}</span>
                             {t("mint.KLAY")}
                           </span>
                         </div>
@@ -378,7 +447,13 @@ export default function AppPresale({ changeStake }) {
                     aria-labelledby="nav-profile-tab"
                   >
                     <div class="mintCardBody preSaleCardBody m-3">
-                      <div class="progress mt-5">
+                      <div className="text-white">
+                        <span className="text-white me-1">Balance :</span>
+                        {balance
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </div>
+                      <div class="progress mt-2">
                         <div
                           class="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
@@ -387,7 +462,7 @@ export default function AppPresale({ changeStake }) {
                           aria-valuemax="100"
                           style={{ width: "40%" }}
                         >
-                          40%
+                          {remainingPresale}%
                         </div>
                       </div>
                       <div className="progressValue">
@@ -406,7 +481,7 @@ export default function AppPresale({ changeStake }) {
                         <div>
                           <span className="KLAYspan pe-2">
                             <img src={klytn} className="me-2" />
-                            <span className="textColor me-1">125</span>
+                            <span className="textColor me-1">{publicSale}</span>
                             {t("mint.KLAY")}
                           </span>
                         </div>
@@ -454,7 +529,13 @@ export default function AppPresale({ changeStake }) {
                     aria-labelledby="nav-contact-tab"
                   >
                     <div class="mintCardBody preSaleCardBody m-3">
-                      <div class="progress mt-5">
+                      <div className="text-white">
+                        <span className="text-white me-1">Balance :</span>
+                        {balance
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </div>
+                      <div class="progress mt-2">
                         <div
                           class="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
@@ -463,7 +544,7 @@ export default function AppPresale({ changeStake }) {
                           aria-valuemax="100"
                           style={{ width: "100%" }}
                         >
-                          100%
+                          {remainingPresale}%
                         </div>
                       </div>
                       <div className="progressValue">
@@ -482,7 +563,7 @@ export default function AppPresale({ changeStake }) {
                         <div>
                           <span className="KLAYspan pe-2">
                             <img src={klytn} className="me-2" />
-                            <span className="textColor me-1">150</span>
+                            <span className="textColor me-1">{publicSale}</span>
                             {t("mint.KLAY")}
                           </span>
                         </div>
