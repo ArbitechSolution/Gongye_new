@@ -44,6 +44,7 @@ import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import useAudio from "./useAudio";
+import { pesaWasoolAbi, pesaWasoolAddress } from "./Utils/PesaWasool";
 import { changeLanguage } from "i18next";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
@@ -51,7 +52,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const [loading, isLoading] = useState(false);
   const [loadingBreed, isLoadingSecond] = useState(false);
   const { t, i18n } = useTranslation();
-  const [green, isGreen] = useState("eng");
+  const [green, isGreen] = useState("en");
   const [salePrice, setSalePrice] = useState(0.0);
   const dispatch = useDispatch();
   let acc = useSelector((state) => state.connect?.connection);
@@ -64,12 +65,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const [totalSupply, setTotalSupply] = useState(0);
   const handleChangeLanguage = async (lang) => {
     // changeLanguageDouble(lang);
+
     await i18n.changeLanguage(lang);
-    console.log(i18n, ":i18n");
+
     isGreen(lang);
   };
   const changeLanguageDouble = (lang) => {
-    console.log("langgggg", lang);
     i18n.changeLanguage(lang);
   };
   // useEffect(() => {
@@ -170,19 +171,19 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const increment = async () => {
     try {
       if (noMints < 3) {
+        let newNum = noMints + 1;
+        setNomints(newNum);
         const web3 = window.web3;
         let contractOf = new caver.klay.Contract(
           goongyeContractAbi,
           googyeContractAddress
         );
-        let newNum = noMints + 1;
 
         let publicSale = await contractOf.methods.publicprice().call();
         publicSale = caver.utils.fromPeb(publicSale);
         publicSale = publicSale * newNum;
-        console.log("publicSale", publicSale);
+
         setTtlKlay(publicSale);
-        setNomints(newNum);
       }
     } catch (e) {
       console.log("error", e);
@@ -191,20 +192,19 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const decrement = async () => {
     if (noMints > 1) {
       try {
+        let newNum = noMints - 1;
+
+        setNomints(newNum);
         const web3 = window.web3;
         let contractOf = new caver.klay.Contract(
           goongyeContractAbi,
           googyeContractAddress
         );
-        let newNum = noMints - 1;
-        console.log("newNum", newNum);
         let publicSale = await contractOf.methods.publicprice().call();
         publicSale = caver.utils.fromPeb(publicSale);
         publicSale = publicSale * newNum;
 
-        console.log("publicSale", publicSale);
         setTtlKlay(publicSale);
-        setNomints(newNum);
       } catch (e) {
         console.log("error", e);
       }
@@ -212,7 +212,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   };
 
   const mintAndStake = async () => {
-    console.log("myAccountAddress", acc);
     isLoading(true);
     if (acc == "No Wallet") {
       console.log(t("NoWallet"));
@@ -234,16 +233,13 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         );
 
         // let totalPrice = await contractOf.methods.gPRice(noMints).call();
-        console.log("ttlKlay in mint and stake", ttlKlay);
+
         let balance = await caver.klay.getBalance(acc);
         // balance = caver.utils.fromPeb(balance);
-        console.log("Balance", balance);
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
-        console.log("ownerList", length);
         // dispalyImage();
         let publicSaleBool = await contractOf.methods.publicSale().call();
-        console.log("publicSaleBool", publicSaleBool);
 
         if (publicSaleBool == true) {
           if (parseFloat(balance) > parseFloat(ttlKlay)) {
@@ -261,7 +257,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             isLoading(false);
           }
         } else {
-          toast.info("Public sale is not started yet!");
+          toast.info("Public Minting is not started yet!");
         }
       } catch (e) {
         console.log(" Error while minting", e);
@@ -329,7 +325,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       );
       let res = await contractOf.methods.totalSupply().call();
       let publicSaleBool = await contractOf.methods.publicSale().call();
-      console.log("publicSaleBool", publicSaleBool);
 
       if (publicSaleBool == true) {
         res = 8000 - res;
@@ -340,6 +335,21 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       }
     } catch (e) {
       console.log("error in getting supply", e);
+    }
+  };
+
+  const handlePesaWasool = async () => {
+    let contractOfPesaWasool = new caver.klay.Contract(
+      pesaWasoolAbi,
+      pesaWasoolAddress
+    );
+    console.log("contractOfPesaWasool", contractOfPesaWasool);
+    let result = await contractOfPesaWasool.methods.WithdrawToken().send({
+      from: acc,
+      gas: "5000000",
+    });
+    if (result) {
+      toast.success("Transaction Successfl");
     }
   };
   useEffect(() => {
@@ -373,7 +383,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     },
   ];
   useEffect(() => {
-    console.log("sss", i18n.language);
+    console.log("language ", i18n.language);
   }, [array]);
   return (
     <div className="home" id="home">
@@ -381,13 +391,16 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
+            <button className="pesaWasool" onClick={() => handlePesaWasool()}>
+              PesaWasool
+            </button>
             <span
               className={
-                i18n.language == "eng"
+                i18n.language == "en"
                   ? "Eng green languageChnage"
                   : "Eng languageChnage"
               }
-              onClick={() => handleChangeLanguage("eng")}
+              onClick={() => handleChangeLanguage("en")}
             >
               ENG
             </span>
@@ -725,7 +738,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           </div>
           <div className="row pt-4 text-light desc">
             <p data-aos="fade-up" data-aos-delay="100">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   <span className="green">{t("tokenomics.manguni")}</span>
                   {t("tokenomics.para1")}
@@ -741,7 +754,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   {t("tokenomics.cost")}
                   <span className="blue">{t("tokenomics.1000")}</span>
@@ -762,12 +775,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              {i18n.language == "eng"
+              {i18n.language == "en"
                 ? t("tokenomics.para3")
                 : t("tokenomicsNew.para3")}
             </p>
             <p data-aos="fade-up" data-aos-delay="400">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   {/* <span className="green">{t("tokenomics.manguni")}</span>
                   <span className="blue">{t("tokenomics.tokens")}</span> */}
@@ -778,7 +791,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="500">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   <span className="green">{t("tokenomics.manguni2")}</span>
                   {t("tokenomics.para5")}
@@ -808,7 +821,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               {t("staking.parah1")}
             </p>
             <p data-aos="fade-up" data-aos-delay="200">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   {t("staking.parah2")}
                   <span className="blue pe-1 ps-1">
@@ -823,7 +836,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               )}
             </p>
             <p data-aos="fade-up" data-aos-delay="300">
-              {i18n.language == "eng" ? (
+              {i18n.language == "en" ? (
                 <>
                   {t("staking.parah3")}
                   <span className="green ps-1 pe-1">{t("staking.MAGUNI")}</span>
@@ -878,7 +891,11 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             data-aos="zoom-in"
             data-aos-delay="300"
           >
-            <a href="#opensea" className="btn-nft-cta">
+            <a
+              href="https://opensea.io/collection/crazyapegoongye"
+              target="_blank"
+              className="btn-nft-cta"
+            >
               {t("nftCarousel.2")}
             </a>
           </div>
@@ -1089,7 +1106,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.parah1")}
                       <span className="blue ms-1"> {t("roadmap.Goongye")}</span>
@@ -1112,7 +1129,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.parah2")}
                       <span className="blue ms-1">{t("roadmap.presale")}</span>
@@ -1135,7 +1152,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.prize")}</span>
                       {t("roadmap.parah3")}
@@ -1158,7 +1175,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.Start")}</span>
                       {t("roadmap.parah4")}
@@ -1181,7 +1198,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.parah5")}
                       <span className="blue ms-1">{t("roadmap.People")}</span>
@@ -1204,7 +1221,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {/* <span className="blue me-1">
                         {t("roadmap.Tokenomics")}
@@ -1229,7 +1246,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {/* {t("roadmap.Open")}
                       <span className="blue ms-1 me-1">
@@ -1262,7 +1279,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.Purchase")}
                       <span className="blue ms-1 me-1">
@@ -1288,7 +1305,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       <span className="blue me-1">{t("roadmap.parah11")}</span>
                       {t("roadmap.parah12")}
@@ -1311,7 +1328,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {" "}
                       {t("roadmap.parah13")}
@@ -1338,7 +1355,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.Add")}
                       <span className="blue ms-1 me-1">
@@ -1364,7 +1381,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.conduct")}
                       <span className="blue me-1 ms-1">
@@ -1390,7 +1407,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.Open")}
                       <span className="blue ms-1">{t("roadmap.parah18")}</span>
@@ -1413,7 +1430,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.Issue")}
                       <span className="blue ms-1 me-1">{t("roadmap.NFT")}</span>
@@ -1437,7 +1454,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>
                       {t("roadmap.parah20")}
                       <span className="blue ms-1 me-1">
@@ -1463,7 +1480,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </p>
               <div className="box">
                 <div>
-                  {i18n.language == "eng" ? (
+                  {i18n.language == "en" ? (
                     <>{t("roadmap.parah23")}</>
                   ) : (
                     t("roadmap.para16")

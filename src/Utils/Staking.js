@@ -1,5 +1,5 @@
 export const stakingContractAddress =
-  "0x9ddaAAb1076173Db389012820fab21b44125d84D";
+  "0xbA23543a4405a23f1709281E9B49FeD67a2469f2";
 export const stakingContractAbi = [
   {
     inputs: [
@@ -37,6 +37,19 @@ export const stakingContractAbi = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "NFT",
+    outputs: [
+      {
+        internalType: "contract IERC721",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256[]",
@@ -47,6 +60,19 @@ export const stakingContractAbi = [
     name: "Stake",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "Token",
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {

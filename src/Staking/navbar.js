@@ -15,7 +15,7 @@ export default function NavbarStaking({
   changePresale,
 }) {
   const { t, i18n } = useTranslation();
-  const [green, isGreen] = useState("eng");
+  const [green, isGreen] = useState("en");
 
   const handleChangeLanguage = async (lang) => {
     await i18n.changeLanguage(lang);
@@ -24,7 +24,7 @@ export default function NavbarStaking({
   };
 
   // useEffect(() => {
-  //   i18n.changeLanguage("eng");
+  //   i18n.changeLanguage( "en");
   // }, []);
   return (
     <>
@@ -34,11 +34,11 @@ export default function NavbarStaking({
           <div className="social-links" data-aos="fade-down">
             <span
               className={
-                i18n.language == "eng"
+                i18n.language == "en"
                   ? "Eng green languageChnage"
                   : "Eng languageChnage"
               }
-              onClick={() => handleChangeLanguage("eng")}
+              onClick={() => handleChangeLanguage("en")}
             >
               ENG
             </span>

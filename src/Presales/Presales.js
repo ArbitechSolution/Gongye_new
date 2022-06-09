@@ -14,20 +14,23 @@ import Modal from "react-bootstrap/Modal";
 import image1 from "../media/Vector3.png";
 import light from "../media/light-from-top-background.png";
 const caver = new Caver(window.klaytn);
+const webSupply = new Caver("https://public-node-api.klaytnapi.com/v1/cypress");
+
 export default function AppPresale({ changeStake }) {
   let acc = useSelector((state) => state.connect?.connection);
   const { t, i18n } = useTranslation();
   const [count, setCount] = useState(1);
 
-  const [active1, setActive1] = useState("active");
-  const [active2, setActive2] = useState(false);
-  const [active3, setActive3] = useState(false);
+  const [active1, setActive1] = useState("");
+  const [active2, setActive2] = useState("");
+  const [active3, setActive3] = useState("");
   const [loading, isLoading] = useState(false);
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   let [mintArray, setMintArray] = useState([]);
   let [publicSale, setPublicSale] = useState();
   const [balance, setBalance] = useState(0);
   const [remainingPresale, setRemainingPresale] = useState(0);
+  const [webSupplyState, setWebSupplyState] = useState();
   const dispatch = useDispatch();
   const handlePlus = () => {
     setCount(count + 1);
@@ -44,75 +47,93 @@ export default function AppPresale({ changeStake }) {
   };
   const tabsLight = async () => {
     try {
+      let contractOfNFt = new webSupply.klay.Contract(
+        goongyeContractAbi,
+        googyeContractAddress
+      );
+      let supplyCheck = await contractOfNFt.methods.totalSupply().call();
+      setWebSupplyState(supplyCheck);
+      if (supplyCheck >= 200 && supplyCheck <= 1200) {
+        setActive1("active");
+        setActive2("disabled");
+        setActive3("disabled");
+      } else if (supplyCheck >= 1201 && supplyCheck <= 2200) {
+        setActive2("active");
+        setActive1("disabled");
+        setActive3("disabled");
+      } else if (supplyCheck >= 2201 && supplyCheck <= 3200) {
+        setActive3("active");
+        setActive2("disabled");
+        setActive1("disabled");
+      }
       let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
       let presaleBool = await contractOf.methods.preSaleStarted().call();
-      console.log("psspsp", presaleBool);
       if (presaleBool) {
         let supply = await contractOf.methods.totalSupply().call();
-        console.log("supply tabsLight ", supply);
         let publicSale;
         if (supply <= 1200) {
           publicSale = await contractOf.methods.preSaleprice1().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
-          console.log("publicSale 1", publicSale);
           let rem = 1200 - supply;
-          console.log(rem, "rem");
 
           rem = 1000 - rem;
-          console.log(rem, "rem");
           setRemainingPresale(rem);
         } else if (supply <= 2200) {
           publicSale = await contractOf.methods.preSaleprice2().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
-          console.log("publicSale 2", publicSale);
 
           let rem = 2200 - supply;
-          console.log(rem, "rem");
           rem = 1000 - rem;
-          console.log(rem, "rem");
           setRemainingPresale(rem);
         } else if (supply <= 3200) {
           publicSale = await contractOf.methods.preSaleprice3().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
-          console.log("publicSale 3", publicSale);
           let rem = 3200 - supply;
-          console.log(rem, "rem");
           rem = 1000 - rem;
-          console.log(rem, "rem");
           setRemainingPresale(rem);
         }
         setPublicSale(publicSale);
-        console.log("publicSale all", publicSale);
       } else {
         console.log("Presale is not started yet!");
       }
       let supply = await contractOf.methods.totalSupply().call();
       console.log("supply tabsLight ", supply);
-      if (supply <= 1200) {
+    } catch (e) {
+      console.log("error in getting supply", e);
+      // toast.error("Transaction Failed");
+    }
+  };
+  const tabsChange = async () => {
+    try {
+      let contractOf = new webSupply.klay.Contract(
+        goongyeContractAbi,
+        googyeContractAddress
+      );
+      let supply = await contractOf.methods.totalSupply().call();
+      setWebSupplyState(supply);
+      if (supply >= 200 && supply <= 1200) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (supply <= 2200) {
+      } else if (supply >= 1201 && supply <= 2200) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (supply <= 3200) {
+      } else if (supply >= 2201 && supply <= 3200) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
       }
     } catch (e) {
-      console.log("error", e);
-      // toast.error("Transaction Failed");
+      console.log("errorrrrr in tabs change", e);
     }
   };
-
   const mintAndStake = async () => {
     console.log("myAccountAddress", acc);
     isLoading(true);
@@ -141,17 +162,17 @@ export default function AppPresale({ changeStake }) {
           let supply = await contractOf.methods.totalSupply().call();
           console.log("supply tabsLight ", supply);
           let publicSale;
-          if (supply <= 1200) {
+          if (supply >= 200 && supply <= 1200) {
             publicSale = await contractOf.methods.preSaleprice1().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 1", publicSale);
-          } else if (supply <= 2200) {
+          } else if (supply >= 1201 && supply <= 2200) {
             publicSale = await contractOf.methods.preSaleprice2().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 2", publicSale);
-          } else if (supply <= 3200) {
+          } else if (supply >= 2201 && supply <= 3200) {
             publicSale = await contractOf.methods.preSaleprice3().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
@@ -233,13 +254,13 @@ export default function AppPresale({ changeStake }) {
         totalIDs = totalIDs.slice(-count);
         let imagesArray = [];
         totalIDs.forEach(async (ids) => {
-          if (ids <= 500) {
+          if (ids <= 8000) {
             let imageUrl = `/config/images/${ids}.jpg`;
             let imageName = `Common #${ids}`;
             imagesArray = [...imagesArray, { imageName, imageUrl }];
             setMintArray(imagesArray);
           } else {
-            let imageUrl = `/config/king/${ids - 500}.jpg`;
+            let imageUrl = `/config/king/${ids}.jpg`;
             let imageName = `King #${ids}`;
             imagesArray = [...imagesArray, { imageName, imageUrl }];
             setMintArray(imagesArray);
@@ -303,9 +324,9 @@ export default function AppPresale({ changeStake }) {
           </div>
           <div className="row mt-5 d-flex justify-content-center align-items-center g-0">
             <div className="col-lg-5 col-md-12 col-sm-12 d-flex justify-content-center align-items-center pt-3">
-              <div class="mintCard">
-                <img src={mint} class=" mintImage" alt="..." />
-                <div class=" mintCardBody pb-1">
+              <div className="mintCard">
+                <img src={mint} className=" mintImage" alt="..." />
+                <div className=" mintCardBody pb-1">
                   <ul>
                     <li> {t("presale.li1")}</li>
                     <li>{t("presale.li2")}</li>
@@ -316,11 +337,11 @@ export default function AppPresale({ changeStake }) {
               </div>
             </div>
             <div className="col-lg-5 col-md-12 col-sm-12  d-flex justify-content-center align-items-center pt-3">
-              <div class="mintCard mintCard2 presaleCard">
+              <div className="mintCard mintCard2 presaleCard">
                 <nav>
-                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <div className="nav nav-tabs" id="nav-tab" role="tablist">
                     <button
-                      class={`nav-link navTabs ${active1} tab1`}
+                      className={`nav-link navTabs ${active1} tab1`}
                       id="nav-home-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#nav-home"
@@ -328,11 +349,12 @@ export default function AppPresale({ changeStake }) {
                       role="tab"
                       aria-controls="nav-home"
                       aria-selected="true"
+                      onClick={() => tabsChange()}
                     >
                       <span className="tabText">{t("presale.2")}</span>
                     </button>
                     <button
-                      class={`nav-link navTabs ${active2}`}
+                      className={`nav-link navTabs ${active2}`}
                       id="nav-profile-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#nav-profile"
@@ -340,11 +362,12 @@ export default function AppPresale({ changeStake }) {
                       role="tab"
                       aria-controls="nav-profile"
                       aria-selected="false"
+                      onClick={() => tabsChange()}
                     >
                       <span className="tabText">{t("presale.3")}</span>
                     </button>
                     <button
-                      class={`nav-link navTabs tab3 ${active3}`}
+                      className={`nav-link navTabs tab3 ${active3}`}
                       id="nav-contact-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#nav-contact"
@@ -352,28 +375,29 @@ export default function AppPresale({ changeStake }) {
                       role="tab"
                       aria-controls="nav-contact"
                       aria-selected="false"
+                      onClick={() => tabsChange()}
                     >
                       <span className="tabText">{t("presale.4")}</span>
                     </button>
                   </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
+                <div className="tab-content" id="nav-tabContent">
                   <div
-                    class="tab-pane fade show active"
+                    className="tab-pane fade show active"
                     id="nav-home"
                     role="tabpanel"
                     aria-labelledby="nav-home-tab"
                   >
-                    <div class="mintCardBody preSaleCardBody m-3">
+                    <div className="mintCardBody preSaleCardBody m-3">
                       <div className="text-white">
                         <span className="text-white me-1">Balance :</span>
                         {balance
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div class="progress mt-2">
+                      <div className="progress mt-2">
                         <div
-                          class="progress-bar progress-bar-success progress-bar-striped"
+                          className="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
                           aria-valuenow="0"
                           aria-valuemin="0"
@@ -385,7 +409,7 @@ export default function AppPresale({ changeStake }) {
                       </div>
                       <div className="progressValue">
                         <span>0</span>
-                        <span>1000</span>
+                        <span>1,000</span>
                       </div>
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
@@ -441,26 +465,26 @@ export default function AppPresale({ changeStake }) {
                     </div>
                   </div>
                   <div
-                    class="tab-pane fade"
+                    className="tab-pane fade"
                     id="nav-profile"
                     role="tabpanel"
                     aria-labelledby="nav-profile-tab"
                   >
-                    <div class="mintCardBody preSaleCardBody m-3">
+                    <div className="mintCardBody preSaleCardBody m-3">
                       <div className="text-white">
                         <span className="text-white me-1">Balance :</span>
                         {balance
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div class="progress mt-2">
+                      <div className="progress mt-2">
                         <div
-                          class="progress-bar progress-bar-success progress-bar-striped"
+                          className="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
                           aria-valuenow="40"
                           aria-valuemin="0"
                           aria-valuemax="100"
-                          style={{ width: "40%" }}
+                          style={{ width: `{remainingPresale}%` }}
                         >
                           {remainingPresale}%
                         </div>
@@ -523,26 +547,26 @@ export default function AppPresale({ changeStake }) {
                     </div>
                   </div>
                   <div
-                    class="tab-pane fade"
+                    className="tab-pane fade"
                     id="nav-contact"
                     role="tabpanel"
                     aria-labelledby="nav-contact-tab"
                   >
-                    <div class="mintCardBody preSaleCardBody m-3">
+                    <div className="mintCardBody preSaleCardBody m-3">
                       <div className="text-white">
                         <span className="text-white me-1">Balance :</span>
                         {balance
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div class="progress mt-2">
+                      <div className="progress mt-2">
                         <div
-                          class="progress-bar progress-bar-success progress-bar-striped"
+                          className="progress-bar progress-bar-success progress-bar-striped"
                           role="progressbar"
                           aria-valuenow="100"
                           aria-valuemin="0"
                           aria-valuemax="100"
-                          style={{ width: "100%" }}
+                          style={{ width: `{remainingPresale}%` }}
                         >
                           {remainingPresale}%
                         </div>
@@ -594,13 +618,23 @@ export default function AppPresale({ changeStake }) {
 
                       <div className="btnWalletStakeArea">
                         <div>
-                          <button
-                            className="btnMintPresale mt-3 mb-3"
-                            onClick={() => mintAndStake()}
-                          >
-                            {t("navbar.mint")}
-                            {/* {t("presale.Sold")} */}
-                          </button>
+                          {webSupplyState && webSupplyState <= 3200 ? (
+                            <button
+                              className="btnMintPresale mt-3 mb-3"
+                              onClick={() => mintAndStake()}
+                            >
+                              {t("navbar.mint")}
+                              {/* {t("presale.Sold")} */}
+                            </button>
+                          ) : (
+                            <button
+                              className="btnMintPresale mt-3 mb-3"
+                              // onClick={() => mintAndStake()}
+                            >
+                              {/* {t("navbar.mint")} */}
+                              {t("presale.Sold")}
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
