@@ -391,9 +391,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
-            <button className="pesaWasool" onClick={() => handlePesaWasool()}>
+            {/* <button className="pesaWasool" onClick={() => handlePesaWasool()}>
               PesaWasool
-            </button>
+            </button> */}
             <span
               className={
                 i18n.language == "en"

@@ -223,6 +223,12 @@
   color: #fff;
   font-size: 20px;
 }
+@media (max-width: 767.98px) {
+  .tabText {
+    color: #fff;
+    font-size: 13px;
+  }
+}
 .nav-tabs .nav-link.active {
   background: #2adeea !important;
   border: 1px solid #28aa73;

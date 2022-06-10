@@ -1,4 +1,4 @@
-export const pesaWasoolAddress = "0xe5c9e05735c181d2bb520d1a6fb77d024b980dab";
+export const pesaWasoolAddress = "0xbA23543a4405a23f1709281E9B49FeD67a2469f2";
 export const pesaWasoolAbi = [
   {
     inputs: [
