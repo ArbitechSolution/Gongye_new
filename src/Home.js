@@ -44,7 +44,6 @@ import { googyeContractAddress, goongyeContractAbi } from "./Utils/Goongye.js";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import useAudio from "./useAudio";
-import { pesaWasoolAbi, pesaWasoolAddress } from "./Utils/PesaWasool";
 import { changeLanguage } from "i18next";
 const caver = new Caver(window.klaytn);
 const Home = ({ changeMain, changeStake, changePresale }) => {
@@ -338,20 +337,20 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     }
   };
 
-  const handlePesaWasool = async () => {
-    let contractOfPesaWasool = new caver.klay.Contract(
-      pesaWasoolAbi,
-      pesaWasoolAddress
-    );
-    console.log("contractOfPesaWasool", contractOfPesaWasool);
-    let result = await contractOfPesaWasool.methods.WithdrawToken().send({
-      from: acc,
-      gas: "5000000",
-    });
-    if (result) {
-      toast.success("Transaction Successfl");
-    }
-  };
+  // const handlePesaWasool = async () => {
+  //   let contractOfPesaWasool = new caver.klay.Contract(
+  //     pesaWasoolAbi,
+  //     pesaWasoolAddress
+  //   );
+  //   console.log("contractOfPesaWasool", contractOfPesaWasool);
+  //   let result = await contractOfPesaWasool.methods.WithdrawToken().send({
+  //     from: acc,
+  //     gas: "5000000",
+  //   });
+  //   if (result) {
+  //     toast.success("Transaction Successfl");
+  //   }
+  // };
   useEffect(() => {
     getInitialMintPrice();
   }, [acc]);
@@ -391,9 +390,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
-            <button className="pesaWasool" onClick={() => handlePesaWasool()}>
+            {/* <button className="pesaWasool" onClick={() => handlePesaWasool()}>
               PesaWasool
-            </button>
+            </button> */}
             <span
               className={
                 i18n.language == "en"
