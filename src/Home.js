@@ -446,6 +446,33 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             >
               <img src={Discord} alt="" />
             </a>
+            {i18n.language == "en" ? (
+              <a
+                href="https://cagc.gitbook.io/apegoongye-global/crazyapegoongye-club/story"
+                target="_blank"
+                rel="noreferrer"
+                className="discord pe-1"
+              >
+                <img src={Discord} alt="" />
+              </a>
+            ) : (
+              <a
+                href="https://cagc.gitbook.io/crazyapegoongye/crazyapegoongye/story"
+                target="_blank"
+                rel="noreferrer"
+                className="discord pe-1"
+              >
+                <img src={Discord} alt="" />
+              </a>
+            )}
+            <a
+              href="https://drive.google.com/file/d/1kiuCB8hf2sS1unpm9i5Ibr6-HiIoQAmf/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="discord pe-1"
+            >
+              <img src={Discord} alt="" />
+            </a>
           </div>
         </div>
       </section>
