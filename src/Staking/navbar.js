@@ -5,6 +5,8 @@ import Telegram from "../media/telegram.png";
 import Kakao from "../media/kakao.png";
 import Discord from "../media/discord.png";
 import Logo from "../media/logo.png";
+import Doc from "../media/D.svg";
+import Whitepaper from "../media/Whitepaper.svg";
 import { useTranslation } from "react-i18next";
 import { Navbar, Nav } from "react-bootstrap";
 
@@ -84,6 +86,33 @@ export default function NavbarStaking({
               className="discord pe-1"
             >
               <img src={Discord} alt="" />
+            </a>
+            {i18n.language == "en" ? (
+              <a
+                href="https://cagc.gitbook.io/apegoongye-global/crazyapegoongye-club/story"
+                target="_blank"
+                rel="noreferrer"
+                className="discord pe-1"
+              >
+                <img src={Doc} alt="" />
+              </a>
+            ) : (
+              <a
+                href="https://cagc.gitbook.io/crazyapegoongye/crazyapegoongye/story"
+                target="_blank"
+                rel="noreferrer"
+                className="discord pe-1"
+              >
+                <img src={Doc} alt="" />
+              </a>
+            )}
+            <a
+              href="https://drive.google.com/file/d/1kiuCB8hf2sS1unpm9i5Ibr6-HiIoQAmf/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="discord pe-1"
+            >
+              <img src={Whitepaper} alt="" />
             </a>
           </div>
         </div>
