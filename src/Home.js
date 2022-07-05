@@ -150,7 +150,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     },
   };
 
-  console.log("acc", acc);
   const onConnectAccount = () => {
     dispatch(connectionAction());
   };
@@ -240,10 +239,12 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
         // dispalyImage();
+        // let publicSaleBool = await contractOf.methods.publicSale().call();
         let publicSaleBool = await contractOf.methods.publicSale().call();
 
         if (publicSaleBool == true) {
           if (parseFloat(balance) > parseFloat(ttlKlay)) {
+            ttlKlay = caver.utils.toPeb(ttlKlay);
             await contractOf.methods.publicMint(noMints).send({
               from: acc,
               value: ttlKlay,
@@ -254,7 +255,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             dispalyImage();
             getTotalSupply();
           } else {
-            toast.error(t("insufficient.Balance!"));
+            toast.error(t("insufficient.Balance"));
             isLoading(false);
           }
         } else {
@@ -307,8 +308,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       );
       let publicSale = await contractOf.methods.publicprice().call();
       publicSale = caver.utils.fromPeb(publicSale);
-      console.log("publicSale", publicSale);
-
       setSalePrice(publicSale);
     } catch (e) {
       console.log("error", e);
@@ -324,15 +323,15 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         goongyeContractAbi,
         googyeContractAddress
       );
-      let res = await contractOf.methods.totalSupply().call();
-      let publicSaleBool = await contractOf.methods.publicSale().call();
 
-      if (publicSaleBool == true) {
-        res = 8000 - res;
-        setTotalSupply(res);
+      let supply = await contractOf.methods.totalSupply().call();
+      let publicSaleFlag = await contractOf.methods.publicSale().call();
+      if (publicSaleFlag == true) {
+        supply = 8000 - supply;
+        setTotalSupply(supply);
       } else {
-        res = 8000 - 3200;
-        setTotalSupply(res);
+        supply = 8000 - supply;
+        setTotalSupply(supply);
       }
     } catch (e) {
       console.log("error in getting supply", e);

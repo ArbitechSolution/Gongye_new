@@ -27,10 +27,11 @@ export default function AppPresale({ changeStake }) {
   const [loading, isLoading] = useState(false);
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   let [mintArray, setMintArray] = useState([]);
-  let [publicSale, setPublicSale] = useState();
+  let [publicSale, setPublicSale] = useState(0);
   const [balance, setBalance] = useState(0);
   const [remainingPresale, setRemainingPresale] = useState(0);
   const [webSupplyState, setWebSupplyState] = useState();
+  const [light, setLight] = useState(false);
   const dispatch = useDispatch();
   const handlePlus = () => {
     setCount(count + 1);
@@ -47,51 +48,69 @@ export default function AppPresale({ changeStake }) {
   };
   const tabsLight = async () => {
     try {
-      let contractOfNFt = new webSupply.klay.Contract(
+      // let contractOfNFt = new webSupply.klay.Contract(
+      let contractOfNFt = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
-      let supplyCheck = await contractOfNFt.methods.totalSupply().call();
-      setWebSupplyState(supplyCheck);
-      if (supplyCheck >= 200 && supplyCheck <= 1200) {
+      let supply = await contractOfNFt.methods.totalSupply().call();
+      let salee1 = await contractOfNFt.methods.Sale_1().call();
+      let salee2 = await contractOfNFt.methods.Sale_2().call();
+      let salee3 = await contractOfNFt.methods.Sale_3().call();
+      // let publicSaleFlag = await contractOfNFt.methods.publicSale().call();
+      // let sale = await contractOfNFt.methods.check_Sale().call();
+      setLight(true);
+      // console.log("sale sale tabslight", sale);
+      setWebSupplyState(supply);
+      if (salee1 == true) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (supplyCheck >= 1201 && supplyCheck <= 2200) {
+      } else if (salee2 == true) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (supplyCheck >= 2201 && supplyCheck <= 3200) {
+      } else if (salee3 == true) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
+      } else {
+        setActive1("disabled");
+        setActive2("disabled");
+        setActive3("disabled");
       }
       let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
-      let presaleBool = await contractOf.methods.preSaleStarted().call();
-      if (presaleBool) {
-        let supply = await contractOf.methods.totalSupply().call();
+      // let presaleBool = await contractOf.methods.preSaleStarted().call();
+      let sale1 = await contractOf.methods.Sale_1().call();
+      let sale2 = await contractOf.methods.Sale_2().call();
+      let sale3 = await contractOf.methods.Sale_3().call();
+      // let publicSaleCheck = await contractOf.methods.publicSale().call();
+      // console.log("ssssaleessss", sale1, sale2, sale3);
+      if (sale1 || sale2 || sale3) {
+        // let supply = await contractOf.methods.totalSupply().call();
+        // console.log(supply, "supply supply");
         let publicSale;
-        if (supply <= 1200) {
-          publicSale = await contractOf.methods.preSaleprice1().call();
+        if (sale1 == true) {
+          publicSale = await contractOfNFt.methods.preSaleprice1().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
           let rem = 1200 - supply;
 
           rem = 1000 - rem;
           setRemainingPresale(rem);
-        } else if (supply <= 2200) {
-          publicSale = await contractOf.methods.preSaleprice2().call();
+        } else if (sale2 == true) {
+          publicSale = await contractOfNFt.methods.preSaleprice2().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
 
           let rem = 2200 - supply;
           rem = 1000 - rem;
           setRemainingPresale(rem);
-        } else if (supply <= 3200) {
-          publicSale = await contractOf.methods.preSaleprice3().call();
+        } else if (sale3 == true) {
+          publicSale = await contractOfNFt.methods.preSaleprice3().call();
           publicSale = publicSale * count;
           publicSale = caver.utils.fromPeb(publicSale);
           let rem = 3200 - supply;
@@ -102,47 +121,56 @@ export default function AppPresale({ changeStake }) {
       } else {
         console.log("Presale is not started yet!");
       }
-      let supply = await contractOf.methods.totalSupply().call();
-      console.log("supply tabsLight ", supply);
     } catch (e) {
       console.log("error in getting supply", e);
       // toast.error("Transaction Failed");
     }
   };
+
+  // useEffect(() => {
+  //   tabsLight();
+  // }, [light]);
   const tabsChange = async () => {
     try {
       let contractOf = new webSupply.klay.Contract(
+        // let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
+
       let supply = await contractOf.methods.totalSupply().call();
+      let sale1 = await contractOf.methods.Sale_1().call();
+      let sale2 = await contractOf.methods.Sale_2().call();
+      let sale3 = await contractOf.methods.Sale_3().call();
+      // let sale = await contractOf.methods.check_Sale().call();
       setWebSupplyState(supply);
-      if (supply >= 200 && supply <= 1200) {
+      if (sale1 == true) {
         setActive1("active");
         setActive2("disabled");
         setActive3("disabled");
-      } else if (supply >= 1201 && supply <= 2200) {
+      } else if (sale2 == true) {
         setActive2("active");
         setActive1("disabled");
         setActive3("disabled");
-      } else if (supply >= 2201 && supply <= 3200) {
+      } else if (sale3 == true) {
         setActive3("active");
         setActive2("disabled");
         setActive1("disabled");
+      } else {
+        setActive1("disabled");
+        setActive2("disabled");
+        setActive3("disabled");
       }
     } catch (e) {
       console.log("errorrrrr in tabs change", e);
     }
   };
   const mintAndStake = async () => {
-    console.log("myAccountAddress", acc);
     isLoading(true);
     if (acc == "No Wallet") {
-      console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
       isLoading(false);
     } else if (acc == "Wrong Network") {
-      console.log(t("WrongNetwork"));
       toast.error(t("WrongNetwork"));
       isLoading(false);
     } else if (acc == "Connect Wallet") {
@@ -156,87 +184,95 @@ export default function AppPresale({ changeStake }) {
         );
         // function mint ka call howa es me ye check kr k
         //  yeh public
-        let presaleBool = await contractOf.methods.preSaleStarted().call();
-        console.log("psspsp", presaleBool);
-        if (presaleBool) {
+        let sale1 = await contractOf.methods.Sale_1().call();
+        let sale2 = await contractOf.methods.Sale_2().call();
+        let sale3 = await contractOf.methods.Sale_3().call();
+        // let sale = await contractOf.methods.check_Sale().call();
+        let publicSaleFlag = await contractOf.methods.publicSale().call();
+        // let presaleBool = await contractOf.methods.preSaleStarted().call();
+        if (sale1 || sale2 || sale3) {
           let supply = await contractOf.methods.totalSupply().call();
-          console.log("supply tabsLight ", supply);
           let publicSale;
-          if (supply >= 200 && supply <= 1200) {
+          if (sale1 == true) {
             publicSale = await contractOf.methods.preSaleprice1().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 1", publicSale);
-          } else if (supply >= 1201 && supply <= 2200) {
+          } else if (sale2 == true) {
             publicSale = await contractOf.methods.preSaleprice2().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 2", publicSale);
-          } else if (supply >= 2201 && supply <= 3200) {
+          } else if (sale3 == true) {
             publicSale = await contractOf.methods.preSaleprice3().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
             console.log("publicSale 3", publicSale);
           }
-          console.log("publicSale all", publicSale);
-          let totalPrice = await contractOf.methods.gPRice(count).call();
-          console.log("totalPrice", totalPrice);
+          console.log("publicSale all after ", publicSale);
+          // let totalPrice = await contractOf.methods.gPRice(count).call();
+          // console.log("totalPrice", totalPrice);
           // totalPrice = caver.utils.fromPeb(totalPrice);
-          console.log("totalPrice", totalPrice);
+          // console.log("totalPrice", totalPrice);
 
           let balance = await caver.klay.getBalance(acc);
           balance = caver.utils.fromPeb(balance);
-          console.log("Balance", balance);
           let ownerList = await contractOf.methods.walletOfOwner(acc).call();
           const length = ownerList.length;
-          console.log("ownerList", length);
-          if (length <= 7) {
-            if (parseFloat(balance) > parseFloat(publicSale)) {
-              await contractOf.methods.preSalemint(count).send({
+          // if (length <= 7) {
+          if (parseFloat(balance) > parseFloat(publicSale)) {
+            publicSale = caver.utils.toPeb(publicSale);
+
+            if (sale1 == true) {
+              await contractOf.methods.Sale__1(count).send({
                 from: acc,
-                value: totalPrice,
+                value: publicSale,
                 gas: "5000000",
               });
               isLoading(false);
               toast.success(t("transaction.Successfull"));
+              let supply = await contractOf.methods.totalSupply().call();
+              setWebSupplyState(supply);
               dispalyImage();
-            } else {
-              toast.error(t("insufficient.Balance"));
+            } else if (sale2 == true) {
+              await contractOf.methods.Sale__2(count).send({
+                from: acc,
+                value: publicSale,
+                gas: "5000000",
+              });
               isLoading(false);
+              toast.success(t("transaction.Successfull"));
+              let supply = await contractOf.methods.totalSupply().call();
+              setWebSupplyState(supply);
+              dispalyImage();
+            } else if (sale3 == true) {
+              await contractOf.methods.Sale__3(count).send({
+                from: acc,
+                value: publicSale,
+                gas: "5000000",
+              });
+              isLoading(false);
+              toast.success(t("transaction.Successfull"));
+              let supply = await contractOf.methods.totalSupply().call();
+              setWebSupplyState(supply);
+              dispalyImage();
             }
+            // else if (sale == "Pre_Sale") {
+            //   toast.info("Pre-Sale is over now!");
+            // }
           } else {
-            toast.error("Minting Limit Reached (7)");
+            toast.error(t("insufficient.Balance"));
+            isLoading(false);
           }
-        } else {
-          toast.info("Presale is not started yet!");
         }
-        // let totalPrice = await contractOf.methods.gPRice(noMints).call();
-        // console.log("totalPrice", totalPrice);
-        // let balance = await caver.klay.getBalance(acc);
-        // // balance = caver.utils.fromPeb(balance);
-        // console.log("Balance", balance);
-        // let ownerList = await contractOf.methods.walletOfOwner(acc).call();
-        // const length = ownerList.length;
-        // console.log("ownerList", length);
-        // if (length <= 6) {
-        //   if (parseFloat(balance) > parseFloat(totalPrice)) {
-        //     await contractOf.methods.mint(noMints).send({
-        //       from: acc,
-        //       value: totalPrice,
-        //       gas: "5000000",
-        //     });
-        //     isLoading(false);
-        //     toast.success(t("transaction.Successfull"));
-        //     dispalyImage();
-        //   } else {
-        //     toast.error(t("insufficient.Balance!"));
-        //     isLoading(false);
-        //   }
-        // } else {
-        //   toast.error("Minting Limit Reached (6)");
+        // else {
+        //   toast.error("Minting Limit Reached (7)");
         // }
+        // }
+        else {
+          toast.info("Presale is over now!");
+        }
       } catch (e) {
-        console.log(" Error while minting", e);
         toast.error(t("minting.Failed"));
         isLoading(false);
       }
@@ -279,7 +315,6 @@ export default function AppPresale({ changeStake }) {
         let balance = await caver.klay.getBalance(acc);
         balance = caver.utils.fromPeb(balance);
         balance = parseFloat(balance).toFixed(2);
-        console.log("Balance", balance);
         setBalance(balance);
       } catch (e) {
         console.log("error", e);
@@ -395,22 +430,29 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div className="progress mt-2">
-                        <div
-                          className="progress-bar progress-bar-success progress-bar-striped"
-                          role="progressbar"
-                          aria-valuenow="0"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{ width: `{remainingPresale}%}` }}
-                        >
-                          {remainingPresale}%
-                        </div>
+                      {/* <div className="progress mt-2"> */}
+                      <div
+                      // className="progress-bar progress-bar-success progress-bar-striped"
+                      // role="progressbar"
+                      // aria-valuenow="0"
+                      // aria-valuemin="0"
+                      // aria-valuemax="100"
+                      // style={{ width: `{remainingPresale}%}` }}
+                      >
+                        {/* {remainingPresale}% */}
+                        <span className="textColor">
+                          Minted NFT's&nbsp;:&nbsp;
+                          {webSupplyState &&
+                            webSupplyState
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        </span>
                       </div>
-                      <div className="progressValue">
+                      {/* </div> */}
+                      {/* <div className="progressValue">
                         <span>0</span>
                         <span>1,000</span>
-                      </div>
+                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -477,22 +519,29 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div className="progress mt-2">
-                        <div
-                          className="progress-bar progress-bar-success progress-bar-striped"
-                          role="progressbar"
-                          aria-valuenow="40"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{ width: `{remainingPresale}%` }}
-                        >
-                          {remainingPresale}%
-                        </div>
+                      {/* <div className="progress mt-2"> */}
+                      <div
+                      // className="progress-bar progress-bar-success progress-bar-striped"
+                      // role="progressbar"
+                      // aria-valuenow="40"
+                      // aria-valuemin="0"
+                      // aria-valuemax="100"
+                      // style={{ width: `{remainingPresale}%` }}
+                      >
+                        {/* {remainingPresale}% */}
+                        <span className="textColor">
+                          Minted NFT's&nbsp;:&nbsp;
+                          {webSupplyState &&
+                            webSupplyState
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        </span>
                       </div>
-                      <div className="progressValue">
+                      {/* </div> */}
+                      {/* <div className="progressValue">
                         <span>0</span>
                         <span>1000</span>
-                      </div>
+                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -559,22 +608,29 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      <div className="progress mt-2">
-                        <div
-                          className="progress-bar progress-bar-success progress-bar-striped"
-                          role="progressbar"
-                          aria-valuenow="100"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{ width: `{remainingPresale}%` }}
-                        >
-                          {remainingPresale}%
-                        </div>
+                      {/* <div className="progress mt-2"> */}
+                      <div
+                      // className="progress-bar progress-bar-success progress-bar-striped"
+                      // role="progressbar"
+                      // aria-valuenow="100"
+                      // aria-valuemin="0"
+                      // aria-valuemax="100"
+                      // style={{ width: `{remainingPresale}%` }}
+                      >
+                        {/* {remainingPresale}% */}
+                        <span className="textColor">
+                          Minted NFT's&nbsp;:&nbsp;
+                          {webSupplyState &&
+                            webSupplyState
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        </span>
                       </div>
-                      <div className="progressValue">
+                      {/* </div> */}
+                      {/* <div className="progressValue">
                         <span>500</span>
                         <span>1000</span>
-                      </div>
+                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -618,23 +674,19 @@ export default function AppPresale({ changeStake }) {
 
                       <div className="btnWalletStakeArea">
                         <div>
-                          {webSupplyState && webSupplyState <= 3200 ? (
-                            <button
-                              className="btnMintPresale mt-3 mb-3"
-                              onClick={() => mintAndStake()}
-                            >
-                              {t("navbar.mint")}
-                              {/* {t("presale.Sold")} */}
-                            </button>
-                          ) : (
-                            <button
-                              className="btnMintPresale mt-3 mb-3"
-                              // onClick={() => mintAndStake()}
-                            >
-                              {/* {t("navbar.mint")} */}
-                              {t("presale.Sold")}
-                            </button>
-                          )}
+                          {/* {webSupplyState && webSupplyState <= 3200 ? ( */}
+                          <button
+                            className="btnMintPresale mt-3 mb-3"
+                            onClick={() => mintAndStake()}
+                          >
+                            {t("navbar.mint")}
+                            {/* {t("presale.Sold")} */}
+                          </button>
+                          {/* ) : (
+                          <button className="btnMintPresale mt-3 mb-3">
+                            {t("presale.Sold")}
+                          </button>
+                          )} */}
                         </div>
                       </div>
                     </div>

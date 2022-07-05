@@ -44,15 +44,6 @@ export default function Staking() {
   };
 
   const dispalyImage = async () => {
-    // if (acc == "No Wallet") {
-    //   console.log("No wallet");
-    //   toast.error(acc);
-    // } else if (acc == "Wrong Network") {
-    //   console.log("Wrong Network");
-    //   toast.error(acc);
-    // } else if (acc == "Connect Wallet") {
-    //   toast.error(acc);
-    // } else {
     try {
       let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
@@ -64,7 +55,6 @@ export default function Staking() {
         let sortedArray = cc2.sort((a, b) => a - b);
         // totalIDs = totalIDs.sort();
         // NFtIds = NFtIds.sort();
-        console.log("totalIDs", totalIDs);
         let imagesArray = [];
         let KingImagesArray = [];
         if (totalIDs.length == 0) {
@@ -75,8 +65,6 @@ export default function Staking() {
               let imageUrl = `/config/images/${ids}.jpg`;
               let imageName = `Common #${ids}`;
               let nftID = ids;
-              console.log("imageUrl", imageUrl);
-              console.log("iamgeName", imageName);
               imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
               setMintArray(imagesArray);
             } else {
@@ -164,9 +152,7 @@ export default function Staking() {
         stakingContractAddress
       );
       let res = await contractOfStaking.methods.rewardOfUser(acc).call();
-      console.log(res, "reward of single item");
       let totalPrice = caver.utils.fromPeb(res);
-      console.log("totalPrice ", totalPrice.toLocaleString());
       setRewardBalance(totalPrice);
     }
   };
@@ -245,7 +231,6 @@ export default function Staking() {
         stakingContractAbi,
         stakingContractAddress
       );
-      console.log("item.nftID", item?.nftID);
       await contractOfStaking.methods.Stake([item.nftID]).send({
         from: acc,
         gas: "5000000",
@@ -260,10 +245,8 @@ export default function Staking() {
   };
   const stakedNFT = async () => {
     if (acc == "No Wallet") {
-      console.log("No wallet");
       console.log(acc);
     } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
       console.log(acc);
     } else if (acc == "Connect Wallet") {
       console.log(acc);
@@ -276,9 +259,7 @@ export default function Staking() {
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
         let cc2 = NFtIds.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
-        console.log("sorted staked", sortedArray);
         // NFtIds = NFtIds.sort();
-        // console.log("nft ids", NFtIds);
         // let imagesArray = [];
         // let KingImagesArray = [];
         // totalIDs.forEach(async (ids) => {
@@ -354,10 +335,8 @@ export default function Staking() {
 
   const unStakedNFT = async (item) => {
     if (acc == "No Wallet") {
-      console.log("No wallet");
       console.log(acc);
     } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
       console.log(acc);
     } else if (acc == "Connect Wallet") {
       console.log(acc);
@@ -367,7 +346,6 @@ export default function Staking() {
           stakingContractAbi,
           stakingContractAddress
         );
-        console.log("item in unststake", item.nftID);
 
         await contractOfStaking.methods.UnStake(item.nftID).send({
           from: acc,
@@ -375,14 +353,12 @@ export default function Staking() {
         });
 
         let imagesArray = [];
-        console.log("stakedArray before", stakedNFTArray?.length);
         if (item.nftID <= 8000) {
           stakedNFTArray = stakedNFTArray.filter(function (items) {
             return items.nftID !== item.nftID;
           });
           setStakedNFT(stakedNFTArray);
           getBalanceToken();
-          console.log("stakedArray", stakedNFTArray?.length);
           dispalyImage();
           toast.success("Unstake Successful");
           setStakedNFT(stakedNFTArray);
@@ -392,7 +368,6 @@ export default function Staking() {
           });
           setKingMintArray(kingMintArray);
           getBalanceToken();
-          console.log("stakedArray", kingMintArray?.length);
           dispalyImage();
           toast.success("Unstake Successful");
           setKingMintArray(kingMintArray);
@@ -406,10 +381,8 @@ export default function Staking() {
 
   const withdrawReward = async (item) => {
     if (acc == "No Wallet") {
-      console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
     } else if (acc == "Wrong Network") {
-      console.log(t("WrongNetwork"));
       toast.error(t("WrongNetwork"));
     } else if (acc == "Connect Wallet") {
       toast.error(t("Connect"));
@@ -424,14 +397,12 @@ export default function Staking() {
         //   .rewardOfUser(acc, item.nftID)
         //   .call();
         // nftBalance = caver.utils.fromPeb(res);
-        // console.log("nftBalance", nftBalance);
         let result = await contractOfStaking.methods
           .WithdrawReward(item.nftID)
           .send({
             from: acc,
             gas: "500000",
           });
-        console.log("result of withdraw reward", result);
         // rewardsArray = [...rewardsArray, { nftID, nftBalance }];
         // setRewardBalance(rewardsArray);
         toast.success("Transaction Successful");
@@ -444,10 +415,8 @@ export default function Staking() {
   };
   const updgradToKing = async (item) => {
     if (acc == "No Wallet") {
-      console.log("No wallet");
       console.log(acc);
     } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
       console.log(acc);
     } else if (acc == "Connect Wallet") {
       console.log(acc);
@@ -459,12 +428,9 @@ export default function Staking() {
         );
         let balance = await caver.klay.getBalance(acc);
         // balance = caver.utils.fromPeb(balance);
-        console.log("Balance", balance);
         let kingPrice = await contractOf.methods.kingprice().call();
-        console.log("kingPrice", kingPrice);
         // let totalPrice = caver.utils.fromPeb(kingPrice.toString());
         let totalPrice = kingPrice;
-        console.log("totalPrice", totalPrice);
 
         let id = item.nftID;
 
@@ -486,10 +452,8 @@ export default function Staking() {
   };
   const balanceForAllItems = async () => {
     if (acc == "No Wallet") {
-      console.log("No wallet");
       console.log(acc);
     } else if (acc == "Wrong Network") {
-      console.log("Wrong Network");
       console.log(acc);
     } else if (acc == "Connect Wallet") {
       console.log(acc);
@@ -503,7 +467,6 @@ export default function Staking() {
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
         let cc2 = NFtIds.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
-        // console.log("sorted staked", sortedArray);
 
         sortedArray.forEach(async (ids) => {
           if (ids <= 8000) {
@@ -511,17 +474,14 @@ export default function Staking() {
               .rewardOfUser(acc, ids)
               .call();
             let eachItemBalance = caver.utils.fromPeb(res);
-            console.log("totalPrice ", eachItemBalance.toLocaleString());
             {
               rewardBalance &&
                 rewardBalance.map((item, index) => {
                   if (item.nftID == ids) {
                     item.nftBalance = eachItemBalance;
-                    // console.log(item.nftBalance, "reward of single item");
                   }
                 });
             }
-            console.log("rewardBalance in <8000", rewardBalance);
             setRewardBalance([...rewardBalance]);
           } else {
             let res = await contractOfStaking.methods
@@ -533,11 +493,9 @@ export default function Staking() {
                 rewardBalance.map((item, index) => {
                   if (item.nftID == ids) {
                     item.nftBalance = eachItemBalance;
-                    // console.log(item.nftBalance, "reward of single item");
                   }
                 });
             }
-            console.log("rewardBalance", rewardBalance);
 
             setRewardBalance([...rewardBalance]);
           }
@@ -784,7 +742,7 @@ export default function Staking() {
                         <div className="card_btn">
                           {/* <div className="card-buttons"> */}
                           <button
-                            className="btn-stake me-2"
+                            className="btn-stake btn-unstake me-2"
                             // onClick={() => NFTstaking(item)}
                             onClick={() => {
                               unStakedNFT(item);
@@ -793,7 +751,7 @@ export default function Staking() {
                             {t("staking.unstake")}
                           </button>
                           <button
-                            className="btn-reward"
+                            className="btn-reward rewardColor"
                             onClick={() => {
                               withdrawReward(item);
                             }}
@@ -884,7 +842,7 @@ export default function Staking() {
                         <div className="card_btn">
                           {/* <div className="card-buttons"> */}
                           <button
-                            className="btn-stake me-2"
+                            className="btn-stake btn-unstake me-2"
                             // onClick={() => NFTstaking(item)}
                             onClick={() => {
                               unStakedNFT(item);
@@ -893,7 +851,7 @@ export default function Staking() {
                             {t("staking.unstake")}
                           </button>
                           <button
-                            className="btn-reward"
+                            className="btn-reward rewardColor"
                             onClick={() => {
                               withdrawReward(item);
                             }}

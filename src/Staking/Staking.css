@@ -159,6 +159,14 @@
   background: #28aa73;
   border: 1px solid #28aa73;
 }
+.btn-unstake {
+  background-color: #ff4e4e !important;
+  border: 1px solid #ff4e4e !important;
+}
+.rewardColor {
+  background-color: #00aa73 !important;
+  border: 1px solid #00aa73 !important;
+}
 .btn-breed {
   background: #d5aa1b;
   border: 1px solid #d5aa1b;

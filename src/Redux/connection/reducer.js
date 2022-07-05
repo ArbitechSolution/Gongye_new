@@ -11,7 +11,6 @@ const connectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         connection: action.payload,
       };
-
     default:
       return state;
   }
