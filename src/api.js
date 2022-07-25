@@ -5,7 +5,6 @@ let accounts;
 const getAccounts = async () => {
   const { klaytn } = window;
   try {
-    // accounts = await klaytn.selectedAddress;
     accounts = await caver.klay.getAccounts();
     return accounts[0];
   } catch (error) {

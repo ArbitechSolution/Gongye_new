@@ -44,11 +44,10 @@ export default function AppPresale({ changeStake }) {
 
   const onConnectAccount = () => {
     dispatch(connectionAction());
-    // setCollectionModalShow(true);
+    
   };
   const tabsLight = async () => {
     try {
-      // let contractOfNFt = new webSupply.klay.Contract(
       let contractOfNFt = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
@@ -57,10 +56,7 @@ export default function AppPresale({ changeStake }) {
       let salee1 = await contractOfNFt.methods.Sale_1().call();
       let salee2 = await contractOfNFt.methods.Sale_2().call();
       let salee3 = await contractOfNFt.methods.Sale_3().call();
-      // let publicSaleFlag = await contractOfNFt.methods.publicSale().call();
-      // let sale = await contractOfNFt.methods.check_Sale().call();
       setLight(true);
-      // console.log("sale sale tabslight", sale);
       setWebSupplyState(supply);
       if (salee1 == true) {
         setActive1("active");
@@ -83,15 +79,11 @@ export default function AppPresale({ changeStake }) {
         goongyeContractAbi,
         googyeContractAddress
       );
-      // let presaleBool = await contractOf.methods.preSaleStarted().call();
+    
       let sale1 = await contractOf.methods.Sale_1().call();
       let sale2 = await contractOf.methods.Sale_2().call();
       let sale3 = await contractOf.methods.Sale_3().call();
-      // let publicSaleCheck = await contractOf.methods.publicSale().call();
-      // console.log("ssssaleessss", sale1, sale2, sale3);
       if (sale1 || sale2 || sale3) {
-        // let supply = await contractOf.methods.totalSupply().call();
-        // console.log(supply, "supply supply");
         let publicSale;
         if (sale1 == true) {
           publicSale = await contractOfNFt.methods.preSaleprice1().call();
@@ -123,17 +115,11 @@ export default function AppPresale({ changeStake }) {
       }
     } catch (e) {
       console.log("error in getting supply", e);
-      // toast.error("Transaction Failed");
     }
   };
-
-  // useEffect(() => {
-  //   tabsLight();
-  // }, [light]);
   const tabsChange = async () => {
     try {
       let contractOf = new webSupply.klay.Contract(
-        // let contractOf = new caver.klay.Contract(
         goongyeContractAbi,
         googyeContractAddress
       );
@@ -142,7 +128,6 @@ export default function AppPresale({ changeStake }) {
       let sale1 = await contractOf.methods.Sale_1().call();
       let sale2 = await contractOf.methods.Sale_2().call();
       let sale3 = await contractOf.methods.Sale_3().call();
-      // let sale = await contractOf.methods.check_Sale().call();
       setWebSupplyState(supply);
       if (sale1 == true) {
         setActive1("active");
@@ -182,14 +167,10 @@ export default function AppPresale({ changeStake }) {
           goongyeContractAbi,
           googyeContractAddress
         );
-        // function mint ka call howa es me ye check kr k
-        //  yeh public
         let sale1 = await contractOf.methods.Sale_1().call();
         let sale2 = await contractOf.methods.Sale_2().call();
         let sale3 = await contractOf.methods.Sale_3().call();
-        // let sale = await contractOf.methods.check_Sale().call();
         let publicSaleFlag = await contractOf.methods.publicSale().call();
-        // let presaleBool = await contractOf.methods.preSaleStarted().call();
         if (sale1 || sale2 || sale3) {
           let supply = await contractOf.methods.totalSupply().call();
           let publicSale;
@@ -197,29 +178,23 @@ export default function AppPresale({ changeStake }) {
             publicSale = await contractOf.methods.preSaleprice1().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
-            console.log("publicSale 1", publicSale);
           } else if (sale2 == true) {
             publicSale = await contractOf.methods.preSaleprice2().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
-            console.log("publicSale 2", publicSale);
+        
           } else if (sale3 == true) {
             publicSale = await contractOf.methods.preSaleprice3().call();
             publicSale = publicSale * count;
             publicSale = caver.utils.fromPeb(publicSale);
-            console.log("publicSale 3", publicSale);
+          
           }
-          console.log("publicSale all after ", publicSale);
-          // let totalPrice = await contractOf.methods.gPRice(count).call();
-          // console.log("totalPrice", totalPrice);
-          // totalPrice = caver.utils.fromPeb(totalPrice);
-          // console.log("totalPrice", totalPrice);
-
+       
           let balance = await caver.klay.getBalance(acc);
           balance = caver.utils.fromPeb(balance);
           let ownerList = await contractOf.methods.walletOfOwner(acc).call();
           const length = ownerList.length;
-          // if (length <= 7) {
+         
           if (parseFloat(balance) > parseFloat(publicSale)) {
             publicSale = caver.utils.toPeb(publicSale);
 
@@ -257,18 +232,13 @@ export default function AppPresale({ changeStake }) {
               setWebSupplyState(supply);
               dispalyImage();
             }
-            // else if (sale == "Pre_Sale") {
-            //   toast.info("Pre-Sale is over now!");
-            // }
+          
           } else {
             toast.error(t("insufficient.Balance"));
             isLoading(false);
           }
         }
-        // else {
-        //   toast.error("Minting Limit Reached (7)");
-        // }
-        // }
+        
         else {
           toast.info("Presale is over now!");
         }
@@ -306,7 +276,7 @@ export default function AppPresale({ changeStake }) {
       }
     } catch (e) {
       console.log(" Error while displaying images", e);
-      // toast.error("Minting Failed");
+     
     }
   };
   const getBalance = async () => {
@@ -430,16 +400,8 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      {/* <div className="progress mt-2"> */}
                       <div
-                      // className="progress-bar progress-bar-success progress-bar-striped"
-                      // role="progressbar"
-                      // aria-valuenow="0"
-                      // aria-valuemin="0"
-                      // aria-valuemax="100"
-                      // style={{ width: `{remainingPresale}%}` }}
                       >
-                        {/* {remainingPresale}% */}
                         <span className="textColor">
                           Minted NFT's&nbsp;:&nbsp;
                           {webSupplyState &&
@@ -448,11 +410,6 @@ export default function AppPresale({ changeStake }) {
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </span>
                       </div>
-                      {/* </div> */}
-                      {/* <div className="progressValue">
-                        <span>0</span>
-                        <span>1,000</span>
-                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -519,16 +476,9 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      {/* <div className="progress mt-2"> */}
+                     
                       <div
-                      // className="progress-bar progress-bar-success progress-bar-striped"
-                      // role="progressbar"
-                      // aria-valuenow="40"
-                      // aria-valuemin="0"
-                      // aria-valuemax="100"
-                      // style={{ width: `{remainingPresale}%` }}
                       >
-                        {/* {remainingPresale}% */}
                         <span className="textColor">
                           Minted NFT's&nbsp;:&nbsp;
                           {webSupplyState &&
@@ -537,11 +487,6 @@ export default function AppPresale({ changeStake }) {
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </span>
                       </div>
-                      {/* </div> */}
-                      {/* <div className="progressValue">
-                        <span>0</span>
-                        <span>1000</span>
-                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -608,16 +553,8 @@ export default function AppPresale({ changeStake }) {
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       </div>
-                      {/* <div className="progress mt-2"> */}
                       <div
-                      // className="progress-bar progress-bar-success progress-bar-striped"
-                      // role="progressbar"
-                      // aria-valuenow="100"
-                      // aria-valuemin="0"
-                      // aria-valuemax="100"
-                      // style={{ width: `{remainingPresale}%` }}
                       >
-                        {/* {remainingPresale}% */}
                         <span className="textColor">
                           Minted NFT's&nbsp;:&nbsp;
                           {webSupplyState &&
@@ -626,11 +563,6 @@ export default function AppPresale({ changeStake }) {
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                         </span>
                       </div>
-                      {/* </div> */}
-                      {/* <div className="progressValue">
-                        <span>500</span>
-                        <span>1000</span>
-                      </div> */}
                       <div className="mt-4">
                         <hr className="solid hori"></hr>
                       </div>
@@ -674,68 +606,18 @@ export default function AppPresale({ changeStake }) {
 
                       <div className="btnWalletStakeArea">
                         <div>
-                          {/* {webSupplyState && webSupplyState <= 3200 ? ( */}
                           <button
                             className="btnMintPresale mt-3 mb-3"
                             onClick={() => mintAndStake()}
                           >
                             {t("navbar.mint")}
-                            {/* {t("presale.Sold")} */}
+                           
                           </button>
-                          {/* ) : (
-                          <button className="btnMintPresale mt-3 mb-3">
-                            {t("presale.Sold")}
-                          </button>
-                          )} */}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/*
-                <div className="presaleCard2SubHeader pt-2 pb-2">
-                  <h6 className="ps-3 ">Price Per Card</h6>
-                  <span className="ps-3">
-                    <span className="spanBalance">0.00</span> Klay Each
-                  </span>
-                </div>
-                <div class="mintCardBody m-3">
-                  <div>
-                    <div className="preslaesAdditionSection mt-4 row">
-                      <div>
-                        <button className="btnMinus ">-</button>
-                        <span className="spanCount ">1</span>
-                        <button className="btnPlus ">+</button>
-                      </div>
-                    </div>
-                    <div className="mt-2">
-                      <hr className="solid hori"></hr>
-                    </div>
-                    <div className="mintTotal">
-                      <div>
-                        <span className="totalSpan ps-2">Total</span>
-                      </div>
-                      <div>
-                        <span className="KLAYspan pe-2">--- KLAY</span>
-                      </div>
-                    </div>
-                    <div className="mt-2">
-                      <hr className="solid hori"></hr>
-                    </div>
-                    <div className="btnWalletStakeArea">
-                      <div>
-                        <button className="btnConnectWallet mt-3 ">
-                          Connect Wallet
-                        </button>
-                      </div>
-                      <div>
-                        <button className="btnMintPresale mt-3 mb-3">
-                          Mint & Stake Now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
@@ -791,8 +673,6 @@ export default function AppPresale({ changeStake }) {
                       <div className="col-12 mintCol mt-4">
                         <span className="heading">{t("modal.heading")}</span>
                       </div>
-                      {/* {props?.mintArray.length == 1 ? ( */}
-                      {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
                       {mintArray.map((item, index) => {
                         return (
                           <div key={index}>
@@ -803,30 +683,19 @@ export default function AppPresale({ changeStake }) {
                                 src={item.imageUrl}
                               />
                             </div>
-
-                            {/* <div className="col-12 mintCol mt-2 mb-5">
-                              <button
-                                className="btnLater mt-2"
-                                onClick={() => setCollectionModalShow(false)}
-                              >
-                                {t("modal.later")}
-                              </button>
-                            </div> */}
                           </div>
                         );
                       })}
                       <div className="col-12 mintCol mt-5 mb-5">
                         <button
                           className="btnStaking mt-2 me-2"
-                          // href="#stake"
+                       
                           onClick={() => changeStake()}
                         >
                           {t("modal.staking")}
                         </button>
                         <button
                           className="btnBreeding mt-2 me-2"
-                          // onClick={() => updgradToKing(item)}
-                          // href="#stake"
                           onClick={() => changeStake()}
                         >
                           {t("staking.parabreed")}

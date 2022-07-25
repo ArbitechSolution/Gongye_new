@@ -55,14 +55,6 @@ const AppHome = () => {
       </div>
     );
   };
-  // const Minting = () => {
-  //   return (
-  //     <div>
-  //       <AppMinting />
-  //     </div>
-  //   );
-  // };
-
   if (changeRouteis == "main") {
     return (
       <div className="App">
@@ -82,13 +74,6 @@ const AppHome = () => {
       </div>
     );
   }
-  // else if (changeRouteis == "Minting") {
-  //   return (
-  //     <div className="App">
-  //       <Minting />
-  //     </div>
-  //   );
-  // }
   else {
     return <></>;
   }

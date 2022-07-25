@@ -66,8 +66,6 @@ export default function MintModal(props) {
                       You got a Crazy Goongye card now !
                     </span>
                   </div>
-                  {/* {props?.mintArray.length == 1 ? ( */}
-                  {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
                   {props.mintArray.map((item, index) => {
                     return (
                       <div key={index}>

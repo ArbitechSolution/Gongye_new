@@ -61,12 +61,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   let [ttlKlay, setTtlKlay] = useState(0);
   let [mintArray, setMintArray] = useState([]);
   let [mintCollectionArray, setMintCollectionArray] = useState([]);
-  // const [modalShow, setModalShow] = useState(false);
+  
   const [collectionModalShow, setCollectionModalShow] = useState(false);
   const [totalSupply, setTotalSupply] = useState(0);
   const handleChangeLanguage = async (lang) => {
-    // changeLanguageDouble(lang);
-
     await i18n.changeLanguage(lang);
 
     isGreen(lang);
@@ -74,12 +72,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const changeLanguageDouble = (lang) => {
     i18n.changeLanguage(lang);
   };
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     playingSound();
-  //   }, 10000);
-  // }, []);
-
   const playingSound = () => {
     togglePlaying();
   };
@@ -214,11 +206,9 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
   const mintAndStake = async () => {
     isLoading(true);
     if (acc == "No Wallet") {
-      console.log(t("NoWallet"));
       toast.error(t("NoWallet"));
       isLoading(false);
     } else if (acc == "Wrong Network") {
-      console.log(t("WrongNetwork"));
       toast.error(t("WrongNetwork"));
       isLoading(false);
     } else if (acc == "Connect Wallet") {
@@ -231,15 +221,10 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
           goongyeContractAbi,
           googyeContractAddress
         );
-
-        // let totalPrice = await contractOf.methods.gPRice(noMints).call();
-
         let balance = await caver.klay.getBalance(acc);
-        // balance = caver.utils.fromPeb(balance);
         let ownerList = await contractOf.methods.walletOfOwner(acc).call();
         const length = ownerList.length;
-        // dispalyImage();
-        // let publicSaleBool = await contractOf.methods.publicSale().call();
+      
         let publicSaleBool = await contractOf.methods.publicSale().call();
 
         if (publicSaleBool == true) {
@@ -297,7 +282,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       }
     } catch (e) {
       console.log(" Error while displaying images", e);
-      // toast.error("Minting Failed");
     }
   };
   const salePrices = async () => {
@@ -337,21 +321,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       console.log("error in getting supply", e);
     }
   };
-
-  // const handlePesaWasool = async () => {
-  //   let contractOfPesaWasool = new caver.klay.Contract(
-  //     pesaWasoolAbi,
-  //     pesaWasoolAddress
-  //   );
-  //   console.log("contractOfPesaWasool", contractOfPesaWasool);
-  //   let result = await contractOfPesaWasool.methods.WithdrawToken().send({
-  //     from: acc,
-  //     gas: "5000000",
-  //   });
-  //   if (result) {
-  //     toast.success("Transaction Successfl");
-  //   }
-  // };
   useEffect(() => {
     getInitialMintPrice();
   }, [acc]);
@@ -383,7 +352,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
     },
   ];
   useEffect(() => {
-    console.log("language ", i18n.language);
   }, [array]);
   return (
     <div className="home" id="home">
@@ -391,9 +359,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
         <div className="container d-flex justify-content-center justify-content-md-between">
           <div className="contact-info d-flex align-items-center"></div>
           <div className="social-links" data-aos="fade-down">
-            {/* <button className="pesaWasool" onClick={() => handlePesaWasool()}>
-              PesaWasool
-            </button> */}
+           
             <span
               className={
                 i18n.language == "en"
@@ -480,7 +446,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
 
       <div className="navbarContainer">
         <Navbar collapseOnSelect expand="lg" className="headerContainer">
-          {/* <Container className=""> */}
           <Navbar.Brand href="#home">
             <a href="/" className="logo ms-lg-5" onClick={() => changeMain()}>
               <img
@@ -560,7 +525,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {/* </Container> */}
+         
         </Navbar>
       </div>
 
@@ -682,37 +647,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                 </div>
               );
             })}
-            {/* <div className="col text-center text-light">
-              <div className="d-flex justify-content-center">
-                <img src={Scene2} className="img" alt="" />
-              </div>
-
-              <div className="scene-text mt-4 d-flex justify-content-space-between">
-                <h4> {t("storyCarousel.scene2")}</h4>
-                <p>{t("storyCarousel.para2")}</p>
-              </div>
-            </div>
-
-            <div className="col text-center text-light">
-              <div className="d-flex justify-content-center">
-                <img src={Scene3} className="img" alt="" />
-              </div>
-
-              <div className="scene-text mt-4 d-flex justify-content-space-between">
-                <h4> {t("storyCarousel.scene3")}</h4>
-                <p>{t("storyCarousel.para3")}</p>
-              </div>
-            </div>
-            <div className="col text-center text-light">
-              <div className="d-flex justify-content-center">
-                <img src={Scene4} className="img" alt="" />
-              </div>
-
-              <div className="scene-text mt-4 d-flex justify-content-space-between">
-                <h4> {t("storyCarousel.scene4")}</h4>
-                <p>{t("storyCarousel.para4")}</p>
-              </div>
-            </div> */}
           </OwlCarousel>
         </div>
       </section>
@@ -809,8 +743,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
             <p data-aos="fade-up" data-aos-delay="400">
               {i18n.language == "en" ? (
                 <>
-                  {/* <span className="green">{t("tokenomics.manguni")}</span>
-                  <span className="blue">{t("tokenomics.tokens")}</span> */}
                   {t("tokenomics.para4")}
                 </>
               ) : (
@@ -869,10 +801,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <span className="green ps-1 pe-1">{t("staking.MAGUNI")}</span>
                   <span className="blue pe-1">{t("staking.tokens")}</span>
                   {t("staking.parah4")}
-                  {/* <span className="blue ps-1 pe-1">{t("tokenomics.1000")}</span>
-                  <span className="green pe-1"> {t("staking.MAGUNI")}</span>
-                  <span className="blue">{t("staking.tokens")} </span> */}
-                  {/* {t("staking.day")} */}
                 </>
               ) : (
                 t("staking.parah3")
@@ -950,10 +878,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                   <li>{t("mint.li1")}</li>
                   <li>{t("mint.li2")}</li>
                   <li>{t("mint.li3")}</li>
-                  {/* <li>
-                    The number of mints per transaction is set according to each
-                    sales round.
-                  </li> */}
+                  
                 </ul>
               </div>
             </div>
@@ -1022,13 +947,7 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                     >
                       <i className="bx bx-minus"></i>
                     </button>
-                    {/* <input
-                      type="text"
-                      className="form-control number"
-                      placeholder="1"
-                    >
-                      {noMints}
-                    </input> */}
+                    
                     <span className="number">{noMints}</span>
                     <button
                       className="btn-plus"
@@ -1087,7 +1006,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       </button>
                       <button
                         className="form-control btn-breeders mb-3 ms-1"
-                        // onClick={() => onConnectAccount()}
                         href="#stake"
                         onClick={() => changeStake()}
                       >
@@ -1250,9 +1168,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                 <div>
                   {i18n.language == "en" ? (
                     <>
-                      {/* <span className="blue me-1">
-                        {t("roadmap.Tokenomics")}
-                      </span> */}
                       {t("roadmap.parah6")}
                     </>
                   ) : (
@@ -1275,10 +1190,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                 <div>
                   {i18n.language == "en" ? (
                     <>
-                      {/* {t("roadmap.Open")}
-                      <span className="blue ms-1 me-1">
-                        {t("roadmap.parah7")}
-                      </span> */}
                       {t("roadmap.parah8")}
                       {t("roadmap.parah8.1")}
                     </>
@@ -2074,10 +1985,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
       >
         <i className="bi bi-arrow-up-short"></i>
       </a>
-      {/* <div className="col-lg-8 col-11 mb-md-1 mb-4 mt-4">
-        {modalShow ? <MintModal mintArray={mintArray} acc={acc} /> : <></>}
-      </div> */}
-
       {collectionModalShow ? (
         <Modal
           show={collectionModalShow}
@@ -2128,8 +2035,6 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                       <div className="col-12 mintCol mt-4">
                         <span className="heading">{t("modal.heading")}</span>
                       </div>
-                      {/* {props?.mintArray.length == 1 ? ( */}
-                      {/* <div className=" d-flex flex-column justify-content-center mb-3 mt-3"> */}
                       {mintArray.map((item, index) => {
                         return (
                           <div key={index}>
@@ -2140,30 +2045,20 @@ const Home = ({ changeMain, changeStake, changePresale }) => {
                                 src={item.imageUrl}
                               />
                             </div>
-
-                            {/* <div className="col-12 mintCol mt-2 mb-5">
-                              <button
-                                className="btnLater mt-2"
-                                onClick={() => setCollectionModalShow(false)}
-                              >
-                                {t("modal.later")}
-                              </button>
-                            </div> */}
                           </div>
                         );
                       })}
                       <div className="col-12 mintCol mt-5 mb-5">
                         <button
                           className="btnStaking mt-2 me-2"
-                          // href="#stake"
+                          
                           onClick={() => changeStake()}
                         >
                           {t("modal.staking")}
                         </button>
                         <button
                           className="btnBreeding mt-2 me-2"
-                          // onClick={() => updgradToKing(item)}
-                          // href="#stake"
+                        
                           onClick={() => changeStake()}
                         >
                           {t("staking.parabreed")}

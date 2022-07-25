@@ -28,9 +28,6 @@
   justify-content: center;
   align-items: center;
   z-index: 99;
-  /* margin-top: 74px !important; */
-  /* left: 38%; */
-  /* top: -1%; */
 }
 .stakingTop-image {
   width: 400px;
@@ -51,7 +48,6 @@
   .stakingTop-image {
     width: 200px;
     height: 30px;
-    /* left: 0%; */
     margin-top: 10px;
   }
 }
@@ -249,11 +245,9 @@
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  /* background: #1b2532 !important; */
   background: rgba(24, 26, 43, 0.6);
   color: #fff !important;
   z-index: 999;
-  /* position: absolute !important; */
 }
 .navbarContainer {
   background: #21353b !important;
@@ -270,7 +264,6 @@
 }
 .collapse.show {
   background: rgba(24, 26, 43, 0.6);
-  /* background: #000; */
   z-index: 9999999 !important;
 }
 @media (max-width: 767.98px) {
@@ -303,7 +296,6 @@
   font-weight: 400;
   font-size: 16px;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
 }
 .claimableDiv,

@@ -31,7 +31,6 @@ export default function Staking() {
 
   const onConnectAccount = () => {
     dispatch(connectionAction());
-    // setCollectionModalShow(true);
   };
 
   const handleTransfer = (index, item) => {
@@ -53,8 +52,6 @@ export default function Staking() {
         let totalIDs = await contractOf.methods.walletOfOwner(acc).call();
         let cc2 = totalIDs.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
-        // totalIDs = totalIDs.sort();
-        // NFtIds = NFtIds.sort();
         let imagesArray = [];
         let KingImagesArray = [];
         if (totalIDs.length == 0) {
@@ -71,13 +68,6 @@ export default function Staking() {
               let imageUrl = `/config/images/${ids}.jpg`;
               let imageName = `King #${ids}`;
               let nftID = ids;
-              // console.log("imageUrl", imageUrl);
-              // console.log("iamgeName", imageName);
-              // KingImagesArray = [
-              //   ...KingImagesArray,
-              //   { imageName, imageUrl, nftID },
-              // ];
-              // setKingMintArray(KingImagesArray);
               imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
               setMintArray(imagesArray);
             }
@@ -87,7 +77,7 @@ export default function Staking() {
     } catch (e) {
       console.log(" Error while displaying images", e);
     }
-    // }
+
   };
 
   const getBalanceToken = async () => {
@@ -259,33 +249,6 @@ export default function Staking() {
         let NFtIds = await contractOfStaking.methods.userStakedNFT(acc).call();
         let cc2 = NFtIds.map((a) => a);
         let sortedArray = cc2.sort((a, b) => a - b);
-        // NFtIds = NFtIds.sort();
-        // let imagesArray = [];
-        // let KingImagesArray = [];
-        // totalIDs.forEach(async (ids) => {
-        //   if (ids <= 40) {
-        //     let imageUrl = `/config/images/${ids}.jpg`;
-        //     let imageName = `Common #${ids}`;
-        //     let nftID = ids;
-        //     // console.log("imageUrl", imageUrl);
-        //     // console.log("iamgeName", imageName);
-        //     imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-        //     setMintArray(imagesArray);
-        //   } else {
-        //     let imageUrl = `/config/images/${ids}.jpg`;
-        //     let imageName = `King #${ids}`;
-        //     let nftID = ids;
-        //     // console.log("imageUrl", imageUrl);
-        //     // console.log("iamgeName", imageName);
-        //     // KingImagesArray = [
-        //     //   ...KingImagesArray,
-        //     //   { imageName, imageUrl, nftID },
-        //     // ];
-        //     // setKingMintArray(KingImagesArray);
-        //     imagesArray = [...imagesArray, { imageName, imageUrl, nftID }];
-        //     setMintArray(imagesArray);
-        //   }
-
         let imagesArray = [];
         let KingImagesArray = [];
         let rewardsArray = [];
@@ -393,18 +356,12 @@ export default function Staking() {
           stakingContractAbi,
           stakingContractAddress
         );
-        // let res = await contractOfStaking.methods
-        //   .rewardOfUser(acc, item.nftID)
-        //   .call();
-        // nftBalance = caver.utils.fromPeb(res);
         let result = await contractOfStaking.methods
           .WithdrawReward(item.nftID)
           .send({
             from: acc,
             gas: "500000",
           });
-        // rewardsArray = [...rewardsArray, { nftID, nftBalance }];
-        // setRewardBalance(rewardsArray);
         toast.success("Transaction Successful");
         getBalanceToken();
       } catch (e) {
@@ -427,9 +384,7 @@ export default function Staking() {
           googyeContractAddress
         );
         let balance = await caver.klay.getBalance(acc);
-        // balance = caver.utils.fromPeb(balance);
         let kingPrice = await contractOf.methods.kingprice().call();
-        // let totalPrice = caver.utils.fromPeb(kingPrice.toString());
         let totalPrice = kingPrice;
 
         let id = item.nftID;
@@ -507,37 +462,27 @@ export default function Staking() {
   };
   useEffect(() => {
     dispalyImage();
-    // stakedNFT();
-    // unStakedNFT();
+   
   }, [stakedNFTArray]);
   useEffect(() => {
     dispalyImage();
     stakedNFT();
     getBalanceToken();
-
-    // unStakedNFT();
   }, [acc]);
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
   useEffect(() => {
-    // handleGetBalance();
+  
   }, [acc]);
   let interv = null;
   useEffect(() => {
     interv = setInterval(() => {
-      // handleGetBalance();
-      // getBalanceToken();
       balanceForAllItems();
     }, 3000);
 
     return () => clearInterval(interv);
   }, [rewardBalance]);
-
-  // useEffect(() => {
-  //   balanceForAllItems();
-  //   // stakedNFT();
-  // }, [rewardBalance]);
   return (
     <div className="staking d-flex justify-content-center " id="staking">
       <div className="imgArea ">
@@ -569,11 +514,6 @@ export default function Staking() {
                 {t("staking.para2")}
               </button>
             </div>
-            {/* <div className="col-lg-6 col-md-12 mt-2">
-              <button className="btnAllReward" onClick={() => withdrawReward()}>
-                {t("staking.para3")}
-              </button>
-            </div> */}
           </div>
 
           <div className="mt-2">
@@ -582,14 +522,6 @@ export default function Staking() {
               {maguniBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </span>
           </div>
-          {/* <div className="mt-2">
-            <h6 className="card-sub-title">
-              {t("staking.para7")}
-              &nbsp;: &nbsp;
-              {rewardBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            </h6>
-          </div> */}
-
           {mintArray && mintArray?.length > 0 && (
             <div className="mt-2">
               <span className="textMyCrazy">{t("staking.para5")}</span>
@@ -608,15 +540,7 @@ export default function Staking() {
                       />
                       <div className="card-body">
                         <h5 className="card-title">{item.imageName}</h5>
-                        {/* <div className="mt-2 rewardDiv">
-                          <h6 className="card-sub-title rewardTitle">
-                            {t("staking.claimable")}
-                            &nbsp;: &nbsp;
-                          </h6>
-                          <span className="cardRewardBalance">
-                            {rewardBalance}
-                          </span>
-                        </div> */}
+                       
 
                         <p className="card-text">{t("staking.para8")}</p>
                         <a href="#" className="card-Link">
@@ -649,12 +573,6 @@ export default function Staking() {
                         )}
 
                         <div className="card-buttons mt-2">
-                          {/* <button className="btn-changeName">
-                          {t("staking.para10")}
-                        </button>
-                        <button className="btn-changeBio">
-                          {t("staking.para11")}
-                        </button> */}
                           <button
                             className="btn-transfer"
                             onClick={() => handleTransfer(index, item)}
@@ -687,36 +605,6 @@ export default function Staking() {
                       />
                       <div className="card-body">
                         <h5 className="card-title">{item.imageName}</h5>
-
-                        {/* <div className="mt-2 rewardDiv">
-                        <div className="rewardInner">
-                          <h6 className=" rewardTitle">
-                            {t("staking.daily")}
-                            &nbsp;&nbsp;
-                          </h6>
-                          <h6 className=" rewardTitle">
-                            {t("staking.reward")}
-                            &nbsp;: &nbsp;
-                          </h6>
-                        </div>
-                        <div className="claimableDiv">
-                          <span className="rewardTitle ">
-                            {t("staking.claimable")}
-                          </span>
-                          <span className="cardRewardBalance ">
-                            {rewardBalance}
-                          </span>
-                        </div>
-                      </div> */}
-                        {/* <div className="mt-2 rewardDiv">
-                        <h6 className="card-sub-title rewardTitle">
-                          {t("staking.para7")}
-                          &nbsp;: &nbsp;
-                        </h6>
-                        <span className="cardRewardBalance ">
-                          {rewardBalance}
-                        </span>
-                      </div> */}
                         <div className="mt-2 rewardDiv">
                           <h6 className="card-sub-title rewardTitle">
                             {t("staking.claimable")}
@@ -740,10 +628,9 @@ export default function Staking() {
                           https://crazyapegoongyeclub.com/
                         </a>
                         <div className="card_btn">
-                          {/* <div className="card-buttons"> */}
+                          
                           <button
                             className="btn-stake btn-unstake me-2"
-                            // onClick={() => NFTstaking(item)}
                             onClick={() => {
                               unStakedNFT(item);
                             }}
@@ -760,12 +647,6 @@ export default function Staking() {
                           </button>
                         </div>
                         <div className="card-buttons mt-2">
-                          {/* <button className="btn-changeName">
-                          {t("staking.para10")}
-                        </button>
-                        <button className="btn-changeBio">
-                          {t("staking.para11")}
-                        </button> */}
                           <button
                             className="btn-transfer"
                             onClick={() => handleTransferInCollection()}
@@ -797,26 +678,6 @@ export default function Staking() {
                       />
                       <div className="card-body">
                         <h5 className="card-title">{item.imageName}</h5>
-                        {/* <div className="mt-2 rewardDiv">
-                        <div className="rewardInner">
-                          <h6 className=" rewardTitle">
-                            {t("staking.daily")}
-                            &nbsp;&nbsp;
-                          </h6>
-                          <h6 className=" rewardTitle">
-                            {t("staking.reward")}
-                            &nbsp;: &nbsp;
-                          </h6>
-                        </div>
-                        <div className="claimableDiv">
-                          <span className="rewardTitle ">
-                            {t("staking.claimable")}
-                          </span>
-                          <span className="cardRewardBalance ">
-                            {rewardBalance}
-                          </span>
-                        </div>
-                      </div> */}
                         <div className="mt-2 rewardDiv">
                           <h6 className="card-sub-title rewardTitle">
                             {t("staking.claimable")}
@@ -840,10 +701,10 @@ export default function Staking() {
                           https://crazyapegoongyeclub.com/
                         </a>
                         <div className="card_btn">
-                          {/* <div className="card-buttons"> */}
+                          
                           <button
                             className="btn-stake btn-unstake me-2"
-                            // onClick={() => NFTstaking(item)}
+                           
                             onClick={() => {
                               unStakedNFT(item);
                             }}
@@ -859,27 +720,7 @@ export default function Staking() {
                             {t("staking.claimReward")}
                           </button>
                         </div>
-                        {/* <div className="card_btn">
-                        <button
-                          className="btn-stake me-2"
-                          // onClick={() => NFTstaking(item)}
-                          onClick={() => {
-                            unStakedNFT(item);
-                          }}
-                        >
-                          {t("staking.unstake")}
-                        </button>
-                        <button className="btn-reward">
-                          {t("staking.claimReward")}
-                        </button>
-                      </div> */}
                         <div className="card-buttons mt-2">
-                          {/* <button className="btn-changeName">
-                          {t("staking.para10")}
-                        </button>
-                        <button className="btn-changeBio">
-                          {t("staking.para11")}
-                        </button> */}
                           <button
                             className="btn-transfer"
                             onClick={() => handleTransferInCollection()}

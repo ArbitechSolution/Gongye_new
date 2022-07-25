@@ -32,9 +32,6 @@ h6 {
   font-family: "Bowlby One", sans-serif;
 }
 
-/*--------------------------------------------------------------
-# Back to top button
---------------------------------------------------------------*/
 .back-to-top {
   position: fixed;
   visibility: hidden;
@@ -64,9 +61,6 @@ h6 {
   opacity: 1;
 }
 
-/*--------------------------------------------------------------
-# Top Bar
---------------------------------------------------------------*/
 #topbar {
   background: rgba(24, 26, 43, 0.6);
   font-size: 14px;
@@ -87,10 +81,6 @@ h6 {
 #topbar .social-links a img {
   max-height: 18px;
 }
-
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
 #header {
   background: rgba(24, 26, 43, 0.6);
   transition: all 0.5s;
@@ -119,21 +109,12 @@ h6 {
 .scrolled-offset {
   margin-top: 70px;
 }
-
-/*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-/**
-* Desktop Navigation 
-*/
 .headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background: transparent !important; */
   background: rgba(24, 26, 43, 0.6);
   height: 60px;
-  /* position: absolute !important; */
 }
 .navbarContainer {
   background: #21353b !important;
@@ -157,7 +138,6 @@ h6 {
 }
 .collapse.show {
   background: rgba(24, 26, 43, 0.6);
-  /* background: #000; */
   z-index: 99999;
 }
 @media (max-width: 767.98px) {
@@ -280,9 +260,6 @@ h1.logo {
 .languageChnage {
   cursor: pointer;
 }
-/**
-* Mobile Navigation 
-*/
 .mobile-nav-toggle {
   color: #fff;
   font-size: 28px;
@@ -376,14 +353,9 @@ h1.logo {
 .navbar-mobile .dropdown > .dropdown-active {
   display: block;
 }
-
-/*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
 #hero {
   width: 100%;
   padding-top: 150px;
-  /* height: calc(100vh); */
   background: url("./media/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
@@ -450,9 +422,6 @@ h1.logo {
   }
 }
 
-/*--------------------------------------------------------------
-# Sections General
---------------------------------------------------------------*/
 section {
   padding: 60px 0;
   overflow: hidden;
@@ -484,9 +453,6 @@ section {
     margin-bottom: 15px;
   }
 }
-/*--------------------------------------------------------------
-# Story Section
---------------------------------------------------------------*/
 #story::before {
   background: rgba(0, 0, 0, 0.3);
 }
@@ -519,9 +485,6 @@ section {
   font-weight: 800;
   color: #2adeea;
 }
-/*--------------------------------------------------------------
-# Scene Section
---------------------------------------------------------------*/
 #scene {
   background: url("./media/slider-bg.png");
   background-color: #000102;
@@ -554,11 +517,8 @@ section {
     width: 100%;
   }
 }
-/*--------------------------------------------------------------
-# Tokenomics Section
---------------------------------------------------------------*/
+
 #tokenomics {
-  /* background: url('../media/tokenomics-bg.jpg'); */
   background: linear-gradient(
       0deg,
       rgba(30, 80, 68, 0.88),
@@ -609,11 +569,6 @@ small {
     padding: 0%;
   }
 }
-
-/*--------------------------------------------------------------
-# Staking Section
---------------------------------------------------------------*/
-
 #staking {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)),
     url("./media/staking-bg.png");
@@ -630,10 +585,6 @@ small {
     padding: 0%;
   }
 }
-
-/*--------------------------------------------------------------
-# NFT Section
---------------------------------------------------------------*/
 #nft {
   background: url("./media/nft-bg.jpg");
   background-position: bottom 30% center;
@@ -654,9 +605,6 @@ small {
 #nft .btn-nft-cta:hover {
   background: #2adeea;
 }
-/*--------------------------------------------------------------
-# Mint Section
---------------------------------------------------------------*/
 #mint {
   background: url("./media/mint-bg.png");
   background-color: #190e29;
@@ -731,12 +679,10 @@ small {
   box-shadow: none;
 }
 ::-webkit-input-placeholder {
-  /* Edge */
   color: #767c88 !important;
 }
 
 :-ms-input-placeholder {
-  /* Internet Explorer */
   color: #767c88 !important;
 }
 
@@ -774,16 +720,6 @@ hr {
   justify-content: flex-end;
   align-items: center;
 }
-/* #mint .form input[type="text"]{
-padding: 15px;
-font-size: 24px;
-color: #fff;
-background-color: #000000;
-}
-#mint .form .input-group-text{
-color: #fff;
-background-color: #000;
-} */
 #mint .form .total {
   display: flex;
   justify-content: space-between;
@@ -803,20 +739,7 @@ background-color: #000;
   border-radius: 8px;
   transition: 0.5s;
 }
-/* #mint .form-btn .btn-breeders {
-  font-family: Lato;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 2px;
-  text-align: center;
-  color: #fff;
-  background: #d5aa1b;
-  border: 0px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 8px;
-  transition: 0.5s;
-} */
+
 #mint .form-btn .btn-connect:hover {
   background: #2adeea;
 }
@@ -850,73 +773,6 @@ background-color: #000;
   display: flex;
   flex-direction: row;
 }
-/*--------------------------------------------------------------
-# Roadmap Section
---------------------------------------------------------------*/
-/*
-#roadmap{
-background: url('../media/roadmap-bg.png');
-background-color: #031E1F;
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;
-}
-#roadmap .col-md-4{
-margin-top: 25px;
-}
-#roadmap .map-box{
-background-color: #21353B;
-border-radius: 30px;
-padding: 40px;
-margin: 20px 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
-position: relative;
-}
-#roadmap .map-box .percentage{
-margin-top: -70px;
-margin-bottom: 40px;
-text-align: center;
-height: 50px;
-width: 50px;
-padding: 8px;
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: #21353B;
-border-radius: 50%;
-box-shadow: 0px 0px 10px rgba(42, 222, 234, 0.5);
-
-}
-#roadmap .map-box p{
-margin: 0px;
-}
-#roadmap .map-box .percentage.h:after {
-  content: "";
-  display: block;
-  border-top: 2px dashed #4FFCB3;
-  width: 100%;
-  margin-top: -20px;
-  position: absolute;
-  left: 61%;
-  top: 8px;
-}
-#roadmap .map-box .percentage.v:after {
-content: "";
-display: block;
-border-top: 2px dashed #4FFCB3;
-height: 100%;
-margin-top: -20px;
-position: absolute;
-left: 61%;
-top: 8px;
-} */
-
-/*--------------------------------------------------------------
-# Team Section
---------------------------------------------------------------*/
 #team {
   background-color: #156469;
 }
@@ -949,9 +805,7 @@ top: 8px;
     padding: 0%;
   }
 }
-/*--------------------------------------------------------------
-# FAQ Section
---------------------------------------------------------------*/
+
 #faq {
   background-color: #0f131b;
 }
@@ -995,9 +849,6 @@ top: 8px;
   }
 }
 
-/*--------------------------------------------------------------
-# Footer Section
---------------------------------------------------------------*/
 #footer {
   background-color: #031e1f;
   color: #fff;
@@ -1017,9 +868,6 @@ top: 8px;
   max-height: 18px;
 }
 
-/*--------------------------------------------------------------
-# OWl Carousel CSS
---------------------------------------------------------------*/
 .owl-theme .owl-nav [class*="owl-"]:hover {
   background: transparent;
 }
@@ -1038,11 +886,6 @@ top: 8px;
 .row {
   --bs-gutter-x: 0;
 }
-
-/*--------------------------------------------------------------
-# Only Roadmap
---------------------------------------------------------------*/
-
 #roadmap {
   background: url("./media/roadmap-bg.png");
   background-color: #031e1f;
@@ -1133,11 +976,9 @@ top: 8px;
 #roadmap .per_row > li::after {
   content: "";
   position: absolute;
-  /* height: 4px; */
   width: 100%;
   top: 1.4rem;
   left: 50%;
-  /* background: url('../media/dash.png'); */
   border-top: 2px dashed #4ffcb3;
   z-index: 1;
   display: none;
@@ -1150,11 +991,9 @@ top: 8px;
 #roadmap .per_row > li::before {
   content: "";
   position: absolute;
-  /* width: 4px; */
   height: 100%;
   top: 3.8rem;
   left: 50%;
-  /* background: url('../media/bar.png'); */
   border-left: 2px dashed #4ffcb3;
   z-index: 1;
   display: none;
@@ -1227,7 +1066,6 @@ top: 8px;
   top: 50%;
   transform: translatey(-50%);
   font-size: 18px;
-  /* font-weight: 300; */
   color: #fff;
   padding: 0px 25px;
   z-index: 5;
@@ -1235,12 +1073,10 @@ top: 8px;
 
 #roadmap .per_row > li .box > div span {
   color: #2adeea;
-  /* font-weight: 500; */
 }
 
 #roadmap .per_row > li .box > div p {
   padding-left: 12px;
-  /* font-size: 1.6rem; */
   text-align: left;
   position: relative;
 }

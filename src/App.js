@@ -7,19 +7,12 @@ import AppHome from "./AppHome";
 import Appstake from "./Appstake";
 function App() {
   return (
-    // <div className="App">
-    //   <div className="content">
-    //     <Home />
-    //   </div>
-    // </div>
+   
     <div className="App">
       <BrowserRouter>
         <ToastContainer />
         <Routes>
-          {/* <Route exact path="/" element={<AppHome />} />
-           */}
           <Route exact path="/" element={<AppHome />} />
-          {/* <Route exact path="/Presale" element={<AppPresale />} /> */}
           <Route exact path="/Stake" element={<Appstake />} />
         </Routes>
       </BrowserRouter>

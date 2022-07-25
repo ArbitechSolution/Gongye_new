@@ -24,10 +24,6 @@ export default function NavbarStaking({
     console.log(i18n, ":i18n");
     isGreen(lang);
   };
-
-  // useEffect(() => {
-  //   i18n.changeLanguage( "en");
-  // }, []);
   return (
     <>
       <section id="topbar" className="stakingTopbar d-flex align-items-center">
@@ -120,7 +116,6 @@ export default function NavbarStaking({
 
       <div className="navbarContainer">
         <Navbar collapseOnSelect expand="lg" className="headerContainerStaking">
-          {/* <Container className=""> */}
           <Navbar.Brand href="#home">
             <a href="/" className="logo " onClick={() => changeMain()}>
               <img
@@ -200,101 +195,8 @@ export default function NavbarStaking({
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {/* </Container> */}
         </Navbar>
       </div>
-
-      {/* <header id="header" className="d-flex align-items-center">
-        <div className="container d-flex align-items-center justify-content-between">
-          <a href="/" className="logo">
-            <img src={Logo} alt="" data-aos="zoom-in" className="img-fluid" />
-          </a>
-
-          <nav id="navbarID" className="navbar" data-aos="zoom-in">
-            <ul>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#story"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.story")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#tokenomics"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.tokenomics")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#nft"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.NFT")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#mint"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.mint")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#stake"
-                  onClick={() => changeStake()}
-                >
-                  {t("navbar.stakeBreed")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#roadmap"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.roadmap")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#team"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.team")}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="nav-link scrollto"
-                  href="#faq"
-                  onClick={() => changeMain()}
-                >
-                  {t("navbar.FAQ")}
-                </a>
-              </li>
-            </ul>
-            <i
-              className="bi bi-list mobile-nav-toggle"
-              data-toggle="collapse"
-              data-target="#navbarID"
-              aria-controls="navbarID"
-              aria-expanded="false"
-            ></i>
-          </nav>
-        </div>
-      </header> */}
     </>
   );
 }
